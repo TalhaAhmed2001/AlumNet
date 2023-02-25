@@ -3,24 +3,40 @@ const Advice = require('../models/adviceModel')
 
 //GET
 const getAdvice = asyncHandler(async (req, res) => {
-    const advice = await Advice.findById(req.params.id)
 
-    res.status(200).json(stories)
+    const erp = req.params.id
 
+    try{
+        const stories = await Advice.find({ERP: erp})
+
+        res.status(200).json(stories)
+    }
+    catch(err){
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+    
 })
 
 //POST
 const createAdvice = asyncHandler(async (req, res) => {
 
-    const advice = await Advice.create({
-        ERP: req.body.erp,
-        advice: req.body.story,
-        dateCreated: req.body.date,
-        Name: req.body.name
-    })
-
-    res.status(200).json({ message: 'Advice successfully created' })
-
+    try{
+        await Advice.create({
+            ERP: req.body.erp,
+            advice: req.body.story,
+            dateCreated: req.body.date,
+            Name: req.body.name
+        })
+    
+        res.status(200).json({ message: 'Advice successfully created' })
+    
+    }
+    catch(err){
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+    
 })
 
 //POST

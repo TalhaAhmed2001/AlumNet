@@ -3,13 +3,20 @@ const { request } = require('../config/dbConfig')
 
 //GET => 2
 const getStudentProfile = asyncHandler(async (req, res) => {
+
     const id = req.params.id
 
-    request.query(`SELECT * FROM student_profile WHERE id = ${id}`)
-        .then(result => {
-            res.status(200).json(result.recordset[0])
-        })
-        .catch(err => console.log(`Error executing query: ${err}`))
+    try {
+        let result = await request
+            .query(`SELECT * FROM student_profile WHERE id = ${id}`)
+
+        res.status(200).json(result.recordset[0])
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+
 })
 
 //POST => 2
@@ -24,22 +31,23 @@ const createStudentProfile = asyncHandler(async (req, res) => {
 
     console.log(id, "\n", password, "\n", first_name, "\n", last_name, "\n", sex, "\n", degree)
 
-    request
-        .input('id', sql.Int, id)
-        .input('password', sql.VarChar(20), password)
-        .input('first_name', sql.VarChar(20), first_name)
-        .input('last_name', sql.VarChar(20), last_name)
-        .input('sex', sql.Char(1), sex)
-        .input('degree', sql.VarChar(20), degree)
-        .execute('CreateStudentProfile')
+    try {
+        await request
+            .input('id', sql.Int, id)
+            .input('password', sql.VarChar(20), password)
+            .input('first_name', sql.VarChar(20), first_name)
+            .input('last_name', sql.VarChar(20), last_name)
+            .input('sex', sql.Char(1), sex)
+            .input('degree', sql.VarChar(20), degree)
+            .execute('CreateStudentProfile')
 
-        .then(() => {
-            res.status(201).json({ message: "Student Profile added, waiting for admin approval" })
-        })
-        .catch((err => {
-            console.log(`Error executing query: ${err}`)
-            res.status(400).send(err)
-        }))
+        res.status(201).json({ message: "Student Profile added, waiting for admin approval" })
+
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
 
 })
 
@@ -52,21 +60,21 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
     const sex = req.body.sex
     const degree = req.body.degree
 
-    request
-        .query(`UPDATE student_profile 
-                SET first_name = ${first_name},
-                    last_name = ${last_name},
-                    sex = ${sex},
-                    degree = ${degree}
-                WHERE id = ${id}`)
+    try {
+        await request
+            .query(`UPDATE student_profile 
+                    SET first_name = ${first_name},
+                        last_name = ${last_name},
+                        sex = ${sex},
+                        degree = ${degree}
+                    WHERE id = ${id}`)
 
-        .then(() => {
-            res.status(200).json({ message: "Profile succesfully updated" })
-        })
-        .catch((err => {
-            console.log(`Error executing query: ${err}`)
-            res.status(400).send(err)
-        }))
+        res.status(200).json({ message: "Profile succesfully updated" })
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
 
 })
 

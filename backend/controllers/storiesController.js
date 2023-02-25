@@ -12,7 +12,7 @@ const getStories = asyncHandler(async (req, res) => {
 //POST
 const createStories = asyncHandler(async (req, res) => {
 
-    const stories = new Stories({
+    const stories =  await new Stories({
         ERP: req.body.erp,
         story: req.body.story,
         dateCreated: req.body.date,
