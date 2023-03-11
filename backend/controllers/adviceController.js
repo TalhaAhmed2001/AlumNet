@@ -6,37 +6,37 @@ const getAdvice = asyncHandler(async (req, res) => {
 
     const erp = req.params.id
 
-    try{
-        const stories = await Advice.find({ERP: erp})
+    try {
+        const stories = await Advice.find({ ERP: erp })
 
         res.status(200).json(stories)
     }
-    catch(err){
+    catch (err) {
         console.log(`Error executing query: ${err}`)
         res.status(400).send(err)
     }
-    
+
 })
 
 //POST
 const createAdvice = asyncHandler(async (req, res) => {
 
-    try{
+    try {
         await Advice.create({
             ERP: req.body.erp,
             advice: req.body.story,
             dateCreated: req.body.date,
             Name: req.body.name
         })
-    
+
         res.status(200).json({ message: 'Advice successfully created' })
-    
+
     }
-    catch(err){
+    catch (err) {
         console.log(`Error executing query: ${err}`)
         res.status(400).send(err)
     }
-    
+
 })
 
 //POST
@@ -47,7 +47,8 @@ const addAdvice = asyncHandler(async (req, res) => {
 //PUT
 const updateAdvice = asyncHandler(async (req, res) => {
 
-    Advice.findById(req.params.id)
+    try {
+        const Advice = await Advice.findById(req.params.id)
         .then(advices => {
             advices.advice = req.body.advice
             advices.dateCreated = Date.parse(Date.now);
@@ -58,6 +59,11 @@ const updateAdvice = asyncHandler(async (req, res) => {
         })
         .catch(err => res.status(400).json('Error : ' + err));
 
+    }
+    catch (err) {
+
+    }
+    
     /*Advice.replaceOne(
         { _id: req.body.id },
         { 
