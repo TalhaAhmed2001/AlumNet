@@ -10,6 +10,7 @@ const getStudentProfile = asyncHandler(async (req, res) => {
         let result = await request
             .query(`SELECT * FROM student_profile WHERE id = ${id}`)
 
+            //console.log(result.recordset[0])
         res.status(200).json(result.recordset[0])
     }
     catch (err) {
