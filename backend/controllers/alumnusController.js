@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt")
 //POST => 3
 const createAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const input_id = req.body.erp
+    const input_id = req.body.id
     const password = req.body.password
     const first_name = req.body.first_name
     const last_name = req.body.last_name
