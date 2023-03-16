@@ -17,9 +17,20 @@ const config = {
 };
 
 const pool = new sql.ConnectionPool(config)
-const request = pool.request()
+
+const connectSQL = async () => {
+    pool.connect(async err => {
+        if (err) {
+            console.error('Error connecting to SQL Server', err);
+        } else {
+            console.log("SQL Server connection established successfully")
+        }
+    }
+    )
+}
 
 module.exports = {
+    connectSQL,
     pool,
-    request
+    sql
 }

@@ -1,24 +1,6 @@
 const asyncHandler = require('express-async-handler')
-const { request } = require('../config/dbConfig')
-
-//GET => 2
-const getStudentProfile = asyncHandler(async (req, res) => {
-
-    const id = req.params.id
-
-    try {
-        let result = await request
-            .query(`SELECT * FROM student_profile WHERE id = ${id}`)
-
-            //console.log(result.recordset[0])
-        res.status(200).json(result.recordset[0])
-    }
-    catch (err) {
-        console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
-    }
-
-})
+const { pool, sql } = require('../config/dbConfig')
+const bcrypt = require("bcrypt")
 
 //POST => 2
 const createStudentProfile = asyncHandler(async (req, res) => {
@@ -30,47 +12,32 @@ const createStudentProfile = asyncHandler(async (req, res) => {
     const sex = req.body.sex
     const degree = req.body.degree
 
-    console.log(id, "\n", password, "\n", first_name, "\n", last_name, "\n", sex, "\n", degree)
-
     try {
-        await request
+
+        let hashed_password
+    
+        hashed_password = await bcrypt.hash(password,12)
+
+        console.log(id, "\n", hashed_password, "\n", first_name, "\n", last_name, "\n", sex, "\n", degree)
+        
+        const request = pool.request()
+
+        const result = await request
             .input('id', sql.Int, id)
-            .input('password', sql.VarChar(20), password)
+            .input('password', sql.VarChar(60), hashed_password)
             .input('first_name', sql.VarChar(20), first_name)
             .input('last_name', sql.VarChar(20), last_name)
             .input('sex', sql.Char(1), sex)
             .input('degree', sql.VarChar(20), degree)
             .execute('CreateStudentProfile')
 
-        res.status(201).json({ message: "Student Profile added, waiting for admin approval" })
-
-    }
-    catch (err) {
-        console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
-    }
-
-})
-
-//PUT => 2
-const updateStudentProfile = asyncHandler(async (req, res) => {
-
-    const id = req.body.id
-    const first_name = req.body.first_name
-    const last_name = req.body.last_name
-    const sex = req.body.sex
-    const degree = req.body.degree
-
-    try {
-        await request
-            .query(`UPDATE student_profile 
-                    SET first_name = ${first_name},
-                        last_name = ${last_name},
-                        sex = ${sex},
-                        degree = ${degree}
-                    WHERE id = ${id}`)
-
-        res.status(200).json({ message: "Profile succesfully updated" })
+        if (result.returnValue === 1){
+            res.status(201).json({ message: "Student Profile added, waiting for admin approval" })
+        }
+        else {
+            res.status(400).json({ message: `Profile with ID = ${id} already exists, please enter uniqure ID` })
+        }
+        
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
@@ -80,7 +47,5 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getStudentProfile,
     createStudentProfile,
-    updateStudentProfile
 }

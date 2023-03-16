@@ -3,8 +3,8 @@ const Joi = require('joi')
 const validateAlumnusProfile = async (req, res, next) => {
   const alumnusProfileSchema = Joi.object({
     id: Joi.number()
-      .min(4)
-      .max(4)
+      .min(5)
+      .max(5)
       .integer()
       .required(),
     password: Joi.string()
@@ -17,7 +17,6 @@ const validateAlumnusProfile = async (req, res, next) => {
       .max(20)
       .required(),
     sex: Joi.string()
-      .min(1)
       .max(1)
       .required(),
     degree: Joi.string()
@@ -46,8 +45,8 @@ const validateAlumnusProfile = async (req, res, next) => {
 const validateStudentProfile = async (req, res, next) => {
   const studentProfileSchema = Joi.object({
     id: Joi.number()
-      .min(4)
-      .max(4)
+      .min(5)
+      .max(5)
       .integer()
       .required(),
     password: Joi.string()
@@ -60,7 +59,6 @@ const validateStudentProfile = async (req, res, next) => {
       .max(20)
       .required(),
     sex: Joi.string()
-      .min(1)
       .max(1)
       .required(),
     degree: Joi.string()

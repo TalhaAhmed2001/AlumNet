@@ -1,12 +1,13 @@
 const asyncHandler = require('express-async-handler')
 const Advice = require('../models/adviceModel')
 const Stories = require('../models/storiesModel')
-const { request } = require('../config/dbConfig')
+const { pool, sql } = require('../config/dbConfig')
+const bcrypt = require("bcrypt")
 
 //POST => 3
 const createAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const id = req.body.id
+    const input_id = req.body.erp
     const password = req.body.password
     const first_name = req.body.first_name
     const last_name = req.body.last_name
@@ -15,19 +16,19 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
     const major = req.body.major
     const graduation = req.body.graduation
 
-    console.log(id, "\n", password, "\n", first_name, "\n", last_name, "\n", sex, "\n", degree, "\n", major, "\n", graduation)
-
     try {
-        let result = await request
-            .query(`SELECT * FROM login_cred WHERE id = ${id}`)
 
-        if (result.recordset[0] != null) {
-            res.status(400).json({ message: `Please enter unique id` })
-        }
+        let hashed_password
+    
+        hashed_password = await bcrypt.hash(password,12)
+    
+        console.log(input_id, "\n", hashed_password, "\n", first_name, "\n", last_name, "\n", sex, "\n", degree, "\n", major, "\n", graduation)
+
+        const request = pool.request()
 
         result = await request
-            .input('id', sql.Int, id)
-            .input('password', sql.VarChar(20), password)
+            .input('password', sql.VarChar(60), hashed_password)
+            .input('id', sql.Int, input_id)
             .input('first_name', sql.VarChar(20), first_name)
             .input('last_name', sql.VarChar(20), last_name)
             .input('sex', sql.Char(1), sex)
@@ -36,13 +37,18 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
             .input('graduation', sql.Int, graduation)
             .execute('CreateAlumnusProfile')
 
-        res.status(201).json({ message: "Alumnus Profile added, waiting for admin approval" })
-
+        //console.log("count = ", result.returnValue)
+        if (result.returnValue === 1){
+            return res.status(201).json({ message: "Alumnus Profile added, waiting for admin approval" })
+        }
+        else {
+            return res.status(400).json({ message: `Profile with ID = ${input_id} already exists, please enter uniqure ID` })
+        }
 
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        return res.status(400).send(err)
     }
 
 })
@@ -50,9 +56,12 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
 //GET => 3
 const getAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const id = req.params.id
+    const id = req.params.id //from token
 
     try {
+
+        const request = pool.request()
+
         const result = await request
             .query(`SELECT * FROM alumni_profile WHERE id = ${id} AND status = 'Approved'`)
 
@@ -69,8 +78,8 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
 //PUT => 3
 const updateAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const id = req.body.id
-    const first_name = req.body.first_name
+    const id = req.body.id //from token
+    const first_name = req.body.first_name //from token
     const last_name = req.body.last_name
     const sex = req.body.sex
     const degree = req.body.degree
@@ -78,6 +87,9 @@ const updateAlumnusProfile = asyncHandler(async (req, res) => {
     const graduation = req.body.graduation
 
     try {
+
+        const request = pool.request()
+
         await request
             .query(`UPDATE alumnus_profile 
                     SET first_name = ${first_name},
@@ -108,6 +120,9 @@ const getProfileJobsStoriesAdvice = asyncHandler(async (req, res) => {
     let stories
 
     try {
+        
+        const request = pool.request()
+
         let result = await request
             .query(`SELECT * FROM alumnus_profile WHERE id = ${id} AND status = 'Approved'`)
 
@@ -137,6 +152,9 @@ const getProfileJobsStoriesAdvice = asyncHandler(async (req, res) => {
 const getAlumniProfiles = asyncHandler(async (req, res) => {
 
     try {
+        
+        const request = pool.request()
+
         let result = await request
             .query('SELECT * FROM alumni_profile')
 
@@ -152,7 +170,7 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
 //POST => 3
 const addJob = asyncHandler(async (req, res) => {
 
-    const id = req.body.id
+    const id = req.body.id //from token
     const employer = req.body.employer
     const role = req.body.role
     const date_start = req.body.date_start
@@ -161,7 +179,10 @@ const addJob = asyncHandler(async (req, res) => {
     console.log(id, "\n", employer, "\n", role, "\n", date_start, "\n", date_end)
 
     try {
-        await request
+        
+        const request = pool.request()
+
+        const result = await request
             .input('id', sql.Int, id)
             .input('employer', sql.VarChar(20), id)
             .input('role', sql.VarChar(20), role)
@@ -169,7 +190,13 @@ const addJob = asyncHandler(async (req, res) => {
             .input('date_end', sql.Date, date_end)
             .execute('AddJob')
 
-        res.status(201).json({ message: "Job successfully added" })
+            if (result.returnValue === 1){
+                return res.status(201).json({ message: "Job successfully added!" })
+            }
+            else {
+                return res.status(400).json({ message: `Profile with ID = ${input_id} is not approved` })
+            }
+
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
@@ -181,11 +208,14 @@ const addJob = asyncHandler(async (req, res) => {
 //PATCH => 3
 const updateJob = asyncHandler(async (req, res) => {
 
-    const id = req.params.id
+    const id = req.params.id //from token
     const date_start = req.params.date_start
     const date_end = req.params.date_end
 
     try {
+        
+        const request = pool.request()
+
         await request
             .query(`UPDATE job_desc 
                     SET date_end = ${date_end} 
