@@ -2,7 +2,7 @@ const { pool } = require('../config/dbConfig')
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
 
-//POST => 1,2,3
+//GET => 1,2,3
 const login = async (req, res) => {
 
     const id = req.body.id
@@ -46,8 +46,8 @@ const login = async (req, res) => {
                     // result = await request
                     //     .query(`SELECT first_name, last_name FROM ${table} where id=${id}`)
                     result = await request
-    .input('id', id)
-    .query(`SELECT first_name, last_name FROM ${table} where id=@id`)
+                        .input('id', id)
+                        .query(`SELECT first_name, last_name FROM ${table} where id=@id`)
                     first_name = result.recordset[0]['first_name']
                     last_name = result.recordset[0]['last_name']
                 }

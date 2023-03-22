@@ -57,7 +57,7 @@ const requestPromotion = async (req, res) => {
 
         const result = await request
             .query(`UPDATE student_profile
-                SET promote_request = 'true'
+                SET promote = 'true'
                 WHERE id = ${id}`)
 
         res.status(200).json({ message: "Alumnus Promotion reqeusted!" })

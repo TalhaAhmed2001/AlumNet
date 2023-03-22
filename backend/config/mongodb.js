@@ -7,9 +7,7 @@ const connectMongo = async () => {
         const uri = process.env.MONGO_DB
         // mongoose.connect(uri, {useNewUrlParser: true})
         mongoose
-            .connect(
-                `mongodb+srv://hamza:shanewatson@cluster0.h7d4zwb.mongodb.net/AlumNet?retryWrites=true&w=majority`
-            )
+            .connect(uri)
 
         const conn = mongoose.connection;
         conn.once('open', () => {

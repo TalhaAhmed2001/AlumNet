@@ -3,11 +3,11 @@ const cors = require('cors');
 const connectMongo = require('./config/mongodb');
 const { connectSQL } = require("./config/dbConfig");
 
-const generalRoutes = require("./routes/general-routes");
-const alumniRoutes = require("./routes/alumni-routes");
-const storiesRoutes = require("./routes/stories-routes");
-const advicesRoutes = require("./routes/advices-routes");
-const adminRoutes = require('./routes/admin-routes');
+const generalRoutes = require("./routes/generalRouter");
+const alumniRoutes = require("./routes/alumniRouter");
+const storiesRoutes = require("./routes/storiesRouter");
+const advicesRoutes = require("./routes/advicesRouter");
+const adminRoutes = require('./routes/adminRouter');
 
 require('dotenv').config();
 

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const checkAuth  = require('../middleware/check-auth')
+const checkAuth = require('../middleware/check-auth')
 const { createStudentProfile, requestPromotion } = require('../controllers/studentController')
 const { validateStudentProfile } = require("../middleware/validation");
 
@@ -11,6 +11,6 @@ router.post('/signup', validateStudentProfile, createStudentProfile)
 
 router.use(checkAuth);
 
-router.patch('/requestpromotion',authPermission("requestPromotion"), requestPromotion)
+router.patch('/requestpromotion', authPermission("requestPromotion"), requestPromotion)
 
 module.exports = router
