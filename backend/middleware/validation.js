@@ -1,34 +1,45 @@
 const Joi = require('joi')
 
-const validateAlumnusProfile = async (req, res, next) => {
+const validateAlumnusProfile = (req, res, next) => {
   const alumnusProfileSchema = Joi.object({
     id: Joi.number()
-      .min(5)
-      .max(5)
+      .min(1000)
+      .max(99999)
       .integer()
       .required(),
     password: Joi.string()
+      .trim()
+      .min(8)
       .max(20)
       .required(),
     first_name: Joi.string()
+      .trim()
+      .min(1)
       .max(20)
       .required(),
     last_name: Joi.string()
+      .trim()
+      .min(1)
       .max(20)
       .required(),
     sex: Joi.string()
+      .trim()
+      .min(1)
       .max(1)
       .required(),
     degree: Joi.string()
+      .trim()
       .min(3)
       .max(10)
       .required(),
     major: Joi.string()
+      .trim()
+      .min(3)
       .max(20)
       .required(),
     graduation: Joi.number()
-      .min(4)
-      .max(4)
+      .min(1990)
+      .max(2022)
       .integer()
       .required()
   });
@@ -42,26 +53,35 @@ const validateAlumnusProfile = async (req, res, next) => {
   next();
 }
 
-const validateStudentProfile = async (req, res, next) => {
+const validateStudentProfile = (req, res, next) => {
   const studentProfileSchema = Joi.object({
     id: Joi.number()
-      .min(5)
-      .max(5)
+      .min(10000)
+      .max(99999)
       .integer()
       .required(),
     password: Joi.string()
+      .trim()
+      .min(1)
       .max(20)
       .required(),
     first_name: Joi.string()
+      .trim()
+      .min(1)
       .max(20)
       .required(),
     last_name: Joi.string()
+      .trim()
+      .min(1)
       .max(20)
       .required(),
     sex: Joi.string()
+      .trim()
+      .min(1)
       .max(1)
       .required(),
     degree: Joi.string()
+      .trim()
       .min(3)
       .max(10)
       .required(),
@@ -73,19 +93,25 @@ const validateStudentProfile = async (req, res, next) => {
     return res.status(400).json({ message: error.details[0].message });
   }
 
-  next();
+  return next();
 }
 
-const validateJobDesc = async (req,res,next)=>{
+const validateJobDesc = (req, res, next) => {
   const jobDescSchema = Joi.object({
     employer: Joi.string()
+      .trim()
+      .min(1)
       .max(20)
       .required(),
     role: Joi.string()
+      .trim()
+      .min(1)
       .max(20)
       .required(),
     date_start: Joi.date()
       .required(),
+    date_end: Joi.date()
+      .optional()
   })
 
   const { error } = jobDescSchema.validate(req.body);
@@ -97,14 +123,18 @@ const validateJobDesc = async (req,res,next)=>{
   next();
 }
 
-const validateAdvices = async(req,res,next)=>{
+const validateAdvices = (req, res, next) => {
   const advicesSchema = Joi.object({
-    category: Joi.string()
+    category: Joi.valid('BSCS', 'BSS', 'BSAF', 'BBA', 'General')
       .required(),
     title: Joi.string()
+      .trim()
+      .min(1)
       .required(),
     content: Joi.string()
-      .required()    
+      .trim()
+      .min(1)
+      .required()
   })
 
   const { error } = advicesSchema.validate(req.body);
@@ -116,15 +146,40 @@ const validateAdvices = async(req,res,next)=>{
   next();
 }
 
-const validateStories = async(req,res,next)=>{
+const validateStories = (req, res, next) => {
   const storiesSchema = Joi.object({
     title: Joi.string()
+      .trim()
+      .min(1)
       .required(),
     content: Joi.string()
-      .required()    
+      .trim()
+      .min(1)
+      .required()
   })
 
   const { error } = storiesSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  next();
+}
+
+const validateLogin = (req, res, next) => {
+  const loginSchema = Joi.object({
+    id: Joi.number()
+      .min(1000)
+      .max(99999)
+      .integer()
+      .required(),
+    password: Joi.string()
+      .max(20)
+      .required()
+  })
+
+  const { error } = loginSchema.validate(req.body);
 
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
@@ -138,5 +193,6 @@ module.exports = {
   validateStudentProfile,
   validateJobDesc,
   validateAdvices,
-  validateStories
+  validateStories,
+  validateLogin
 }

@@ -1,88 +1,183 @@
-const asyncHandler = require('express-async-handler')
 const Advice = require('../models/adviceModel')
 
-//GET
-const getAdvice = asyncHandler(async (req, res) => {
+// //GET //for all alumni
+// const getAllAdvices = async (req, res, next) => {
+//     try {
+//         const advices = await Advice.find({}); 
+//         return res.status(200).json(advices);
+//       } catch (error) {
+//         return res.status(500).json({ error: error.message });
+//       }
 
-    const erp = req.params.id
+// }
 
-    try {
-        const stories = await Advice.find({ ERP: erp })
+//GET //for all alumni
+const getAllAdvices = async (req, res, next) => {
+    const PAGE_SIZE = 4;
+    const page = parseInt(req.query.page)-1 || 0;
+    let sortField = req.query.sort;
+    let category =  req.query.category;
+    let query = {};
 
-        res.status(200).json(stories)
+    if (category) {
+        query.category = category;
+      }
+
+    let sortCriteria = {};
+    if (sortField === "date") {
+    if (req.query.order === "asc") {
+        sortCriteria.date = 1; 
+    } else {
+        sortCriteria.date = -1; 
     }
-    catch (err) {
-        console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
-    }
-
-})
-
-//POST
-const createAdvice = asyncHandler(async (req, res) => {
-
-    try {
-        await Advice.create({
-            ERP: req.body.erp,
-            advice: req.body.story,
-            dateCreated: req.body.date,
-            Name: req.body.name
-        })
-
-        res.status(200).json({ message: 'Advice successfully created' })
-
-    }
-    catch (err) {
-        console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
-    }
-
-})
-
-//POST
-const addAdvice = asyncHandler(async (req, res) => {
-
-})
-
-//PUT
-const updateAdvice = asyncHandler(async (req, res) => {
-
-    try {
-        const Advice = await Advice.findById(req.params.id)
-        .then(advices => {
-            advices.advice = req.body.advice
-            advices.dateCreated = Date.parse(Date.now);
-
-            advices.save()
-                .then(() => res.json('Advice successfully updated'))
-                .catch(err => res.status(400).json('Error: ' + err));
-        })
-        .catch(err => res.status(400).json('Error : ' + err));
-
-    }
-    catch (err) {
-
+    } else if (sortField === "popularity") {
+    sortCriteria.popularity = -1; 
     }
     
-    /*Advice.replaceOne(
-        { _id: req.body.id },
-        { 
-          ERP: req.body.erp, 
-          advice: req.body.advice, 
-          dateCreated: Date.parse(Date.now),
-          Name: req.body.name
-        }
-      )
-      .then(()=>{
-        res.status(200).json({message: 'Advice successfully updated'})
-      })
-      .catch(err=>res.status(400).json('Error : ' + err))*/
+    try{
+    const total = await Advice.countDocuments( query );
+    const advices = await Advice.find(query).sort(sortCriteria).limit(PAGE_SIZE).skip(PAGE_SIZE*page);
+    res.status(200).json({
+        totalPages: Math.ceil(total/PAGE_SIZE),
+        advices,
+    });
+    }catch(error){
+        return res.status(500).json({ error: error.message });
+    }
 
-})
+
+}
+
+const getAdvices = async (req,res,next)=> {
+    const userERP = req.params.ERP;
+
+    let advices;
+    try {
+      advices = await Advice.find({ ERP: userERP });
+    } catch (err) {
+      return  res.status(500).json({ error:  "Fetching advices failed, please try again later" });
+       
+    }
+  
+    if (!advices || advices.length === 0) {
+      return  res.status(404).json({ error: "Could not find advices for the provided user ERP." });
+      
+    }
+  
+    return res.json({
+      advices: advices.map((advice) => advice.toObject({ getters: true })),
+    });
+
+    }
+
+const getAdviceById = async (req,res,next)=>{
+    const adviceId = req.params.aid;
+
+    let advice;
+    try {
+      advice = await Advice.findById(adviceId);
+    } catch (err) {
+        return res.status(500).json({ error: "Something went wrong, could not find advice" });
+    }
+  
+    if (!advice) {
+        return res.status(404).json({ error: "Could not find advice for the provided id" });
+    }
+
+    return res.json({ advice: advice.toObject({ getters: true }) });
+    
+}
+
+//POST
+const createAdvices = async (req, res , next) => {
+
+    const advices =  new Advice({
+        ERP: req.userData.ERP,
+        title: req.body.title,
+        content: req.body.content,
+        Name: req.userData.userName,
+        category: req.body.category
+    })
+
+    try{
+    await advices.save()
+
+    res.json(advices);
+    }catch(err){
+       return res.json("Failure to create advice: " + err)
+    }
+    
+}
+
+
+//PATCH
+const updateAdvices = async (req, res) => {
+
+    const { category, title, content } = req.body;
+    const adviceId = req.params.aid;
+  
+    let advice;
+    try {
+      advice = await Advice.findById(adviceId);
+    } catch (err) {
+        return res.json("Something went wrong, could not update advice " + err)
+    }
+    if(!advice){
+        return res.json("Advice with the provided id was not found ")
+    }
+  
+    //IDHER DECODED TOKEN SE DIRECT KRSKTE HO
+    if (advice.ERP.toString() !== req.userData.userERP) {
+      return res.status(401).json({ error: "You are not allowed to edit this advice." });
+    }
+
+  
+    advice.title = title;
+    advice.content = content;
+    advice.category = category;
+  
+    try {
+      await advice.save();
+    } catch (err) {
+        return  res.json("Something went wrong, could not update advice " + err)  
+    }
+  
+    return res.status(200).json({ advice: advice.toObject({ getters: true }) });
+}
+
+//DELETE
+const deleteAdvices = async (req, res , next) => {
+
+    const adviceId = req.params.aid;
+
+
+    let advice;
+    try {
+      advice = await Advice.findById(adviceId);
+    } catch (err) {
+        return res.json("Something went wrong, could not delete story " + err)
+      
+    }
+  
+                                //IDHER DECODED TOKEN SE DIRECT KRSKTE HO
+    if (story.ERP.toString() !== req.userData.userERP) {
+        return res.status(401).json({ error: "You are not allowed to delete this advice." });
+    }
+
+    try {
+        const deletedAdvice = await Advice.deleteOne({ _id: req.params.aid });
+        res.json(deletedAdvice);
+      } catch (err) {
+        return res.status(500).json({ error: err.message });
+      }
+    
+}
 
 module.exports = {
-    getAdvice,
-    createAdvice,
-    addAdvice,
-    updateAdvice
+    getAllAdvices,
+    getAdvices,
+    getAdviceById,
+    createAdvices,
+    updateAdvices,
+    deleteAdvices
 }

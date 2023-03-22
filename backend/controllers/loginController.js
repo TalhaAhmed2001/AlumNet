@@ -1,27 +1,32 @@
 const { pool } = require('../config/dbConfig')
-const bcrypt = require("bcrypt.js")
+const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
 
-//GET => 1,2,3
-const login = asyncHandler(async (req, res) => {
+//POST => 1,2,3
+const login = async (req, res) => {
+
     const id = req.body.id
     const password = req.body.password
+    JWT_KEY = "supersecret_dont_share";
 
     try {
-        
+
         const request = pool.request()
 
-        const result = await request
-            .query(`SELECT password,user_id FROM login_cred where id=${id}`)
+        let result = await request
+            .query(`SELECT password,user_id,status FROM login_cred where id=${id}`)
 
-        if (result.recordset[0] != null) {
+        if (result.recordset[0] == null) {
             res.status(400).json({ error: "Incorrect ID" })
         }
         else {
 
-            const hashed_password = result.recordset[0]['password']
-            const user_id = result.recordset[0]['user_id']
-            const valid = await bcrypt.compare(password, hashed_password)
+            let status = result.recordset[0]['status']
+            let hashed_password = result.recordset[0]['password']
+            let user_id = result.recordset[0]['user_id']
+            let valid = await bcrypt.compare(password, hashed_password)
+
+            console.log(id, password, status, hashed_password, user_id, valid)
 
             if (valid) {
                 res.status(200)
@@ -38,8 +43,11 @@ const login = asyncHandler(async (req, res) => {
                         table = 'alumni_profile'
                     }
 
+                    // result = await request
+                    //     .query(`SELECT first_name, last_name FROM ${table} where id=${id}`)
                     result = await request
-                        .query(`SELECT first_name, last_name FROM ${table} where id=${id}`)
+    .input('id', id)
+    .query(`SELECT first_name, last_name FROM ${table} where id=@id`)
                     first_name = result.recordset[0]['first_name']
                     last_name = result.recordset[0]['last_name']
                 }
@@ -48,22 +56,25 @@ const login = asyncHandler(async (req, res) => {
                     last_name = ''
                 }
 
-                const token = jwt.sign(
+                if (status == "Pending") {
+                    return res.status(200).json({ message: "Profile waiting to be approved..." })
+                }
+
+                let token;
+                token = jwt.sign(
                     {
-                        erp: id,
-                        user_id: user_id,
-                        first_name: first_name,
-                        last_name: last_name,
+                        ERP: id,
+                        name: `${first_name} ${last_name}`,
+                        userRole: user_id
                     },
-                    process.env.JWT_KEY,
+                    JWT_KEY,
                     { expiresIn: "1h" }
                 )
 
-                res.json({
+                return res.json({
                     erp: id,
                     user_id: user_id,
-                    first_name: first_name,
-                    last_name: last_name,
+                    name: `${first_name} ${last_name}`,
                     token: token,
                 });
             }
@@ -76,7 +87,7 @@ const login = asyncHandler(async (req, res) => {
         console.log(`Error executing query: ${err}`)
         res.status(400).send(err)
     }
-})
+}
 
 module.exports = {
     login

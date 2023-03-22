@@ -1,12 +1,11 @@
 const asyncHandler = require('express-async-handler')
-const Advice = require('../models/adviceModel')
-const Stories = require('../models/storiesModel')
 const { pool, sql } = require('../config/dbConfig')
 const bcrypt = require("bcrypt")
 
 //POST => 3
 const createAlumnusProfile = asyncHandler(async (req, res) => {
 
+    
     const input_id = req.body.id
     const password = req.body.password
     const first_name = req.body.first_name
@@ -19,9 +18,9 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
     try {
 
         let hashed_password
-    
-        hashed_password = await bcrypt.hash(password,12)
-    
+
+        hashed_password = await bcrypt.hash(password, 12)
+
         console.log(input_id, "\n", hashed_password, "\n", first_name, "\n", last_name, "\n", sex, "\n", degree, "\n", major, "\n", graduation)
 
         const request = pool.request()
@@ -38,7 +37,7 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
             .execute('CreateAlumnusProfile')
 
         //console.log("count = ", result.returnValue)
-        if (result.returnValue === 1){
+        if (result.returnValue === 1) {
             return res.status(201).json({ message: "Alumnus Profile added, waiting for admin approval" })
         }
         else {
@@ -56,16 +55,22 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
 //GET => 3
 const getAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const id = req.params.id //from token
+    const id = req.params.pid
 
     try {
 
         const request = pool.request()
 
         const result = await request
-            .query(`SELECT * FROM alumni_profile WHERE id = ${id} AND status = 'Approved'`)
+            .input('id', sql.Int, id)
+            .execute('GetAlumnus')
 
-        res.status(200).json(result.recordset[0])
+        if (result.recordset){
+            res.status(200).json(result.recordset)
+        }
+        else{
+            res.status(400).json({message:`Alumnus with id = ${id} deos not exist`})
+        }
 
     }
     catch (err) {
@@ -78,8 +83,8 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
 //PUT => 3
 const updateAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const id = req.body.id //from token
-    const first_name = req.body.first_name //from token
+    const id = req.userData.userERP
+    const first_name = req.body.first_name
     const last_name = req.body.last_name
     const sex = req.body.sex
     const degree = req.body.degree
@@ -91,55 +96,33 @@ const updateAlumnusProfile = asyncHandler(async (req, res) => {
         const request = pool.request()
 
         await request
-            .query(`UPDATE alumnus_profile 
-                    SET first_name = ${first_name},
-                        last_name = ${last_name},
-                        sex = ${sex},
-                        degree = ${degree},
-                        major = ${major},
-                        graduation = ${graduation}
-                    WHERE id = ${id}`)
+    .input('first_name', first_name)
+    .input('last_name', last_name)
+    .input('sex', sex)
+    .input('degree', degree)
+    .input('major', major)
+    .input('graduation', graduation)
+    .input('id', id)
+    .query(`UPDATE alumnus_profile 
+            SET first_name = @first_name,
+                last_name = @last_name,
+                sex = @sex,
+                degree = @degree,
+                major = @major,
+                graduation = @graduation
+            WHERE id = @id`)
+
+        // await request
+        //     .query(`UPDATE alumnus_profile 
+        //             SET first_name = ${first_name},
+        //                 last_name = ${last_name},
+        //                 sex = ${sex},
+        //                 degree = ${degree},
+        //                 major = ${major},
+        //                 graduation = ${graduation}
+        //             WHERE id = ${id}`)
 
         res.status(200).json({ message: "Profile succesfully updated" })
-    }
-    catch (err) {
-        console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
-    }
-
-})
-
-//GET => 2,3
-const getProfileJobsStoriesAdvice = asyncHandler(async (req, res) => {
-
-    const id = req.params.id
-
-    let profile
-    let jobs
-    let advice
-    let stories
-
-    try {
-        
-        const request = pool.request()
-
-        let result = await request
-            .query(`SELECT * FROM alumnus_profile WHERE id = ${id} AND status = 'Approved'`)
-
-        profile = result.recordset
-
-        result = await request
-            .query(`SELECT * FROM job_desc WHERE id = ${id}`)
-
-        jobs = result.recordset
-
-        advice = Advice.find({ ERP: req.params.id })
-        stories = Stories.find({ ERP: req.params.id })
-
-        const alumnus = { profile, jobs, advice, stories }
-
-        res.status(200).json(alumnus)
-
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
@@ -152,7 +135,7 @@ const getProfileJobsStoriesAdvice = asyncHandler(async (req, res) => {
 const getAlumniProfiles = asyncHandler(async (req, res) => {
 
     try {
-        
+
         const request = pool.request()
 
         let result = await request
@@ -167,10 +150,36 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
 
 })
 
+//GET => 2,3
+const getAlumniByName = async(req,res)=>{
+
+    const name = req.body.name
+    try {
+
+        const request = pool.request()
+
+        let result = await request
+    .input('name', name)
+    .query(`SELECT * FROM alumni_profile 
+            WHERE CONCAT(first_name, ' ', last_name) = @name`)
+
+        // let result = await request
+        //     .query(`SELECT * FROM alumni_profile 
+        //                 WHERE CONCAT(first_name, ' ', last_name) = '${name}'`)
+
+        res.status(200).json(result.recordset)
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+
+}
+
 //POST => 3
 const addJob = asyncHandler(async (req, res) => {
 
-    const id = req.body.id //from token
+    const id = req.userData.userERP 
     const employer = req.body.employer
     const role = req.body.role
     const date_start = req.body.date_start
@@ -179,7 +188,7 @@ const addJob = asyncHandler(async (req, res) => {
     console.log(id, "\n", employer, "\n", role, "\n", date_start, "\n", date_end)
 
     try {
-        
+
         const request = pool.request()
 
         const result = await request
@@ -190,12 +199,12 @@ const addJob = asyncHandler(async (req, res) => {
             .input('date_end', sql.Date, date_end)
             .execute('AddJob')
 
-            if (result.returnValue === 1){
-                return res.status(201).json({ message: "Job successfully added!" })
-            }
-            else {
-                return res.status(400).json({ message: `Profile with ID = ${input_id} is not approved` })
-            }
+        if (result.returnValue === 1) {
+            return res.status(201).json({ message: "Job successfully added!" })
+        }
+        else {
+            return res.status(400).json({ message: `Profile with ID = ${input_id} is not approved` })
+        }
 
     }
     catch (err) {
@@ -205,21 +214,29 @@ const addJob = asyncHandler(async (req, res) => {
 
 })
 
-//PATCH => 3
+//PUT => 3
 const updateJob = asyncHandler(async (req, res) => {
 
-    const id = req.params.id //from token
-    const date_start = req.params.date_start
-    const date_end = req.params.date_end
+    const id = req.userData.userERP //from token
+    const date_start = req.body.date_start
+    const date_end = req.body.date_end
 
     try {
-        
+
         const request = pool.request()
 
         await request
-            .query(`UPDATE job_desc 
-                    SET date_end = ${date_end} 
-                    WHERE id = ${id} AND date_start = ${date_start}`)
+    .input('date_end', date_end)
+    .input('id', id)
+    .input('date_start', date_start)
+    .query(`UPDATE job_desc 
+            SET date_end = @date_end
+            WHERE id = @id AND date_start = @date_start`)
+
+        // await request
+        //     .query(`UPDATE job_desc 
+        //             SET date_end = '${date_end}'
+        //             WHERE id = '${id}' AND date_start = '${date_start}'`)
 
         res.status(200).json({ message: "Job succesfully updated" })
 
@@ -231,12 +248,43 @@ const updateJob = asyncHandler(async (req, res) => {
 
 })
 
+const deleteJob = async(req,res)=>{
+
+    const id = req.userData.userERP //from token
+    const date_start = req.body.date_start
+    
+    try {
+
+        const request = pool.request()
+
+        console.log(id,date_start)
+
+        await request
+    .input('id', id)
+    .input('date_start', date_start)
+    .query(`DELETE FROM job_desc 
+            WHERE id = @id AND date_start = @date_start`)
+        // await request
+        //     .query(`DELETE FROM job_desc 
+        //             WHERE id = '${id}' AND date_start = '${date_start}'`)
+
+        res.status(200).json({ message: "Job succesfully deleted" })
+
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+
+}
+
 module.exports = {
     createAlumnusProfile,
     getAlumnusProfile,
     updateAlumnusProfile,
-    getProfileJobsStoriesAdvice,
     getAlumniProfiles,
+    getAlumniByName,
     addJob,
-    updateJob
+    updateJob,
+    deleteJob
 }

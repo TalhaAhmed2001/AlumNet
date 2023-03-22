@@ -2,8 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const connectMongo = require('./config/mongodb');
 const { connectSQL } = require("./config/dbConfig");
-const {createAlumnusProfile, deleteAlumnusProfile, getAlumnusProfile} = require('./controllers/alumnusController');
-const {createStudentProfile} = require("./controllers/studentController")
+
+const generalRoutes = require("./routes/general-routes");
+const alumniRoutes = require("./routes/alumni-routes");
+const storiesRoutes = require("./routes/stories-routes");
+const advicesRoutes = require("./routes/advices-routes");
+const adminRoutes = require('./routes/admin-routes');
 
 require('dotenv').config();
 
@@ -17,7 +21,12 @@ const port = process.env.PORT || 5000
 connectMongo()  //mongo connect
 connectSQL()    //sql connect
 
-app.get("/create", createStudentProfile)
-app.get("/createAlumnus",createAlumnusProfile)
+
+app.use("/api/general", generalRoutes);
+app.use("/api/alumni", alumniRoutes);
+app.use("/api/stories", storiesRoutes);
+app.use("/api/advices", advicesRoutes);
+app.use("/api/login", adminRoutes)
+
 
 app.listen(port, () => console.log(`\nServer running on port ${port}\n`))

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
 const adviceSchema = mongoose.Schema({
-    ERP: { type: Number, required: [true, 'Please enter ERP id'] },
-    Name: { type: String, required: [true, 'Please enter Name'] },
+    ERP: { type: Number },
+    Name: { type: String},
     //category is which field is advice related to , for example CS, BBA etc. It can be General too.
-    category: {type: String, required: true },
+    category: {type: String, requried: true },
     title: { type: String, required: true },
     content: { type: String, required: true },
     popularity: { type: Number, default: 0 },

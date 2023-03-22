@@ -15,11 +15,11 @@ const createStudentProfile = asyncHandler(async (req, res) => {
     try {
 
         let hashed_password
-    
-        hashed_password = await bcrypt.hash(password,12)
+
+        hashed_password = await bcrypt.hash(password, 12)
 
         console.log(id, "\n", hashed_password, "\n", first_name, "\n", last_name, "\n", sex, "\n", degree)
-        
+
         const request = pool.request()
 
         const result = await request
@@ -31,13 +31,13 @@ const createStudentProfile = asyncHandler(async (req, res) => {
             .input('degree', sql.VarChar(20), degree)
             .execute('CreateStudentProfile')
 
-        if (result.returnValue === 1){
+        if (result.returnValue === 1) {
             res.status(201).json({ message: "Student Profile added, waiting for admin approval" })
         }
         else {
-            res.status(400).json({ message: `Profile with ID = ${id} already exists, please enter uniqure ID` })
+            res.status(400).json({ message: `Profile with ID = ${id} already exists, please enter unique ID` })
         }
-        
+
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
@@ -46,6 +46,29 @@ const createStudentProfile = asyncHandler(async (req, res) => {
 
 })
 
+//PATCH => 2
+const requestPromotion = async (req, res) => {
+
+    const id = req.userData.userERP
+
+    try {
+
+        const request = pool.request()
+
+        const result = await request
+            .query(`UPDATE student_profile
+                SET promote_request = 'true'
+                WHERE id = ${id}`)
+
+        res.status(200).json({ message: "Alumnus Promotion reqeusted!" })
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+}
+
 module.exports = {
     createStudentProfile,
+    requestPromotion
 }
