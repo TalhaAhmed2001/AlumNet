@@ -22,23 +22,27 @@ const getPendingProfiles = async (req, res) => {
     }
 }
 
-//GET
-const getPromotingStudents = async (req, res) => {
+//PUT
+const promoteStudent = async(req,res)=>{
+
+    const id = req.params.id
 
     try {
 
         const request = pool.request()
 
-        const result = await request
-            .query(`SELECT id FROM login_cred WHERE promote='true'`)
+        await request
+            .input('id', sql.Int, id)
+            .execute('PromoteStudent')
 
-        res.status(200).json(result.recordset)
-
+        res.status(200).json({ message: "Student Promoted" })
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
         res.status(400).send(err)
     }
+
+
 }
 
 //PATCH
@@ -148,8 +152,8 @@ const deleteStudentProfile = asyncHandler(async (req, res) => {
 
 module.exports = {
     getPendingProfiles,
-    getPromotingStudents,
     approveProfile,
+    promoteStudent,
     // deleteAlumnusProfile,
     // deleteStudentProfile,
     declineProfile

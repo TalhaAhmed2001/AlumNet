@@ -3,11 +3,12 @@ const cors = require('cors');
 const connectMongo = require('./config/mongodb');
 const { connectSQL } = require("./config/dbConfig");
 
-const generalRoutes = require("./routes/generalRouter");
-const alumniRoutes = require("./routes/alumniRouter");
-const storiesRoutes = require("./routes/storiesRouter");
-const advicesRoutes = require("./routes/advicesRouter");
-const adminRoutes = require('./routes/adminRouter');
+const alumniRouter = require("./Router/alumniRouter");
+const storiesRouter = require("./Router/storiesRouter");
+const advicesRouter = require("./Router/advicesRouter");
+const adminRouter = require('./Router/adminRouter');
+const studentRouter = require('./Router/studentRouter');
+const loginRouter = require("./Router/loginRouter")
 
 require('dotenv').config();
 
@@ -22,11 +23,12 @@ connectMongo()  //mongo connect
 connectSQL()    //sql connect
 
 
-app.use("/api/general", generalRoutes);
-app.use("/api/alumni", alumniRoutes);
-app.use("/api/stories", storiesRoutes);
-app.use("/api/advices", advicesRoutes);
-app.use("/api/login", adminRoutes)
+app.use("/login",loginRouter);
+app.use("/admin", adminRouter);
+app.use("/alumni", alumniRouter);
+app.use("/stories", storiesRouter);
+app.use("/advices", advicesRouter);
+app.use("/student",studentRouter);
 
 
 app.listen(port, () => console.log(`\nServer running on port ${port}\n`))

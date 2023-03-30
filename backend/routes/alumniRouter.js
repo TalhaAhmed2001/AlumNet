@@ -8,15 +8,17 @@ const { validateJobDesc, validateAlumnusProfile } = require("../middleware/valid
 const router = express.Router();
 
 
-router.post("/signup", validateAlumnusProfile, createAlumnusProfile)
+router.post("/", validateAlumnusProfile, createAlumnusProfile)
 
 router.use(checkAuth);
 
 router.get("/profiles", authPermission("getAlumniProfiles"), getAlumniProfiles)
 router.get("/profiles/:pid", authPermission("getAlumnusProfile"), getAlumnusProfile)
 router.get("/profile/name", authPermission("getAlumniProfiles"), getAlumniByName)
+
+router.patch("/profile",authPermission("updateAlumnusProfile"), updateAlumnusProfile)
 router.post("/jobs", authPermission("addJob"), validateJobDesc, addJob)
 router.patch("/jobs", authPermission("updateJob"), updateJob)
-router.delete("/jobs/", authPermission("updateJob"), deleteJob)
+router.delete("/jobs", authPermission("updateJob"), deleteJob)
 
 module.exports = router;

@@ -68,7 +68,27 @@ const requestPromotion = async (req, res) => {
     }
 }
 
+//GET
+const getPromotingStudents = async (req, res) => {
+
+    try {
+
+        const request = pool.request()
+
+        const result = await request
+            .query(`SELECT id FROM login_cred WHERE promote='true'`)
+
+        res.status(200).json(result.recordset)
+
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+}
+
 module.exports = {
     createStudentProfile,
-    requestPromotion
+    requestPromotion,
+    getPromotingStudents
 }
