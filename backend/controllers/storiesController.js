@@ -5,6 +5,7 @@ const getAllStories = async (req, res, next) => {
   const PAGE_SIZE = 4;
   const page = parseInt(req.query.page) - 1 || 0;
   let sortField = req.query.sort;
+  let currentPage = req.query.page || 1
 
   let sortCriteria = {};
   if (sortField === "date") {
@@ -22,6 +23,7 @@ const getAllStories = async (req, res, next) => {
     const stories = await Stories.find({}).sort(sortCriteria).limit(PAGE_SIZE).skip(PAGE_SIZE * page);
     res.status(200).json({
       totalPages: Math.ceil(total / PAGE_SIZE),
+      currentPage,
       stories,
     });
   } catch (error) {

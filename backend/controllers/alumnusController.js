@@ -134,7 +134,7 @@ const updateAlumnusProfile = asyncHandler(async (req, res) => {
 //GET => 2,3
 const getAlumniProfiles = asyncHandler(async (req, res) => {
 
-    const curr_page = req.query.page
+    const curr_page = req.query.page || 1
     const page_size = 5
     const page = curr_page - 1 || 0
 
@@ -173,7 +173,7 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
 //GET => 2,3
 const getAlumniByName = async (req, res) => {
 
-    const name = req.body.name
+    const name = req.params.name
     try {
 
         const request = pool.request()

@@ -3,12 +3,12 @@ const cors = require('cors');
 const connectMongo = require('./config/mongodb');
 const { connectSQL } = require("./config/dbConfig");
 
-const alumniRouter = require("./Router/alumniRouter");
-const storiesRouter = require("./Router/storiesRouter");
-const advicesRouter = require("./Router/advicesRouter");
-const adminRouter = require('./Router/adminRouter');
-const studentRouter = require('./Router/studentRouter');
-const loginRouter = require("./Router/loginRouter")
+const alumniRouter = require("./routes/alumniRouter");
+const storiesRouter = require("./routes/storiesRouter");
+const advicesRouter = require("./routes/advicesRouter");
+const adminRouter = require('./routes/adminRouter');
+const studentRouter = require('./routes/studentRouter');
+const loginRouter = require("./routes/loginRouter")
 
 require('dotenv').config();
 
@@ -24,11 +24,11 @@ connectSQL()    //sql connect
 
 
 app.use("/login",loginRouter);
-app.use("/admin", adminRouter);
 app.use("/alumni", alumniRouter);
 app.use("/stories", storiesRouter);
 app.use("/advices", advicesRouter);
 app.use("/student",studentRouter);
+app.use("/", adminRouter);
 
 
 app.listen(port, () => console.log(`\nServer running on port ${port}\n`))

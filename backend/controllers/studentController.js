@@ -68,7 +68,7 @@ const requestPromotion = async (req, res) => {
     }
 }
 
-//GET
+//GET => 1
 const getPromotingStudents = async (req, res) => {
 
     try {
@@ -76,7 +76,7 @@ const getPromotingStudents = async (req, res) => {
         const request = pool.request()
 
         const result = await request
-            .query(`SELECT id FROM login_cred WHERE promote='true'`)
+            .query(`SELECT id FROM student_profile WHERE promote='true'`)
 
         res.status(200).json(result.recordset)
 
@@ -87,8 +87,66 @@ const getPromotingStudents = async (req, res) => {
     }
 }
 
+//PATCH => 2
+const updateStudentProfile = async (req, res) => {
+
+    const id = req.userData.userERP
+    const first_name = req.body.first_name
+    const last_name = req.body.last_name
+    const sex = req.body.sex
+    const degree = req.body.degree
+
+    try {
+
+        const request = pool.request()
+
+        await request
+            .input('first_name', first_name)
+            .input('last_name', last_name)
+            .input('sex', sex)
+            .input('degree', degree)
+            .input('id', id)
+            .query(`UPDATE student_profile 
+            SET first_name = @first_name,
+                last_name = @last_name,
+                sex = @sex,
+                degree = @degree,
+            WHERE id = @id`)
+
+
+        res.status(200).json({ message: "Profile succesfully updated" })
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+
+}
+
+//GET => 2
+const getPromotion = async(req,res)=>{
+
+    const id = req.userData.userERP
+
+    try{
+
+        const request = pool.request()
+
+        const result = await request
+            .query(`SELECT promote FROM student_profile WHERE id = @id`)
+
+        res.status(200).json(result.recordset[0])
+    }
+    catch(err){
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+}
+
 module.exports = {
     createStudentProfile,
     requestPromotion,
-    getPromotingStudents
+    getPromotingStudents,
+    updateStudentProfile,
+    getPromotion
 }

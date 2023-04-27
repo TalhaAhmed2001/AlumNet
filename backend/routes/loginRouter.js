@@ -5,6 +5,6 @@ const { validateLogin } = require('../middleware/validation')
 
 const router = express.Router()
 
-router.post(validateLogin, login)
+router.post("/",validateLogin, login)
 
 module.exports = router

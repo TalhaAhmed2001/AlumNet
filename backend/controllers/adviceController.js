@@ -7,6 +7,7 @@ const getAllAdvices = async (req, res, next) => {
   let sortField = req.query.sort;
   let category = req.query.category;
   let query = {};
+  let currentPage = req.query.page || 1;
 
   if (category) {
     query.category = category;
@@ -28,6 +29,7 @@ const getAllAdvices = async (req, res, next) => {
     const advices = await Advice.find(query).sort(sortCriteria).limit(PAGE_SIZE).skip(PAGE_SIZE * page);
     res.status(200).json({
       totalPages: Math.ceil(total / PAGE_SIZE),
+      currentPage,
       advices,
     });
   } catch (error) {

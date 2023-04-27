@@ -12,7 +12,7 @@ router.use(checkAuth);
 
 router.get("/", authPermission("getAdvices"), getAllAdvices)
 router.get("/:aid", authPermission("getAdvices"), getAdviceById)
-router.get("/user/:ERP", authPermission("getAdvices"), getAdvices)
+router.get("/alumni/:ERP", authPermission("getAdvices"), getAdvices)
 
 router.post("/", authPermission("createAdvices"), validateAdvices, createAdvices)
 router.patch("/:aid", authPermission("updateAdvices"), validateAdvices, updateAdvices)

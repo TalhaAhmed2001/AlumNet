@@ -12,7 +12,7 @@ router.use(checkAuth);
 
 router.get("/", authPermission("getStories"), getAllStories)
 router.get("/:sid", authPermission("getStories"), getStoryById)
-router.get("/user/:ERP", authPermission("getStories"), getStories)
+router.get("/alumni/:ERP", authPermission("getStories"), getStories)
 
 router.post("/", authPermission("createStories"), validateStories, createStories)
 router.patch("/:sid", authPermission("updateStories"), validateStories, updateStories)
