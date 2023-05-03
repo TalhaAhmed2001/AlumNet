@@ -11,7 +11,13 @@ const getPendingProfiles = async (req, res) => {
         const request = pool.request()
 
         const result = await request
-            .query(`SELECT id, user_id FROM login_cred WHERE status='Pending'`)
+            //.query(`SELECT id, user_id FROM login_cred WHERE status='Pending'`)
+            .query(`SELECT id,
+                         user_role 
+                    FROM login_cred
+                    INNER JOIN user_group 
+                    ON login_cred.user_id = user_group.user_id
+                    WHERE status='Pending'`)
 
         res.status(200).json(result.recordset)
 
