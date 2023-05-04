@@ -41,7 +41,7 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
             return res.status(201).json({ message: "Alumnus Profile added, waiting for admin approval" })
         }
         else {
-            return res.status(400).json({ message: `Profile with ID = ${input_id} already exists, please enter uniqure ID` })
+            return res.status(400).json({ message: `Profile with ID = ${input_id} already exists, please enter unique ID` })
         }
 
     }

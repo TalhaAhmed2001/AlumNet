@@ -3,7 +3,7 @@ const Joi = require('joi')
 const validateAlumnusProfile = (req, res, next) => {
   const alumnusProfileSchema = Joi.object({
     id: Joi.number()
-      .min(1000)
+      .min(10000)
       .max(99999)
       .integer()
       .required(),
@@ -62,7 +62,7 @@ const validateStudentProfile = (req, res, next) => {
       .required(),
     password: Joi.string()
       .trim()
-      .min(1)
+      .min(8)
       .max(20)
       .required(),
     first_name: Joi.string()
@@ -175,6 +175,7 @@ const validateLogin = (req, res, next) => {
       .integer()
       .required(),
     password: Joi.string()
+      .min(8)
       .max(20)
       .required()
   })

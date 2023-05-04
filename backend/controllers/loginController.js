@@ -17,7 +17,7 @@ const login = async (req, res) => {
             .query(`SELECT password,user_id,status FROM login_cred where id=${id}`)
 
         if (result.recordset[0] == null) {
-            res.status(400).json({ error: "Incorrect ID" })
+            res.status(400).json({ message: "Incorrect login credentials" })
         }
         else {
 
@@ -79,7 +79,7 @@ const login = async (req, res) => {
                 });
             }
             else {
-                res.status(400).json({ error: "Incorrect Password" })
+                res.status(400).json({ message: "Incorrect login credentials" })
             }
         }
     }
