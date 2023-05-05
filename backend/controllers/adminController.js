@@ -29,7 +29,7 @@ const getPendingProfiles = async (req, res) => {
 }
 
 //PUT
-const promoteStudent = async(req,res)=>{
+const promoteStudent = async (req, res) => {
 
     const id = req.params.id
 
@@ -54,8 +54,9 @@ const promoteStudent = async(req,res)=>{
 //PATCH
 const approveProfile = asyncHandler(async (req, res) => {
 
-    const id = req.body.id
-
+    const id = parseInt(req.params.id)
+    console.log("hello i am here")
+    
     try {
 
         const request = pool.request()
@@ -64,7 +65,7 @@ const approveProfile = asyncHandler(async (req, res) => {
             .input('id', sql.Int, id)
             .execute('ApproveProfile')
 
-        res.status(200).json({ message: "Profile approved" })
+        res.status(200).json({ message: `Profile with ID = ${id} successfully approved` })
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
@@ -76,18 +77,19 @@ const approveProfile = asyncHandler(async (req, res) => {
 //DELETE
 const declineProfile = async (req, res) => {
 
-    const id = req.body.id
+    const id = parseInt(req.params.id)
+    //console.log(req.params.id)
 
     try {
 
         const request = pool.request()
 
-        const result = await request
+        await request
             .input('id', sql.Int, id)
             .execute('DeclineProfile')
 
 
-        res.status(200).json({ message: "Profile successfully eradicated" })
+        res.status(200).json({ message: `Profile with ID = ${id} successfully declined` })
 
 
     }

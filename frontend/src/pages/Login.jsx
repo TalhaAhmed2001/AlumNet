@@ -17,8 +17,11 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
         id: '',
@@ -55,18 +58,14 @@ const Login = () => {
         try {
             const response = await axios.post("http://localhost:5000/login", loginData)
 
-            alert(response.data.token)
+            //alert(response.data.token)
 
-            setLoginData({
-                id: '',
-                password: ''
-            })
+            navigate('/');
         }
         catch (err) {
             setText(err.response.data.message)
+            setOpen(true)
         }
-
-        setOpen(true)
     }
 
     return (

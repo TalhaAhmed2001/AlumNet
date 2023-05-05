@@ -50,7 +50,7 @@ const Alumni = () => {
             try {
                 const response = await axios.get("http://localhost:5000/alumni", {
                     headers: {
-                        'Authorization': `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIyMjc0NyIsIm5hbWUiOiJKQU5FIERPRSIsInVzZXJSb2xlIjozLCJpYXQiOjE2ODMyMjMyOTMsImV4cCI6MTY4MzIyNjg5M30.dZZBK1gnnDjEFMhbfXdABRHRb9IxAB1n49tZhDzMeG8"}`
+                        'Authorization': `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIyMjc0NyIsIm5hbWUiOiJKQU5FIERPRSIsInVzZXJSb2xlIjozLCJpYXQiOjE2ODMyODg2NjEsImV4cCI6MTY4MzI5MjI2MX0.iP9xCk0ZhyiPtiZAj97Ldfq4L2CWeRyHPGUPGSKTgbA"}`
                     }
                 })
 

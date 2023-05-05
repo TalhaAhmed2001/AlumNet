@@ -9,7 +9,7 @@ const router = express.Router()
 router.use(checkAuth)
 
 router.get("/pendingprofiles", authPermission("getPendingProfiles"), getPendingProfiles)
-router.patch("/promote/:id", authPermission("promoteStudent"), promoteStudent)
+router.put("/promote/:id", authPermission("promoteStudent"), promoteStudent)
 router.patch("/approve/:id", authPermission("approveProfile"), approveProfile)
 router.delete("/decline/:id", authPermission("declineProfile"), declineProfile)
 

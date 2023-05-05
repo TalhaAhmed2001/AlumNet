@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import Table from '@mui/material/Table';
@@ -12,30 +12,84 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import AdminNavbar from '../components/navbars/AdminNavbar';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const PromotingStudents = () => {
 
-  let std = [
-    123,
-    456,
-    789
-  ];
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIxMDAxIiwibmFtZSI6InN5c2FkbWluICIsInVzZXJSb2xlIjoxLCJpYXQiOjE2ODMyOTM3MDgsImV4cCI6MTY4MzI5NzMwOH0.lsYoY_-kj4Uf8SoSscZlcePmWjgLQjmzPqUPS3VEB0I"
 
-  const [students, setStudents] = useState(std)
+  const [students, setStudents] = useState([])
 
-  const getStudents = () => {
-    //setStudents(axios.get())
-  }
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState('success')
+  const [text, setText] = useState('')
 
-  const promote = id => {
-    //axios.promote(id)
-    alert(id)
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const getPromoting = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/student/promotingstudents", {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+
+        setStudents(response.data)
+
+      }
+      catch (err) {
+        console.log(err.response.data.error)
+      }
+    }
+    getPromoting()
+  }, [open])
+
+  const promote = async (id) => {
+
+    try {
+
+      const response = await axios.put("http://localhost:5000/promote/" + id, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      setText(response.data.message)
+      setSeverity('success')
+      setOpen(true)
+    }
+    catch (err) {
+      console.log(err.response.data)
+      setText(err.response.data)
+      setSeverity('error')
+      setOpen(true)
+    }
+
   }
 
   return (
     <>
       <AdminNavbar />
       <Container component="main" maxWidth="md">
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={open}
+          onClose={handleClose}
+          autoHideDuration={5000}>
+          <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+            {text}
+          </Alert>
+
+        </Snackbar>
         <br />
         <br />
         <br />

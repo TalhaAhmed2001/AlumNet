@@ -13,6 +13,6 @@ router.post('/', validateStudentProfile, createStudentProfile)
 router.use(checkAuth);
 
 router.patch('/:sid', authPermission("requestPromotion"), requestPromotion)
-router.get("/promotingstudents", authPermission("getPromotingStudents"), getPromotingStudents)
+router.get("/promotingstudents", authPermission("promoteStudent"), getPromotingStudents)
 
 module.exports = router

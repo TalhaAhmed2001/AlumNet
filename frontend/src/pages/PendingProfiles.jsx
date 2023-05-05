@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,33 +10,109 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import AdminNavbar from '../components/navbars/AdminNavbar';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const PendingProfiles = () => {
 
-  let pending = [
-    { id: '123', user_role: 'alumnus' },
-    { id: '456', user_role: 'student' },
-    { id: '789', user_role: 'alumnus' }
-  ]
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIxMDAxIiwibmFtZSI6InN5c2FkbWluICIsInVzZXJSb2xlIjoxLCJpYXQiOjE2ODMyOTM3MDgsImV4cCI6MTY4MzI5NzMwOH0.lsYoY_-kj4Uf8SoSscZlcePmWjgLQjmzPqUPS3VEB0I"
+  const [profiles, setProfiles] = useState([])
 
-  const [profiles, setProfiles] = useState(pending)
+  const approve = async (id) => {
 
-  const approve = id => {
-    alert('approved ' + id)
+    try {
+
+      const response = await axios.patch("http://localhost:5000/approve/" + id, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      })
+
+      setText(response.data.message)
+      setSeverity('success')
+      setOpen(true)
+    }
+    catch (err) {
+      console.log(err.response.data)
+      setText(err.response.data.message)
+      setSeverity('error')
+      setOpen(true)
+    }
+
   }
 
-  const decline = id => {
-    alert('declined ' + id)
+  const decline = async (id) => {
+
+    try {
+
+      const response = await axios.delete("http://localhost:5000/decline/" + id, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      })
+
+      setText(response.data.message)
+      setSeverity('error')
+      setOpen(true)
+    }
+    catch (err) {
+      console.log(err.response.data)
+      setText(err.response.data.message)
+      setSeverity('error')
+      setOpen(true)
+    }
+
   }
 
-  const getPending = () => {
-    //axios.get()
-  }
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState('success')
+  const [text, setText] = useState('')
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const getPending = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/pendingprofiles", {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+
+        setProfiles(response.data)
+
+      }
+      catch (err) {
+        console.log(err.response.data.error)
+        setText(err.response.data.error)
+        setSeverity('error')
+        setOpen(true)
+      }
+    }
+    getPending()
+  }, [open])
 
   return (
     <>
       <AdminNavbar />
       <Container component="main" maxWidth="lg">
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={open}
+          onClose={handleClose}
+          autoHideDuration={5000}>
+          <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+            {text}
+          </Alert>
+
+        </Snackbar>
         <br />
         <br />
         <br />
@@ -49,7 +125,7 @@ const PendingProfiles = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pending.map((row) => (
+            {profiles.map((row) => (
               <TableRow key={row.id}>
                 <TableCell align="center">{row.id}</TableCell>
                 <TableCell align="right">{row.user_role}</TableCell>
