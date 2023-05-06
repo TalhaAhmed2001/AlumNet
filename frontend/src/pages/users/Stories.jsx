@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import Advice from '../components/Advice'
-import Navbar from '../components/navbars/Navbar'
+import React, { useState, useEffect } from 'react'
+import Story from '../../components/Story'
+import Navbar from '../../components/navbars/Navbar'
+
 import { Box, Paper, Typography } from '@mui/material'
 
 import Button from '@mui/material/Button';
@@ -16,12 +17,14 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
 
-const Advices = () => {
+const Stories = () => {
+
+    const token = localStorage.getItem('jwt');
 
     const [totalPages, setTotalPages] = useState('')
     const [currentPage, setCurrentPage] = useState('')
-    const [advice, setAdvice] = useState([])
-
+    const [story, setStory] = useState([])
+    
     const [query, setQuery] = useState({
         filter: '',
         search: ''
@@ -45,17 +48,17 @@ const Advices = () => {
     }
 
     useEffect(() => {
-        const getAdvices = async () => {
+        const getStories = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/advices", {
+                const response = await axios.get("http://localhost:5000/stories", {
                     headers: {
-                        'Authorization': `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIyMjc0NyIsIm5hbWUiOiJKQU5FIERPRSIsInVzZXJSb2xlIjozLCJpYXQiOjE2ODMyODg2NjEsImV4cCI6MTY4MzI5MjI2MX0.iP9xCk0ZhyiPtiZAj97Ldfq4L2CWeRyHPGUPGSKTgbA"}`
+                        'Authorization': `Bearer ${token}`
                     }
                 })
 
                 setTotalPages(response.totalPages)
                 setCurrentPage(response.currentPage)
-                setAdvice(response.data.advices)
+                setStory(response.data.stories)
                 //console.log(response.data)
             }
             catch (err) {
@@ -63,7 +66,7 @@ const Advices = () => {
                 console.log(err.response.data.error)
             }
         }
-        getAdvices()
+        getStories()
 
     }, [filter,search])
 
@@ -82,7 +85,7 @@ const Advices = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={3} lg={2}>
                             <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
-                                Advices
+                                Stories
                             </Typography>
                         </Grid>
 
@@ -144,12 +147,12 @@ const Advices = () => {
 
             </Box>
             {
-                advice.map((adv) => (
-                    <Advice props={adv} />
+                story.map((sto) => (
+                    <Story key={sto._id} props={sto}/>
                 ))
             }
         </>
     )
 }
 
-export default Advices
+export default Stories

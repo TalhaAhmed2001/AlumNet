@@ -96,7 +96,7 @@ const AddJob = () => {
                                 </Grid>
                                 <Grid item xs={6} xm={6} />
 
-                                <Grid item sx={12} sm={2}>
+                                <Grid item xs={12} md={4} lg={2}>
                                     <TextField
                                         type='date'
                                         id="date_start"
@@ -107,7 +107,7 @@ const AddJob = () => {
                                         value={date_start}
                                     />
                                 </Grid>
-                                <Grid item sx={12} sm={10}>
+                                <Grid item xs={12} md={8} lg = {10}>
                                     <TextField
                                         type='date'
                                         id="date_end"

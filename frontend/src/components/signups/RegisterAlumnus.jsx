@@ -16,11 +16,11 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterAlumnus = () => {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const [profile, setProfile] = useState({
         first_name: '',
@@ -66,16 +66,17 @@ const RegisterAlumnus = () => {
             setSeverity('success')
             setText(response.data.message)
 
-            setProfile({
-                first_name: '',
-                last_name: '',
-                id: '',
-                password: '',
-                sex: '',
-                degree: '',
-                major: '',
-                graduation: ''
-            })
+            // setProfile({
+            //     first_name: '',
+            //     last_name: '',
+            //     id: '',
+            //     password: '',
+            //     sex: '',
+            //     degree: '',
+            //     major: '',
+            //     graduation: ''
+            // })
+            navigate('/login')
         }
         catch (err) {
             setSeverity('error')

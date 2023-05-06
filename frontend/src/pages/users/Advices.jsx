@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import Navbar from '../components/navbars/Navbar'
-import Alumnus from '../components/Alumnus'
-
+import React, { useEffect, useState } from 'react'
+import Advice from '../../components/Advice'
+import Navbar from '../../components/navbars/Navbar'
 import { Box, Paper, Typography } from '@mui/material'
 
 import Button from '@mui/material/Button';
@@ -17,11 +16,13 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
 
-const Alumni = () => {
+const Advices = () => {
 
+    const token = localStorage.getItem('jwt');
+    
     const [totalPages, setTotalPages] = useState('')
     const [currentPage, setCurrentPage] = useState('')
-    const [alumnus,setAlumnus] = useState([])
+    const [advice, setAdvice] = useState([])
 
     const [query, setQuery] = useState({
         filter: '',
@@ -46,19 +47,17 @@ const Alumni = () => {
     }
 
     useEffect(() => {
-        const getAlumni = async () => {
+        const getAdvices = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/alumni", {
+                const response = await axios.get("http://localhost:5000/advices", {
                     headers: {
-                        'Authorization': `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIyMjc0NyIsIm5hbWUiOiJKQU5FIERPRSIsInVzZXJSb2xlIjozLCJpYXQiOjE2ODMyODg2NjEsImV4cCI6MTY4MzI5MjI2MX0.iP9xCk0ZhyiPtiZAj97Ldfq4L2CWeRyHPGUPGSKTgbA"}`
+                        'Authorization': `Bearer ${token}`
                     }
                 })
 
-                setTotalPages(response.data.totalPages)
-                setCurrentPage(response.data.currentPage)
-                setAlumnus(response.data.alumni)
-                //alert(totalPages)
-                console.log(response.data)
+                setTotalPages(response.totalPages)
+                setCurrentPage(response.currentPage)
+                setAdvice(response.data.advices)
                 //console.log(response.data)
             }
             catch (err) {
@@ -66,7 +65,7 @@ const Alumni = () => {
                 console.log(err.response.data.error)
             }
         }
-        getAlumni()
+        getAdvices()
 
     }, [filter,search])
 
@@ -85,7 +84,7 @@ const Alumni = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={3} lg={2}>
                             <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
-                                Alumni
+                                Advices
                             </Typography>
                         </Grid>
 
@@ -98,7 +97,7 @@ const Alumni = () => {
                                 label=""
                                 onChange={onChange}
                                 value={search}
-                                placeholder='Search Alumni by full name...'
+                                placeholder='Enter Search thing here...'
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={2}>
@@ -114,13 +113,13 @@ const Alumni = () => {
                         </Grid>
                         <Grid item xs={12} sm={2}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">filter by degree</InputLabel>
+                                <InputLabel id="demo-simple-select-label">Filter *</InputLabel>
                                 <Select
                                     labelId='demo-simple-select-label'
                                     name='filter'
                                     id="filter"
                                     value={filter}
-                                    label="filter by degree"
+                                    label="filter"
                                     onChange={onChange}
                                 >
                                     <MenuItem value={'General'}>General</MenuItem>
@@ -147,12 +146,12 @@ const Alumni = () => {
 
             </Box>
             {
-                alumnus.map((profile) => (
-                    <Alumnus props={profile} />
+                advice.map((adv) => (
+                    <Advice key={adv._id} props={adv} />
                 ))
             }
         </>
     )
 }
 
-export default Alumni
+export default Advices

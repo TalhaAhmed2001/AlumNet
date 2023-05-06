@@ -17,16 +17,17 @@ import Paper from '@mui/material/Paper';
 
 //import SaveIcon from '@mui/icons-material/Save';
 
-const UpdateStory = props => {
+const UpdateStory = ({props}) => {
 
     const [story, setStory] = useState({
+        _id: props._id,
         ERP: props.ERP,
         Name: props.Name,
         title: props.title,
         content: props.content
     })
 
-    const { ERP, Name, title, content } = story;
+    const { _id, ERP, Name, title, content } = story;
 
     const onChange = e => {
         setStory((prevState) => ({

@@ -14,7 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
 
-const UpdateAlumnusProfile = props => {
+const UpdateAlumnusProfile = ({props}) => {
 
     const [profile, setProfile] = useState({
         first_name: props.first_name,
@@ -38,15 +38,15 @@ const UpdateAlumnusProfile = props => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        setProfile({
-            first_name: props.first_name,
-            last_name: props.last_name,
-            id: props.id,
-            sex: props.sex,
-            degree: props.degree,
-            major: props.major,
-            graduation: props.graduation
-        })
+        // setProfile({
+        //     first_name: props.first_name,
+        //     last_name: props.last_name,
+        //     id: props.id,
+        //     sex: props.sex,
+        //     degree: props.degree,
+        //     major: props.major,
+        //     graduation: props.graduation
+        // })
     }
 
     const theme = createTheme();

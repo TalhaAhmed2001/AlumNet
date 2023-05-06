@@ -17,7 +17,7 @@ const AlumnusNavbar = () => {
             <AppBar position="fixed" zIndex='0'>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
                     {/* <Box sx={{ display:'flex', alignItems: 'center', ml: -1}}> */}
-                    <img src={AlumNet2} alt="logo"height='70vmin' />
+                    <img src={AlumNet2} alt="logo" height='70vmin' />
                     {/* </Box> */}
                     <Typography
                         variant="h4"
@@ -60,14 +60,16 @@ const AlumnusNavbar = () => {
                         </Typography>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         </Typography>
-                        
+
                     </>
 
                     <Button color='inherit' component={Link} to='/myprofile'>
                         My Profile
                     </Button>
 
-                    <Button color="inherit"component={Link} to='/login'>
+                    <Button color="inherit" onClick={() => { localStorage.removeItem('jwt'); localStorage.removeItem('user_role'); window.location.assign('/')}} 
+                    // component={Link} to='/login'
+                    >
                         Logout
                     </Button>
                 </Toolbar>

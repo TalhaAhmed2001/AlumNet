@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Story from '../components/Story'
-import Navbar from '../components/navbars/Navbar'
+import Navbar from '../../components/navbars/Navbar'
+import Alumnus from '../../components/Alumnus'
 
 import { Box, Paper, Typography } from '@mui/material'
 
@@ -17,12 +17,14 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
 
-const Stories = () => {
+const Alumni = () => {
+
+    const token = localStorage.getItem('jwt');
 
     const [totalPages, setTotalPages] = useState('')
     const [currentPage, setCurrentPage] = useState('')
-    const [story, setStory] = useState([])
-    
+    const [alumnus, setAlumnus] = useState([])
+
     const [query, setQuery] = useState({
         filter: '',
         search: ''
@@ -46,27 +48,25 @@ const Stories = () => {
     }
 
     useEffect(() => {
-        const getStories = async () => {
+        const getAlumni = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/stories", {
+                const response = await axios.get("http://localhost:5000/alumni", {
                     headers: {
-                        'Authorization': `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIyMjc0NyIsIm5hbWUiOiJKQU5FIERPRSIsInVzZXJSb2xlIjozLCJpYXQiOjE2ODMyODg2NjEsImV4cCI6MTY4MzI5MjI2MX0.iP9xCk0ZhyiPtiZAj97Ldfq4L2CWeRyHPGUPGSKTgbA"}`
+                        'Authorization': `Bearer ${token}`
                     }
                 })
 
-                setTotalPages(response.totalPages)
-                setCurrentPage(response.currentPage)
-                setStory(response.data.stories)
-                //console.log(response.data)
+                setTotalPages(response.data.totalPages)
+                setCurrentPage(response.data.currentPage)
+                setAlumnus(response.data.alumni)
             }
             catch (err) {
-                //console.log(err.response.data.error)
                 console.log(err.response.data.error)
             }
         }
-        getStories()
+        getAlumni()
 
-    }, [filter,search])
+    }, [filter, search])
 
     return (
         <>
@@ -83,7 +83,7 @@ const Stories = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={3} lg={2}>
                             <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
-                                Stories
+                                Alumni
                             </Typography>
                         </Grid>
 
@@ -96,7 +96,7 @@ const Stories = () => {
                                 label=""
                                 onChange={onChange}
                                 value={search}
-                                placeholder='Enter Search thing here...'
+                                placeholder='Search Alumni by full name...'
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={2}>
@@ -112,13 +112,13 @@ const Stories = () => {
                         </Grid>
                         <Grid item xs={12} sm={2}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Filter *</InputLabel>
+                                <InputLabel id="demo-simple-select-label">filter by degree</InputLabel>
                                 <Select
                                     labelId='demo-simple-select-label'
                                     name='filter'
                                     id="filter"
                                     value={filter}
-                                    label="filter"
+                                    label="filter by degree"
                                     onChange={onChange}
                                 >
                                     <MenuItem value={'General'}>General</MenuItem>
@@ -145,12 +145,12 @@ const Stories = () => {
 
             </Box>
             {
-                story.map((sto) => (
-                    <Story props={sto}/>
+                alumnus.map((profile) => (
+                    <Alumnus key={profile.id} props={profile} />
                 ))
             }
         </>
     )
 }
 
-export default Stories
+export default Alumni

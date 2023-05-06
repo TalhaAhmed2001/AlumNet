@@ -14,10 +14,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
-const UpdateAdvice = props => {
+const UpdateAdvice = ({ props }) => {
+
+    const token = localStorage.getItem('jwt');
 
     const [advice, setAdvice] = useState({
+        _id: props._id,
         ERP: props.ERP,
         Name: props.Name,
         category: props.category,
@@ -25,7 +31,7 @@ const UpdateAdvice = props => {
         content: props.content
     })
 
-    const { ERP, Name, category, title, content } = advice;
+    const { _id, ERP, Name, category, title, content } = advice;
 
     const onChange = e => {
         setAdvice((prevState) => ({
@@ -35,16 +41,36 @@ const UpdateAdvice = props => {
         )
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        setAdvice({
-            ERP: props.ERP,
-            Name: props.Name,
-            category: props.category,
-            title: props.title,
-            content: props.content
-        })
+    const updateAdvice = async (e) => {
+
+        try {
+            const response = await axios.patch("http://localhost:5000/advices/" + _id, {
+                header: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+        }
+        catch (err) {
+
+        }
     }
+
+    const deleteAdvice = async (e) => {
+
+        try {
+            const response = await axios.delete("http://localhost:5000/advices/" + _id, {
+                header: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+        }
+        catch (err) {
+
+        }
+    }
+
 
     const theme = createTheme();
 
@@ -65,11 +91,11 @@ const UpdateAdvice = props => {
 
                     <Paper sx={{ p: 4, }} elevation={4} >
 
-                        <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" onSubmit={updateAdvice} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
 
 
-                                <Grid item xs={2} sm={2}>
+                                <Grid item xs={4} sm={4} lg={2}>
                                     <FormControl fullWidth>
                                         <InputLabel id="demo-simple-select-label">Category *</InputLabel>
                                         <Select
@@ -90,7 +116,7 @@ const UpdateAdvice = props => {
                                     </FormControl>
                                 </Grid>
 
-                                <Grid item xs={8} sm={8} />
+                                <Grid item xs={8} sm={8} lg={10} />
 
 
                                 <Grid item xs={6} sm={6}>
@@ -139,6 +165,7 @@ const UpdateAdvice = props => {
                                         variant="contained"
                                         sx={{ mt: 0, mb: -2 }}
                                         color='error'
+                                        onClick={deleteAdvice}
                                     >
                                         Delete
                                     </Button>

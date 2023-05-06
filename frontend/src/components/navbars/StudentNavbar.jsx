@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import AlumNet2 from '../../images/AlumNet2.png'
 import AppBar from '@mui/material/AppBar';
@@ -56,14 +56,16 @@ const StudentNavbar = () => {
                         </Typography>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         </Typography>
-                        
+
                     </>
 
                     <Button color='inherit' component={Link} to='/myprofile'>
                         My Profile
                     </Button>
 
-                    <Button color="inherit"component={Link} to='/login'>
+                    <Button color="inherit" onClick={() => { localStorage.removeItem('jwt'); localStorage.removeItem('user_role'); window.location.assign('/')}} 
+                    // component={Link} to='/login'
+                    >
                         Logout
                     </Button>
                 </Toolbar>

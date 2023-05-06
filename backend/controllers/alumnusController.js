@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt")
 //POST => 3
 const createAlumnusProfile = asyncHandler(async (req, res) => {
 
-
     const input_id = req.body.id
     const password = req.body.password
     const first_name = req.body.first_name
@@ -66,7 +65,7 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
             .execute('GetAlumnus')
 
         if (result.recordset) {
-            res.status(200).json(result.recordset)
+            res.status(200).json(result.recordset[0])
         }
         else {
             res.status(400).json({ message: `Alumnus with id = ${id} deos not exist` })
@@ -196,6 +195,34 @@ const getAlumniByName = async (req, res) => {
 
 }
 
+//GET => 3
+const getAlumnusJobs = async (req, res) => {
+
+    const id = req.params.pid
+
+    try {
+
+        const request = pool.request()
+
+        const result = await request
+            .input('id', sql.Int, id)
+            .execute('GetAlumnusJobs')
+
+        if (result.recordset) {
+            res.status(200).json(result.recordset)
+        }
+        else {
+            res.status(400).json({ message: `Alumnus with id = ${id} deos not exist` })
+        }
+
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(400).send(err)
+    }
+
+}
+
 //POST => 3
 const addJob = asyncHandler(async (req, res) => {
 
@@ -305,6 +332,7 @@ module.exports = {
     updateAlumnusProfile,
     getAlumniProfiles,
     getAlumniByName,
+    getAlumnusJobs,
     addJob,
     updateJob,
     deleteJob

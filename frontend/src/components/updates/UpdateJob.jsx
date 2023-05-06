@@ -96,7 +96,7 @@ const UpdateJob = props => {
                                 </Grid>
                                 <Grid item xs={6} xm={6} />
 
-                                <Grid item sx={12} sm={2}>
+                                <Grid item sx={12} sm={6} md={6}>
                                     <TextField
                                         disabled
                                         type='date'
@@ -108,7 +108,7 @@ const UpdateJob = props => {
                                         value={date_start}
                                     />
                                 </Grid>
-                                <Grid item sx={12} sm={10}>
+                                <Grid item sx={12} sm={6} md={6}>
                                     <TextField
                                         type='date'
                                         id="date_end"

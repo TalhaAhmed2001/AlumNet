@@ -15,7 +15,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
 
-const UpdateStudentProfile = props => {
+const UpdateStudentProfile = ({props}) => {
     const [profile, setProfile] = useState({
         first_name: props.first_name,
         last_name: props.last_name,

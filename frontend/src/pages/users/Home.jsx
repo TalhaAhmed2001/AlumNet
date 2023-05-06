@@ -1,16 +1,9 @@
 import React from 'react'
-
-import { Link } from 'react-router-dom';
-import Navbar from '../components/navbars/Navbar'
-import home_1 from '../images/home_1.jpg'
-
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
-const Home = props => {
-
-    const id = props.user_id
+const Home = () => {
 
     const styles = {
         background: {
@@ -25,12 +18,11 @@ const Home = props => {
 
     return (
         <>
-            <Navbar user_id={id} />
             <Box sx={{ marginTop: 0, marginBottom: 0, alignItems: 'center' }}>
                 <img
                     //src={home_1}
                     alt="bg"
-                    style={{ backgroundImage: `url(${home_1})`, backgroundRepeat: "no-repeat", backgroundSize: "contain" }}
+                    // style={{ backgroundImage: `url(${home_1})`, backgroundRepeat: "no-repeat", backgroundSize: "contain" }}
                 // background-repeat= 'no-repeat'
                 // background-size= 'cover'
                 // background-position= 'center center'

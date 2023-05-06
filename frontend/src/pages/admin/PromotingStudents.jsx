@@ -11,14 +11,14 @@ import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import AdminNavbar from '../components/navbars/AdminNavbar';
+import AdminNavbar from '../../components/navbars/AdminNavbar';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
 const PromotingStudents = () => {
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFUlAiOiIxMDAxIiwibmFtZSI6InN5c2FkbWluICIsInVzZXJSb2xlIjoxLCJpYXQiOjE2ODMyOTM3MDgsImV4cCI6MTY4MzI5NzMwOH0.lsYoY_-kj4Uf8SoSscZlcePmWjgLQjmzPqUPS3VEB0I"
+  const token = localStorage.getItem("jwt");
 
   const [students, setStudents] = useState([])
 
@@ -78,7 +78,8 @@ const PromotingStudents = () => {
 
   return (
     <>
-      <AdminNavbar />
+      <br />
+      <br />
       <Container component="main" maxWidth="md">
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}

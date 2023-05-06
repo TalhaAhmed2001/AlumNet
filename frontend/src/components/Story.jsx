@@ -39,7 +39,7 @@ const Story = ({props}) => {
                             </Grid>
                             <Grid item xs={12} sm={12}>
                                 <Typography variant='subtitle2' textAlign='left' sx={{ mt: -2 }}>
-                                    {content}{console.log(content)}
+                                    {content}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={12}>

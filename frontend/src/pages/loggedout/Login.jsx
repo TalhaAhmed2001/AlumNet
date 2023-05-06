@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import './App.css';
-import logo from './logo.svg';
-import Icon from '../images/icon';
-import AlumNet2 from '../images/AlumNet2_1.png';
+import AlumNet2 from '../../images/AlumNet2_1.png';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -58,9 +55,16 @@ const Login = () => {
         try {
             const response = await axios.post("http://localhost:5000/login", loginData)
 
-            //alert(response.data.token)
+            //alert(" " + response.data.erp + response.data.user_id + response.data.name)
 
-            navigate('/');
+            let token = response.data.token
+            let user_id = response.data.user_id
+
+            localStorage.setItem('jwt', token);
+            localStorage.setItem('user_role', user_id)
+
+            //navigate('/');
+            window.location.assign('/')
         }
         catch (err) {
             setText(err.response.data.message)
