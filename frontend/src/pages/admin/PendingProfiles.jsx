@@ -17,20 +17,22 @@ import Snackbar from '@mui/material/Snackbar';
 const PendingProfiles = () => {
 
     const token = localStorage.getItem("jwt");
+    
     const [profiles, setProfiles] = useState([])
 
     const approve = async (id) => {
 
         try {
 
-            const response = await axios.patch("http://localhost:5000/approve/" + id, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: {
+            const response = await axios.patch("http://localhost:5000/approve/" + id,
+                {
 
-                }
-            })
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
 
             setText(response.data.message)
             setSeverity('success')
@@ -49,11 +51,12 @@ const PendingProfiles = () => {
 
         try {
 
-            const response = await axios.delete("http://localhost:5000/decline/" + id, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-            })
+            const response = await axios.delete("http://localhost:5000/decline/" + id,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                })
 
             setText(response.data.message)
             setSeverity('error')

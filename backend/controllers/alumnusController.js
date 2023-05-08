@@ -74,7 +74,7 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send(err)
     }
 
 })
@@ -102,7 +102,7 @@ const updateAlumnusProfile = asyncHandler(async (req, res) => {
             .input('major', major)
             .input('graduation', graduation)
             .input('id', id)
-            .query(`UPDATE alumnus_profile 
+            .query(`UPDATE alumni_profile 
             SET first_name = @first_name,
                 last_name = @last_name,
                 sex = @sex,

@@ -16,7 +16,7 @@ router.get("/", authPermission("getAlumniProfiles"), getAlumniProfiles)
 router.get("/:pid", authPermission("getAlumnusProfile"), getAlumnusProfile)
 //router.get("/:name", authPermission("getAlumniProfiles"), getAlumniByName)
 
-router.patch("/:pid",authPermission("updateAlumnusProfile"), updateAlumnusProfile)
+router.put("/:pid",authPermission("updateAlumnusProfile"), updateAlumnusProfile)
 router.get("/jobs/:pid", authPermission("addJob"), getAlumnusJobs)
 router.post("/jobs", authPermission("addJob"), validateJobDesc, addJob)
 router.patch("/jobs", authPermission("updateJob"), updateJob)

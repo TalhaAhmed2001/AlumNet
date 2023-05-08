@@ -20,6 +20,7 @@ import UpdateStudentProfile from './components/updates/UpdateStudentProfile';
 import UpdateAlumnusProfile from './components/updates/UpdateAlumnusProfile';
 import UpdateStudent from './components/UpdateStudent';
 import UpdateAlumnus from './components/UpdateAlumnus';
+import NotFound from './pages/NotFound';
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
                                 <Route path='/' element={<Login />} />
                                 <Route path='/login' element={<Login />} />
                                 <Route path='/register' element={<Register />} />
+                                <Route path='*' element={<NotFound />} />
                             </Routes>
                         </Router>
                         : userId === '1' ?
@@ -57,6 +59,7 @@ function App() {
                                     <Route path='/pendingprofiles' element={<PendingProfiles />} />
                                     <Route path='/promotingstudents' element={<PromotingStudents />} />
                                     <Route path='/eradication' element={<Eradication />} />
+                                    <Route path='*' element={<NotFound />} />
                                 </Routes>
                             </Router>
                             : userId === '2' ?
@@ -68,6 +71,7 @@ function App() {
                                         <Route path='/stories' element={<Stories />} />
                                         <Route path='/advices' element={<Advices />} />
                                         <Route path='/alumni' element={<Alumni />} />
+                                        <Route path='*' element={<NotFound />} />
                                     </Routes>
                                 </Router>
                                 : userId === '3' ?
@@ -80,6 +84,7 @@ function App() {
                                             <Route path='/stories' element={<Stories />} />
                                             <Route path='/advices' element={<Advices />} />
                                             <Route path='/alumni' element={<Alumni />} />
+                                            <Route path='*' element={<NotFound />} />
                                         </Routes>
                                     </Router>
                                     : <>hello</>

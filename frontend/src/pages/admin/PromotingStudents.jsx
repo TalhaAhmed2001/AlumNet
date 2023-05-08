@@ -57,11 +57,15 @@ const PromotingStudents = () => {
 
     try {
 
-      const response = await axios.put("http://localhost:5000/promote/" + id, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await axios.put("http://localhost:5000/promote/" + id,
+        {
+
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
 
       setText(response.data.message)
       setSeverity('success')

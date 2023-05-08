@@ -15,7 +15,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
 
-const UpdateJob = props => {
+const UpdateJob = ({props}) => {
 
     const [job, setJob] = useState({
         id: props.id,

@@ -24,7 +24,7 @@ import Snackbar from '@mui/material/Snackbar';
 
 const UpdateAlumnus = () => {
 
-    const pid = 22747
+    const pid = 22767
     const token = localStorage.getItem('jwt');
 
     const [action, setAction] = useState('My Profile')
@@ -54,9 +54,9 @@ const UpdateAlumnus = () => {
         setAction('My Stories')
     }
 
-    // const setJobsAction = () => {
-    //     setAction('My Jobs')
-    // }
+    const setJobsAction = () => {
+        setAction('My Jobs')
+    }
 
     const drawerWidth = 250;
 
@@ -82,7 +82,7 @@ const UpdateAlumnus = () => {
                 })
 
                 setProfile(response.data)
-                console.log(response.data.id)
+                console.log("profile getted")
                 //alert(response.data.id)
             }
             catch (err) {
@@ -200,7 +200,7 @@ const UpdateAlumnus = () => {
                         <List>
                             <Divider />
                             <ListItemButton onClick={setProfileAction}>
-                                <ListItemText primary='Profile' />
+                                <ListItemText primary='Personal Info' />
                             </ListItemButton>
                             <Divider />
                             <ListItemButton onClick={setAdviceAction}>
@@ -209,6 +209,10 @@ const UpdateAlumnus = () => {
                             <Divider />
                             <ListItemButton onClick={setStoriesAction}>
                                 <ListItemText primary='Stories' />
+                            </ListItemButton>
+                            <Divider />
+                            <ListItemButton onClick={setJobsAction}>
+                                <ListItemText primary='Jobs' />
                             </ListItemButton>
                             <Divider />
                         </List>
@@ -230,20 +234,24 @@ const UpdateAlumnus = () => {
                         <Toolbar />
                         {action === 'My Profile' ?
                             <>
-                                <UpdateAlumnusProfile props={profile} />
-                                <br />
-                                <AddJob />
-                                <br />
-                                {jobs.map((job) => (<UpdateJob props={job} />))}
+                                <UpdateAlumnusProfile key={profile.id} props={profile} />
+
+
                             </>
                             : action === 'My Advices' ?
                                 <>
                                     {advices.map((advice) => (<UpdateAdvice key={advice._id} props={advice} />))}
                                 </>
-                                :
-                                <>
-                                    {stories.map((story) => (<UpdateStory key={story._id} props={story} />))}
-                                </>
+                                : action === 'My Stories' ?
+                                    <>
+                                        {stories.map((story) => (<UpdateStory key={story._id} props={story} />))}
+                                    </>
+                                    :
+                                    <>
+                                        <AddJob />
+                                        <br />
+                                        {jobs.map((job) => (<UpdateJob key={job.job_id} props={job} />))}
+                                    </>
                         }
                     </Box>
                 </>

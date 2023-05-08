@@ -24,8 +24,36 @@ const getPendingProfiles = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send(err)
     }
+
+}
+
+//GET
+const getApprovedProfiles = async (req, res) => {
+
+    try {
+
+        const request = pool.request()
+
+        const result = await request
+            //.query(`SELECT id, user_id FROM login_cred WHERE status='Pending'`)
+            .query(`SELECT id,
+                         user_role 
+                    FROM login_cred
+                    INNER JOIN user_group 
+                    ON login_cred.user_id = user_group.user_id
+                    WHERE status='Approved' 
+                    AND login_cred.user_id != 1`)
+
+        res.status(200).json(result.recordset)
+
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(500).send(err)
+    }
+
 }
 
 //PUT
@@ -56,7 +84,7 @@ const approveProfile = asyncHandler(async (req, res) => {
 
     const id = parseInt(req.params.id)
     console.log("hello i am here")
-    
+
     try {
 
         const request = pool.request()
@@ -160,9 +188,10 @@ const deleteStudentProfile = asyncHandler(async (req, res) => {
 
 module.exports = {
     getPendingProfiles,
+    getApprovedProfiles,
     approveProfile,
     promoteStudent,
-    // deleteAlumnusProfile,
-    // deleteStudentProfile,
+    deleteAlumnusProfile,
+    deleteStudentProfile,
     declineProfile
 }

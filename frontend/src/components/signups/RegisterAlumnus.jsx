@@ -193,6 +193,14 @@ const RegisterAlumnus = () => {
                                         onChange={onChange}
                                         value={graduation}
                                     />
+                                    {/* <label>
+                                        Graduation Year
+                                        <select value={graduation} onChange={onChange} required>
+                                            {Array.from({ length: new Date().getFullYear() - 999 }, (_, i) => new Date().getFullYear() - i).map(year => (
+                                                <option key={year} value={year}>{year}</option>
+                                            ))}
+                                        </select>
+                                    </label> */}
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField

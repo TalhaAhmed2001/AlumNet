@@ -88,9 +88,10 @@ const Login = () => {
 
                     </Snackbar>
                     <CssBaseline />
+                    <br/>
                     <Box
                         sx={{
-                            marginTop: 6,
+                            marginTop: 4,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -106,7 +107,7 @@ const Login = () => {
                             <Typography component="h1" variant="h5" textAlign='center'>
                                 Sign in
                             </Typography>
-                            <Box component="form" onSubmit={onSubmit} sx={{ mt: 0 }}>
+                            <Box component="form" onSubmit={onSubmit} sx={{ mt: 2 }}>
                                 <TextField required margin="normal" value={id} onChange={onChange} type='Number' fullWidth id="id" label="ID" name="id" autoComplete="id" />
                                 <TextField
                                     margin="normal"

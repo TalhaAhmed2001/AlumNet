@@ -58,7 +58,11 @@ const AdminNavbar = () => {
 
                     </>
 
-                    <Button color="inherit" onClick={() => { localStorage.removeItem('jwt'); localStorage.removeItem('user_role'); window.location.assign('/') }}
+                    <Button color="inherit" onClick={() => {
+                        localStorage.removeItem('jwt');
+                        localStorage.removeItem('user_role');
+                        window.location.assign('/')
+                    }}
                     // component={Link} to='/login'
                     >
                         Logout
