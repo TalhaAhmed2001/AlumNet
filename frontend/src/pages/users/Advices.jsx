@@ -19,37 +19,43 @@ import axios from 'axios';
 const Advices = () => {
 
     const token = localStorage.getItem('jwt');
-    
+
     const [totalPages, setTotalPages] = useState('')
     const [currentPage, setCurrentPage] = useState('')
     const [advice, setAdvice] = useState([])
 
     const [query, setQuery] = useState({
         filter: '',
-        search: ''
+        sort: ''
     })
 
-    const { filter, search } = query
+    const [filter, setFilter] = useState('')
+    const [sort, setSort] = useState('')
 
-    const onChange = e => {
-        setQuery((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
+    const onChange = () => {
+        setQuery(() => ({
+            filter: { filter },
+            sort: { sort }
         }))
     }
 
-    const onSearch = e => {
-        //axios.get(search)
+    const onFilter = e => {
+        setFilter(e.target.value)
     }
 
-    const onFilter = e => {
-
+    const onSort = e => {
+        setSort(e.target.value)
     }
 
     useEffect(() => {
         const getAdvices = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/advices", {
+                    params: {
+                        'category': `${filter}`,
+                        'sortField': `${sort}`,
+                        'page' : `${1}`
+                    },
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -58,7 +64,6 @@ const Advices = () => {
                 setTotalPages(response.totalPages)
                 setCurrentPage(response.currentPage)
                 setAdvice(response.data.advices)
-                //console.log(response.data)
             }
             catch (err) {
                 //console.log(err.response.data.error)
@@ -67,11 +72,10 @@ const Advices = () => {
         }
         getAdvices()
 
-    }, [filter,search])
+    }, [query])
 
     return (
         <>
-            <Navbar user_id={3} />
             <Box sx={{
                 marginTop: 4,
                 display: 'flex',
@@ -88,17 +92,22 @@ const Advices = () => {
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} sm={6} lg={4}>
-                            <TextField
-                                name="search"
-                                required
-                                fullWidth
-                                id="search"
-                                label=""
-                                onChange={onChange}
-                                value={search}
-                                placeholder='Enter Search thing here...'
-                            />
+                        <Grid item xs={12} sm={6} md={2}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Sort *</InputLabel>
+                                <Select
+                                    labelId=''
+                                    name='sort'
+                                    id="sort"
+                                    value={sort}
+                                    label="sort"
+                                    onChange={onSort}
+                                >
+                                    <MenuItem value={''}>-</MenuItem>
+                                    <MenuItem value={'date'}>Date</MenuItem>
+                                    <MenuItem value={'popularity'}>Popularity</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={6} md={2}>
                             <Button
@@ -106,9 +115,9 @@ const Advices = () => {
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
-                                onClick={onSearch}
+                                onClick={onChange}
                             >
-                                Search
+                                Sort
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={2}>
@@ -120,8 +129,9 @@ const Advices = () => {
                                     id="filter"
                                     value={filter}
                                     label="filter"
-                                    onChange={onChange}
+                                    onChange={onFilter}
                                 >
+                                    <MenuItem value={''}>-</MenuItem>
                                     <MenuItem value={'General'}>General</MenuItem>
                                     <MenuItem value={'BSCS'}>BSCS</MenuItem>
                                     <MenuItem value={'BBA'}>BBA</MenuItem>
@@ -135,7 +145,7 @@ const Advices = () => {
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
-                                onClick={onFilter}
+                                onClick={onChange}
                             >
                                 Filter
                             </Button>
@@ -145,10 +155,21 @@ const Advices = () => {
                 </Paper>
 
             </Box>
-            {
+            {advice.length != 0 ?
                 advice.map((adv) => (
                     <Advice key={adv._id} props={adv} />
                 ))
+                :
+                <>
+                    <br />
+                    <br />
+                    <br />
+
+                    <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                        No Advices found under {filter}
+                    </Typography>
+                </>
+
             }
         </>
     )

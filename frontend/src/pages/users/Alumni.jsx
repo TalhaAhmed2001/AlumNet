@@ -70,7 +70,6 @@ const Alumni = () => {
 
     return (
         <>
-            <Navbar user_id={3} />
             <Box sx={{
                 marginTop: 4,
                 display: 'flex',

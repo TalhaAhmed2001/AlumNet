@@ -69,7 +69,7 @@ const UpdateStudentProfile = ({ props }) => {
         }
         catch (err) {
             setSeverity('error')
-            setText(err.response.error)
+            setText(err.response.error || err.response.data.message)
         }
 
         setOpen(true)

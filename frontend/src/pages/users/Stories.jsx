@@ -24,33 +24,31 @@ const Stories = () => {
     const [totalPages, setTotalPages] = useState('')
     const [currentPage, setCurrentPage] = useState('')
     const [story, setStory] = useState([])
-    
+
     const [query, setQuery] = useState({
-        filter: '',
-        search: ''
+        sort: ''
     })
 
-    const { filter, search } = query
+    const [sort, setSort] = useState('')
 
     const onChange = e => {
-        setQuery((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
+        setQuery(() => ({
+            sort: { sort }
         }))
     }
 
-    const onSearch = e => {
-        //axios.get(search)
-    }
-
-    const onFilter = e => {
-
+    const onSort = e => {
+        setSort(e.target.value)
     }
 
     useEffect(() => {
         const getStories = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/stories", {
+                    params: {
+                        'sortField': `${sort}`,
+                        'page': `${1}`
+                    },
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -68,11 +66,10 @@ const Stories = () => {
         }
         getStories()
 
-    }, [filter,search])
+    }, [query])
 
     return (
         <>
-            <Navbar user_id={3} />
             <Box sx={{
                 marginTop: 4,
                 display: 'flex',
@@ -89,17 +86,22 @@ const Stories = () => {
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} sm={6} lg={4}>
-                            <TextField
-                                name="search"
-                                required
-                                fullWidth
-                                id="search"
-                                label=""
-                                onChange={onChange}
-                                value={search}
-                                placeholder='Enter Search thing here...'
-                            />
+                        <Grid item xs={12} sm={6} md={2}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Sort *</InputLabel>
+                                <Select
+                                    labelId=''
+                                    name='sort'
+                                    id="sort"
+                                    value={sort}
+                                    label="sort"
+                                    onChange={onSort}
+                                >
+                                    <MenuItem value={''}>-</MenuItem>
+                                    <MenuItem value={'date'}>Date</MenuItem>
+                                    <MenuItem value={'popularity'}>Popularity</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={6} md={2}>
                             <Button
@@ -107,13 +109,13 @@ const Stories = () => {
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
-                                onClick={onSearch}
+                                onClick={onChange}
                             >
                                 Search
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={2}>
-                            <FormControl fullWidth>
+                            {/* <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Filter *</InputLabel>
                                 <Select
                                     labelId='demo-simple-select-label'
@@ -128,18 +130,18 @@ const Stories = () => {
                                     <MenuItem value={'BBA'}>BBA</MenuItem>
                                     <MenuItem value={'SSLA'}>SSLA</MenuItem>
                                 </Select>
-                            </FormControl>
+                            </FormControl> */}
                         </Grid>
                         <Grid item xs={12} sm={2}>
-                            <Button
+                            {/* <Button
                                 type="submit"
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
-                                onClick={onFilter}
+                                onClick={onChange}
                             >
                                 Filter
-                            </Button>
+                            </Button> */}
                         </Grid>
                     </Grid>
 
@@ -148,7 +150,7 @@ const Stories = () => {
             </Box>
             {
                 story.map((sto) => (
-                    <Story key={sto._id} props={sto}/>
+                    <Story key={sto._id} props={sto} />
                 ))
             }
         </>

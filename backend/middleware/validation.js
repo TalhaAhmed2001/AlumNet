@@ -53,6 +53,54 @@ const validateAlumnusProfile = (req, res, next) => {
   next();
 }
 
+const validateUpdatedAlumnusProfile = (req, res, next) => {
+  const alumnusProfileSchema = Joi.object({
+    id: Joi.number()
+      .min(10000)
+      .max(99999)
+      .integer()
+      .required(),
+    first_name: Joi.string()
+      .trim()
+      .min(1)
+      .max(20)
+      .required(),
+    last_name: Joi.string()
+      .trim()
+      .min(1)
+      .max(20)
+      .required(),
+    sex: Joi.string()
+      .trim()
+      .min(1)
+      .max(1)
+      .required(),
+    degree: Joi.string()
+      .trim()
+      .min(3)
+      .max(10)
+      .required(),
+    major: Joi.string()
+      .trim()
+      .min(3)
+      .max(20)
+      .required(),
+    graduation: Joi.number()
+      .min(1990)
+      .max(2022)
+      .integer()
+      .required()
+  });
+
+  const { error } = alumnusProfileSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  next();
+}
+
 const validateStudentProfile = (req, res, next) => {
   const studentProfileSchema = Joi.object({
     id: Joi.number()
@@ -64,6 +112,44 @@ const validateStudentProfile = (req, res, next) => {
       .trim()
       .min(8)
       .max(20)
+      .required(),
+    first_name: Joi.string()
+      .trim()
+      .min(1)
+      .max(20)
+      .required(),
+    last_name: Joi.string()
+      .trim()
+      .min(1)
+      .max(20)
+      .required(),
+    sex: Joi.string()
+      .trim()
+      .min(1)
+      .max(1)
+      .required(),
+    degree: Joi.string()
+      .trim()
+      .min(3)
+      .max(10)
+      .required(),
+  });
+
+  const { error } = studentProfileSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  return next();
+}
+
+const validateUpdatedStudentProfile = (req, res, next) => {
+  const studentProfileSchema = Joi.object({
+    id: Joi.number()
+      .min(10000)
+      .max(99999)
+      .integer()
       .required(),
     first_name: Joi.string()
       .trim()
@@ -191,7 +277,9 @@ const validateLogin = (req, res, next) => {
 
 module.exports = {
   validateAlumnusProfile,
+  validateUpdatedAlumnusProfile,
   validateStudentProfile,
+  validateUpdatedStudentProfile,
   validateJobDesc,
   validateAdvices,
   validateStories,
