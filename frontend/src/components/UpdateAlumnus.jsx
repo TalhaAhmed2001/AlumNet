@@ -16,8 +16,6 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Navbar from './navbars/Navbar'
-import UpdateStudentProfile from './updates/UpdateStudentProfile'
 import axios from 'axios'
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';

@@ -68,13 +68,13 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
             res.status(200).json(result.recordset[0])
         }
         else {
-            res.status(400).json({ message: `Alumnus with id = ${id} deos not exist` })
+            res.status(400).json({ error: `Alumnus with id = ${id} deos not exist` })
         }
 
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(500).send(err)
+        res.status(500).json({ error: `Error executing query: ${err}` })
     }
 
 })
@@ -103,10 +103,10 @@ const updateAlumnusProfile = asyncHandler(async (req, res) => {
             .input('graduation', graduation)
             .input('id', id)
             .query(`UPDATE alumni_profile 
-            SET first_name = @first_name,
-                last_name = @last_name,
+            SET first_name = UPPER(@first_name),
+                last_name = UPPER(@last_name),
                 sex = @sex,
-                degree = @degree,
+                degree = UPPER(@degree),
                 major = @major,
                 graduation = @graduation
             WHERE id = @id`)

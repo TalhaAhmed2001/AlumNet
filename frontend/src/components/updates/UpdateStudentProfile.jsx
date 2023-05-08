@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,8 +14,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
-const UpdateStudentProfile = ({props}) => {
+const UpdateStudentProfile = ({ props }) => {
+
+    const token = localStorage.getItem('jwt')
+
     const [profile, setProfile] = useState({
         first_name: props.first_name,
         last_name: props.last_name,
@@ -34,15 +40,39 @@ const UpdateStudentProfile = ({props}) => {
         )
     }
 
-    const onSubmit = (e) => {
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success')
+    const [text, setText] = useState('')
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const onSubmit = async (e) => {
         e.preventDefault();
-        setProfile({
-            first_name: props.first_name,
-            last_name: props.last_name,
-            id: props.id,
-            sex: props.sex,
-            degree: props.degree,
-        })
+        try {
+
+            const response = await axios.put('http://localhost:5000/student/' + id,
+                profile,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+            setSeverity('success')
+            setText(response.data.message)
+        }
+        catch (err) {
+            setSeverity('error')
+            setText(err.response.error)
+        }
+
+        setOpen(true)
     }
 
     const theme = createTheme();
@@ -50,6 +80,16 @@ const UpdateStudentProfile = ({props}) => {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="m">
+                <Snackbar
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    open={open}
+                    onClose={handleClose}
+                    autoHideDuration={5000}>
+                    <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                        {text}
+                    </Alert>
+
+                </Snackbar>
                 <CssBaseline />
                 <Box
                     sx={{
@@ -120,7 +160,7 @@ const UpdateStudentProfile = ({props}) => {
                                     </FormControl>
                                 </Grid>
 
-                                
+
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         required
@@ -133,8 +173,8 @@ const UpdateStudentProfile = ({props}) => {
                                     />
                                 </Grid>
 
-                                <Grid item xs={12} sm={6}/>
-                                
+                                <Grid item xs={12} sm={6} />
+
                                 <Grid item xs={12} sm={2}>
 
                                     <Button
@@ -142,7 +182,7 @@ const UpdateStudentProfile = ({props}) => {
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 0, mb: -2 }}
-                                        color='secondary'
+                                        color='success'
                                     >
                                         Update
                                     </Button>

@@ -72,7 +72,11 @@ const RegisterStudent = () => {
             //     sex: '',
             //     degree: ''
             // })
-            navigate('/login')
+            setTimeout(() => {
+                navigate('/login')
+            },
+                5000);
+
         }
         catch (err) {
             setSeverity('error')

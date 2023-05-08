@@ -46,6 +46,34 @@ const createStudentProfile = asyncHandler(async (req, res) => {
 
 })
 
+//GET => 2
+const getStudentProfile = async (req, res) => {
+    const id = req.params.sid
+
+    try {
+
+        const request = pool.request()
+
+        const result = await request
+            .input('id', sql.Int, id)
+            .execute('GetStudent')
+
+        if (result.recordset) {
+            res.status(200).json(result.recordset[0])
+            console.log("result" + result.recordset[0])
+        }
+        else {
+            res.status(400).json({ error: `Student with id = ${id} does not exist` })
+        }
+
+    }
+    catch (err) {
+        console.log(`Error executing query: ${err}`)
+        res.status(500).json({ error: `Error executing query: ${err}` })
+    }
+
+}
+
 //PATCH => 2
 const requestPromotion = async (req, res) => {
 
@@ -107,10 +135,10 @@ const updateStudentProfile = async (req, res) => {
             .input('degree', degree)
             .input('id', id)
             .query(`UPDATE student_profile 
-            SET first_name = @first_name,
-                last_name = @last_name,
+            SET first_name = UPPER(@first_name),
+                last_name = UPPER(@last_name),
                 sex = @sex,
-                degree = @degree,
+                degree = UPPER(@degree)
             WHERE id = @id`)
 
 
@@ -118,17 +146,17 @@ const updateStudentProfile = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).json({error: `Error executing query: ${err}`})
     }
 
 }
 
 //GET => 2
-const getPromotion = async(req,res)=>{
+const getPromotion = async (req, res) => {
 
     const id = req.userData.userERP
 
-    try{
+    try {
 
         const request = pool.request()
 
@@ -137,14 +165,15 @@ const getPromotion = async(req,res)=>{
 
         res.status(200).json(result.recordset[0])
     }
-    catch(err){
+    catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send(err)
     }
 }
 
 module.exports = {
     createStudentProfile,
+    getStudentProfile,
     requestPromotion,
     getPromotingStudents,
     updateStudentProfile,
