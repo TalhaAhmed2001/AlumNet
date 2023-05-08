@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
-import AlumnusNavbar from '../navbars/AlumnusNavbar'
-
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -15,18 +12,21 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const CreateAdvice = () => {
 
+    const token = localStorage.getItem('jwt');
+
     const [advice, setAdvice] = useState({
-        ERP: '',
-        Name: '',
         category: '',
         title: '',
         content: ''
     })
 
-    const { ERP, Name, category, title, content } = advice;
+    const { category, title, content } = advice;
 
     const onChange = e => {
         setAdvice((prevState) => ({
@@ -36,15 +36,47 @@ const CreateAdvice = () => {
         )
     }
 
-    const onSubmit = (e) => {
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success')
+    const [text, setText] = useState('')
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const onSubmit = async (e) => {
         e.preventDefault();
-        setAdvice({
-            ERP: '',
-            Name: '',
-            category: '',
-            title: '',
-            content: ''
-        })
+
+        try {
+            const response = await axios.post("http://localhost:5000/advices",
+                advice,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+            setSeverity('success')
+            setText("Advice successfully created!")
+            
+            setAdvice({
+                category: '',
+                title: '',
+                content: ''
+            })
+
+
+        }
+        catch (err) {
+            console.log(err.response.data)
+            setSeverity('error')
+            setText(err.response.data)
+        }
+        setOpen(true)
     }
 
     const theme = createTheme();
@@ -55,6 +87,17 @@ const CreateAdvice = () => {
             <br />
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="md">
+                    <Snackbar
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        open={open}
+                        onClose={handleClose}
+                        autoHideDuration={5000}>
+                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                            {text}
+                        </Alert>
+
+                    </Snackbar>
+
                     <CssBaseline />
                     <Box
                         sx={{
@@ -121,6 +164,7 @@ const CreateAdvice = () => {
                                             value={content}
                                             placeholder="Enter text here..."
                                             fullWidth
+                                            required
                                         />
                                     </Grid>
 
@@ -143,13 +187,13 @@ const CreateAdvice = () => {
 
                             </Box>
                         </Paper>
-                        <br/>
+                        <br />
 
                         <Typography variant='subtitle1' textAlign='left'>
                             What are Advices ?
                         </Typography>
                         <Typography variant='caption' textAlign='left'>
-                        Alumni often provide valuable advice to current students and recent graduates that can help them navigate their journey towards success. This advice can be general or specific to a certain degree, and it draws from the alumni's own experiences and knowledge. 
+                            Alumni often provide valuable advice to current students and recent graduates that can help them navigate their journey towards success. This advice can be general or specific to a certain degree, and it draws from the alumni's own experiences and knowledge.
                         </Typography>
                     </Box>
 

@@ -10,22 +10,21 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+
 const CreateStory = () => {
 
+    const token = localStorage.getItem('jwt');
 
     const [story, setStory] = useState({
-        ERP: '',
-        Name: '',
         title: '',
         content: ''
     })
 
-    const { ERP, Name, title, content } = story;
+    const { title, content } = story;
 
     const onChange = e => {
         setStory((prevState) => ({
@@ -35,14 +34,48 @@ const CreateStory = () => {
         )
     }
 
-    const onSubmit = (e) => {
+
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success')
+    const [text, setText] = useState('')
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const onSubmit = async (e) => {
         e.preventDefault();
-        setStory({
-            ERP: '',
-            Name: '',
-            title: '',
-            content: ''
-        })
+
+        try {
+            const response = await axios.post("http://localhost:5000/stories",
+                story,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+            setSeverity('success')
+            setText("Story successfully created!")
+
+            setStory({
+                category: '',
+                title: '',
+                content: ''
+            })
+
+
+        }
+        catch (err) {
+            console.log(err.response.data)
+            setSeverity('error')
+            setText(err.response.data)
+        }
+        setOpen(true)
     }
 
     const theme = createTheme();
@@ -54,6 +87,16 @@ const CreateStory = () => {
             <br />
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth='md'>
+                    <Snackbar
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        open={open}
+                        onClose={handleClose}
+                        autoHideDuration={5000}>
+                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                            {text}
+                        </Alert>
+
+                    </Snackbar>
                     <CssBaseline />
                     <Box
                         sx={{
@@ -121,7 +164,7 @@ const CreateStory = () => {
                             </Box>
                         </Paper>
                         <br />
-                        <br/>
+                        <br />
                         <Typography variant='subtitle1' textAlign='left'>
                             What are Stories ?
                         </Typography>

@@ -32,13 +32,13 @@ const UpdateAlumnus = () => {
     const [advices, setAdvices] = useState([])
     const [stories, setStories] = useState([])
     const [profile, setProfile] = useState({
-        id: '',
-        first_name: '',
-        last_name: '',
-        sex: '',
-        degree: '',
-        major: '',
-        graduation: ''
+        // id: '',
+        // first_name: '',
+        // last_name: '',
+        // sex: '',
+        // degree: '',
+        // major: '',
+        // graduation: ''
     })
     const [jobs, setJobs] = useState([])
 
