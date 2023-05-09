@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
 
 const Advices = () => {
 
@@ -26,18 +27,26 @@ const Advices = () => {
 
     const [query, setQuery] = useState({
         filter: '',
-        sort: ''
+        sort: '',
+        order: ''
     })
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
+    const [order, setOrder] = useState('')
 
     const onChange = () => {
         setQuery(() => ({
             filter: { filter },
-            sort: { sort }
+            sort: { sort },
+            order: { order }
         }))
     }
+
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
     const onFilter = e => {
         setFilter(e.target.value)
@@ -47,22 +56,27 @@ const Advices = () => {
         setSort(e.target.value)
     }
 
+    const onOrder = e => {
+        setOrder(e.target.value)
+    }
+
     useEffect(() => {
         const getAdvices = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/advices", {
                     params: {
                         'category': `${filter}`,
-                        'sortField': `${sort}`,
-                        'page' : `${1}`
+                        'sort': `${sort}`,
+                        'page': `${1}`,
+                        'order': `${order}`
                     },
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 })
 
-                setTotalPages(response.totalPages)
-                setCurrentPage(response.currentPage)
+                setTotalPages(response.data.totalPages)
+                setCurrentPage(response.data.currentPage)
                 setAdvice(response.data.advices)
             }
             catch (err) {
@@ -72,7 +86,7 @@ const Advices = () => {
         }
         getAdvices()
 
-    }, [query])
+    }, [query, currentPage])
 
     return (
         <>
@@ -104,12 +118,13 @@ const Advices = () => {
                                     onChange={onSort}
                                 >
                                     <MenuItem value={''}>-</MenuItem>
-                                    <MenuItem value={'date'}>Date</MenuItem>
-                                    <MenuItem value={'popularity'}>Popularity</MenuItem>
+                                    <MenuItem value={'date'}>Sort by Date</MenuItem>
+                                    {/* <MenuItem value={'date desc'}>Sort by Date - Descending</MenuItem> */}
+                                    <MenuItem value={'popularity'}>Sort by Popularity</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={2}>
+                        <Grid item xs={12} sm={6} md={1}>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -118,6 +133,34 @@ const Advices = () => {
                                 onClick={onChange}
                             >
                                 Sort
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={2}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Order by *</InputLabel>
+                                <Select
+                                    labelId=''
+                                    name='order'
+                                    id="order"
+                                    value={order}
+                                    label="order by"
+                                    onChange={onOrder}
+                                >
+                                    <MenuItem value={''}>-</MenuItem>
+                                    <MenuItem value={'asc'}>Ascending</MenuItem>
+                                    <MenuItem value={'desc'}>Descending</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={1}>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{ mt: 0, mb: -2 }}
+                                color='secondary'
+                                onClick={onChange}
+                            >
+                                Order
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={2}>
@@ -136,6 +179,8 @@ const Advices = () => {
                                     <MenuItem value={'BSCS'}>BSCS</MenuItem>
                                     <MenuItem value={'BBA'}>BBA</MenuItem>
                                     <MenuItem value={'SSLA'}>SSLA</MenuItem>
+                                    <MenuItem value={'BSAF'}>BSAF</MenuItem>
+                                    <MenuItem value={'BSS'}>BSS</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -171,6 +216,9 @@ const Advices = () => {
                 </>
 
             }
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
+                <Pagination className="mt-1 mb-1" count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
+            </div>
         </>
     )
 }

@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
 
 const Alumni = () => {
 
@@ -27,30 +28,48 @@ const Alumni = () => {
 
     const [query, setQuery] = useState({
         filter: '',
-        search: ''
+        search: '',
+        sort: ''
     })
 
-    const { filter, search } = query
+    const [filter, setFilter] = useState('')
+    const [sort, setSort] = useState('')
+    const [search, setSearch] = useState('')
 
-    const onChange = e => {
-        setQuery((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
+    const onChange = () => {
+        setQuery(() => ({
+            filter: { filter },
+            sort: { sort },
+            search: { search }
         }))
     }
 
-    const onSearch = e => {
-        //axios.get(search)
-    }
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
     const onFilter = e => {
+        setFilter(e.target.value)
+    }
 
+    const onSort = e => {
+        setSort(e.target.value)
+    }
+
+    const onSearch = e => {
+        setSearch(e.target.value)
     }
 
     useEffect(() => {
         const getAlumni = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/alumni", {
+                    params: {
+                        'category': `${filter}`,
+                        'sort': `${sort}`,
+                        'page': `${currentPage}`,
+                        // 'search': `${search}`
+                    },
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -59,6 +78,7 @@ const Alumni = () => {
                 setTotalPages(response.data.totalPages)
                 setCurrentPage(response.data.currentPage)
                 setAlumnus(response.data.alumni)
+                console.log('totalpages = ' + response.data.totalPages + 'currentpage = ' + response.data.currentPage)
             }
             catch (err) {
                 console.log(err.response.data.error)
@@ -66,7 +86,7 @@ const Alumni = () => {
         }
         getAlumni()
 
-    }, [filter, search])
+    }, [query, currentPage, filter, sort])
 
     return (
         <>
@@ -86,30 +106,30 @@ const Alumni = () => {
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} sm={6} lg={4}>
+                        <Grid item xs={12} sm={6} lg={3}>
                             <TextField
                                 name="search"
                                 required
                                 fullWidth
                                 id="search"
                                 label=""
-                                onChange={onChange}
+                                onChange={onSearch}
                                 value={search}
                                 placeholder='Search Alumni by full name...'
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={2}>
+                        <Grid item xs={12} sm={6} md={2} lg={3}>
                             <Button
                                 type="submit"
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
-                                onClick={onSearch}
+                                onClick={onChange}
                             >
                                 Search
                             </Button>
                         </Grid>
-                        <Grid item xs={12} sm={2}>
+                        <Grid item xs={12} sm={6} lg={2}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">filter by degree</InputLabel>
                                 <Select
@@ -118,26 +138,57 @@ const Alumni = () => {
                                     id="filter"
                                     value={filter}
                                     label="filter by degree"
-                                    onChange={onChange}
+                                    onChange={onFilter}
                                 >
+                                    <MenuItem value={''}>-</MenuItem>
                                     <MenuItem value={'General'}>General</MenuItem>
                                     <MenuItem value={'BSCS'}>BSCS</MenuItem>
                                     <MenuItem value={'BBA'}>BBA</MenuItem>
                                     <MenuItem value={'SSLA'}>SSLA</MenuItem>
+                                    <MenuItem value={'BSAF'}>BSAF</MenuItem>
+                                    <MenuItem value={'BSS'}>BSS</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={2}>
+                        {/* <Grid item xs={12} sm={6} md={2} lg={1}>
                             <Button
                                 type="submit"
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
-                                onClick={onFilter}
+                                onClick={onChange}
                             >
                                 Filter
                             </Button>
+                        </Grid> */}
+                        <Grid item xs={12} sm={6} lg={2}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Sort by Graduation</InputLabel>
+                                <Select
+                                    labelId='demo-simple-select-label'
+                                    name='sort'
+                                    id="sort"
+                                    value={sort}
+                                    label="Sort by Graduation"
+                                    onChange={onSort}
+                                >
+                                    <MenuItem value={''}>-</MenuItem>
+                                    <MenuItem value={'grad asc'}>Ascending</MenuItem>
+                                    <MenuItem value={'grad desc'}>Dscending</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
+                        {/* <Grid item xs={12} sm={6} md={2} lg={1}>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{ mt: 0, mb: -2 }}
+                                color='secondary'
+                                onClick={onChange}
+                            >
+                                Sort
+                            </Button>
+                        </Grid> */}
                     </Grid>
 
                 </Paper>
@@ -148,6 +199,9 @@ const Alumni = () => {
                     <Alumnus key={profile.id} props={profile} />
                 ))
             }
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
+                <Pagination className="mt-1 mb-1" count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
+            </div>
         </>
     )
 }

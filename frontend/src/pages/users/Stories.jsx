@@ -16,29 +16,43 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const Stories = () => {
 
     const token = localStorage.getItem('jwt');
 
     const [totalPages, setTotalPages] = useState('')
-    const [currentPage, setCurrentPage] = useState('')
+    const [currentPage, setCurrentPage] = useState(1)
     const [story, setStory] = useState([])
 
     const [query, setQuery] = useState({
-        sort: ''
+        sort: '',
+        order: '',
     })
 
     const [sort, setSort] = useState('')
+    const [order, setOrder] = useState('')
 
-    const onChange = e => {
+    const onChange = () => {
         setQuery(() => ({
-            sort: { sort }
+            sort: { sort },
+            order: { order }
         }))
     }
 
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+        console.log("value = " + value + " current page = " + currentPage)
+    };
+
     const onSort = e => {
         setSort(e.target.value)
+    }
+
+    const onOrder = e => {      
+        setOrder(e.target.value)
     }
 
     useEffect(() => {
@@ -46,18 +60,18 @@ const Stories = () => {
             try {
                 const response = await axios.get("http://localhost:5000/stories", {
                     params: {
-                        'sortField': `${sort}`,
-                        'page': `${1}`
+                        'sort': `${sort}`,
+                        'order': `${order}`,
+                        'page': `${currentPage}`
                     },
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 })
 
-                setTotalPages(response.totalPages)
-                setCurrentPage(response.currentPage)
+                setTotalPages(response.data.totalPages)
+                setCurrentPage(response.data.currentPage)
                 setStory(response.data.stories)
-                //console.log(response.data)
             }
             catch (err) {
                 //console.log(err.response.data.error)
@@ -66,10 +80,10 @@ const Stories = () => {
         }
         getStories()
 
-    }, [query])
+    }, [query, currentPage])
 
     return (
-        <>
+        < div style={{ width: '100%', height: '100%', backgroundColor: '' }}>
             <Box sx={{
                 marginTop: 4,
                 display: 'flex',
@@ -98,8 +112,8 @@ const Stories = () => {
                                     onChange={onSort}
                                 >
                                     <MenuItem value={''}>-</MenuItem>
-                                    <MenuItem value={'date'}>Date</MenuItem>
-                                    <MenuItem value={'popularity'}>Popularity</MenuItem>
+                                    <MenuItem value={'date'}>Sort by Date</MenuItem>
+                                    <MenuItem value={'popularity'}>Sort by Popularity</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -111,49 +125,58 @@ const Stories = () => {
                                 color='secondary'
                                 onClick={onChange}
                             >
-                                Search
+                                Sort
                             </Button>
                         </Grid>
-                        <Grid item xs={12} sm={2}>
-                            {/* <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Filter *</InputLabel>
+                        <Grid item xs={12} sm={6} md={2}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Order by *</InputLabel>
                                 <Select
-                                    labelId='demo-simple-select-label'
-                                    name='filter'
-                                    id="filter"
-                                    value={filter}
-                                    label="filter"
-                                    onChange={onChange}
+                                    labelId=''
+                                    name='order'
+                                    id="order"
+                                    value={order}
+                                    label="order by"
+                                    onChange={onOrder}
                                 >
-                                    <MenuItem value={'General'}>General</MenuItem>
-                                    <MenuItem value={'BSCS'}>BSCS</MenuItem>
-                                    <MenuItem value={'BBA'}>BBA</MenuItem>
-                                    <MenuItem value={'SSLA'}>SSLA</MenuItem>
+                                    <MenuItem value={''}>-</MenuItem>
+                                    <MenuItem value={'asc'}>Ascending</MenuItem>
+                                    <MenuItem value={'desc'}>Descending</MenuItem>
                                 </Select>
-                            </FormControl> */}
+                            </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={2}>
-                            {/* <Button
+                        <Grid item xs={12} sm={6} md={1}>
+                            <Button
                                 type="submit"
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
                                 onClick={onChange}
                             >
-                                Filter
-                            </Button> */}
+                                Order
+                            </Button>
                         </Grid>
                     </Grid>
 
                 </Paper>
 
-            </Box>
+            </Box >
             {
                 story.map((sto) => (
                     <Story key={sto._id} props={sto} />
                 ))
             }
-        </>
+            {/* <Stack spacing={0}
+                // sx={{ position: 'relative', ml: 72, mt: 5, mb: 2 }}
+            > */}
+
+                {/* <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" /> */}
+
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
+                    <Pagination className="mt-1 mb-0" count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
+                </div>
+            {/* </Stack> */}
+        </div>
     )
 }
 

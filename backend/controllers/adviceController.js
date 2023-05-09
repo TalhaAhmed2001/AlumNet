@@ -14,13 +14,15 @@ const getAllAdvices = async (req, res, next) => {
   }
 
   let sortCriteria = {};
-  if (sortField === "date") {
+  //console.log("this is sortfiled = " + sortField)
+  if (sortField === "date asc") {
     if (req.query.order === "asc") {
       sortCriteria.date = 1;
     } else {
       sortCriteria.date = -1;
     }
-  } else if (sortField === "popularity") {
+  }
+  else if (sortField === "popularity") {
     sortCriteria.popularity = -1;
   }
 
@@ -83,7 +85,7 @@ const getAdviceById = async (req, res, next) => {
 const createAdvices = async (req, res, next) => {
 
   const advices = new Advice({
-    ERP: req.userData.ERP,
+    ERP: req.userData.userERP,
     title: req.body.title,
     content: req.body.content,
     Name: req.userData.userName,

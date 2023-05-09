@@ -136,9 +136,31 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
     const curr_page = req.query.page || 1
     const page_size = 5
     const page = curr_page - 1 || 0
-
     const offset = page_size * page
+    const degree = req.query.category
+    const sort = req.query.sort
 
+    let degree_query;
+    let grad_query;
+
+    if (degree != '') {
+        degree_query = `WHERE degree = '${degree}'`
+    }
+    else {
+        degree_query = ''
+    }
+
+    if (sort === 'grad asc') {
+        grad_query = "graduation asc,"
+    }
+    else if (sort === 'grad desc') {
+        grad_query = "graduation desc,"
+    }
+    else {
+        grad_query = ''
+    }
+
+    console.log(degree_query)
     let count
 
     try {
@@ -146,13 +168,19 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
         const request = pool.request()
 
         let result = await request
-            .query(`SELECT COUNT(*) FROM alumni_profile`)
+            .query(`SELECT COUNT(*) AS count FROM alumni_profile`)
 
-        count = result.recordset[0]
+        count = result.recordset[0].count
+        console.log('count' + count)
+        count = Math.ceil(count / page_size)
 
         result = await request
-            .query(`SELECT * FROM alumni_profile ORDER BY id OFFSET ${offset} ROWS FETCH NEXT ${page_size} ROWS ONLY;`)
-        //.query('SELECT * FROM alumni_profile')
+            .query(`SELECT * FROM alumni_profile 
+            ${degree_query}
+            ORDER BY 
+            ${grad_query}
+            id asc OFFSET ${offset} ROWS FETCH NEXT ${page_size} ROWS ONLY;`)
+        //.query(`SELECT * FROM alumni_profile ORDER BY id OFFSET ${offset} ROWS FETCH NEXT ${page_size} ROWS ONLY;`)
 
         const alumni = result.recordset
 
@@ -164,7 +192,7 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 })

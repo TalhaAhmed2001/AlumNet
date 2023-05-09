@@ -211,7 +211,7 @@ const validateJobDesc = (req, res, next) => {
 
 const validateAdvices = (req, res, next) => {
   const advicesSchema = Joi.object({
-    category: Joi.valid('BSCS', 'BSS', 'BSAF', 'BBA', 'General')
+    category: Joi.valid('BSCS', 'BSS', 'SSLA', 'BSAF', 'BBA', 'General')
       .required(),
     title: Joi.string()
       .trim()

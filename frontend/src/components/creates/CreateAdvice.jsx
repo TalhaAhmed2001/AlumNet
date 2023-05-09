@@ -62,19 +62,18 @@ const CreateAdvice = () => {
 
             setSeverity('success')
             setText("Advice successfully created!")
-            
+
             setAdvice({
                 category: '',
                 title: '',
                 content: ''
             })
 
-
         }
         catch (err) {
             console.log(err.response.data)
             setSeverity('error')
-            setText(err.response.data)
+            setText(err.response.data.message)
         }
         setOpen(true)
     }
@@ -129,10 +128,13 @@ const CreateAdvice = () => {
                                                 onChange={onChange}
                                                 required
                                             >
+
+                                                <MenuItem value={'General'}>General</MenuItem>
                                                 <MenuItem value={'BSCS'}>BSCS</MenuItem>
                                                 <MenuItem value={'BBA'}>BBA</MenuItem>
                                                 <MenuItem value={'SSLA'}>SSLA</MenuItem>
-                                                <MenuItem value={'General'}>General</MenuItem>
+                                                <MenuItem value={'BSAF'}>BSAF</MenuItem>
+                                                <MenuItem value={'BSS'}>BSS</MenuItem>
 
                                             </Select>
                                         </FormControl>
@@ -158,7 +160,7 @@ const CreateAdvice = () => {
                                             id="outlined-multiline-static"
                                             multiline
                                             rows={4}
-                                            label="Content *"
+                                            label="Content"
                                             name="content"
                                             onChange={onChange}
                                             value={content}
