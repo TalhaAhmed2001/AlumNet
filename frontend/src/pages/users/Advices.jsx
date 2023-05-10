@@ -86,7 +86,7 @@ const Advices = () => {
         }
         getAdvices()
 
-    }, [query, currentPage])
+    }, [token, filter, sort, order, query, currentPage])
 
     return (
         <>
@@ -100,13 +100,13 @@ const Advices = () => {
                     <br />
 
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={3} lg={2}>
+                        <Grid item xs={12} sm={12} md={3} lg={6}>
                             <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
                                 Advices
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} sm={6} md={2}>
+                        <Grid item xs={8} sm={4} md={2}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Sort *</InputLabel>
                                 <Select
@@ -124,7 +124,7 @@ const Advices = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={1}>
+                        {/* <Grid item xs={12} sm={6} md={1}>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -134,8 +134,8 @@ const Advices = () => {
                             >
                                 Sort
                             </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2}>
+                        </Grid> */}
+                        <Grid item xs={8} sm={4} md={2}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Order by *</InputLabel>
                                 <Select
@@ -152,7 +152,7 @@ const Advices = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={1}>
+                        {/* <Grid item xs={12} sm={6} md={1}>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -162,8 +162,8 @@ const Advices = () => {
                             >
                                 Order
                             </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={2}>
+                        </Grid> */}
+                        <Grid item xs={8} sm={4} md={2}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Filter *</InputLabel>
                                 <Select
@@ -184,7 +184,7 @@ const Advices = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={2}>
+                        {/* <Grid item xs={12} sm={2}>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -194,15 +194,17 @@ const Advices = () => {
                             >
                                 Filter
                             </Button>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
 
                 </Paper>
 
             </Box>
-            {advice.length != 0 ?
+            {advice.length !== 0 ?
                 advice.map((adv) => (
+
                     <Advice key={adv._id} props={adv} />
+
                 ))
                 :
                 <>

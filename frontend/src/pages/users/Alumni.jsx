@@ -106,7 +106,7 @@ const Alumni = () => {
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6} lg={4}>
                             <TextField
                                 name="search"
                                 required
@@ -118,13 +118,15 @@ const Alumni = () => {
                                 placeholder='Search Alumni by full name...'
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={2} lg={4}>
+                        <Grid item xs={12} sm={6} md={2} lg={2}>
                             <Button
                                 type="submit"
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
                                 onClick={onChange}
+                                size="large"
+                                fullWidth
                             >
                                 Search
                             </Button>
@@ -141,7 +143,6 @@ const Alumni = () => {
                                     onChange={onFilter}
                                 >
                                     <MenuItem value={''}>-</MenuItem>
-                                    <MenuItem value={'General'}>General</MenuItem>
                                     <MenuItem value={'BSCS'}>BSCS</MenuItem>
                                     <MenuItem value={'BBA'}>BBA</MenuItem>
                                     <MenuItem value={'SSLA'}>SSLA</MenuItem>

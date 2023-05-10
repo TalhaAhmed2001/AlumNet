@@ -13,7 +13,6 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import axios from 'axios'
@@ -113,7 +112,7 @@ const UpdateAlumnus = () => {
             }
         }
         // getAdvices()
-    }, [token])
+    }, [pid])
 
     useEffect(() => {
         const getStories = async () => {
@@ -135,12 +134,12 @@ const UpdateAlumnus = () => {
             }
         }
         // getStories()
-    }, [token])
+    }, [pid])
 
     useEffect(() => {
         const getJobs = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/alumni/jobs", {
+                const response = await axios.get("http://localhost:5000/alumni/jobs" + pid, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -159,7 +158,7 @@ const UpdateAlumnus = () => {
             }
         }
         getJobs()
-    }, [token])
+    }, [pid])
 
     return (
         <>
@@ -250,7 +249,7 @@ const UpdateAlumnus = () => {
                                     </>
                                     :
                                     <>
-                                        <AddJob 
+                                        <AddJob
                                         // props={profile.id} 
                                         />
                                         <br />

@@ -94,13 +94,13 @@ const Stories = () => {
                     <br />
 
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={3} lg={2}>
+                        <Grid item xs={12} sm={12} md={4} lg={8}>
                             <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
                                 Stories
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} sm={6} md={2}>
+                        <Grid item xs={8} sm={4} md={2}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Sort *</InputLabel>
                                 <Select
@@ -117,7 +117,7 @@ const Stories = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={2}>
+                        {/* <Grid item xs={12} sm={6} md={2}>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -127,8 +127,8 @@ const Stories = () => {
                             >
                                 Sort
                             </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2}>
+                        </Grid> */}
+                        <Grid item xs={8} sm={4} md={2}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Order by *</InputLabel>
                                 <Select
@@ -145,7 +145,7 @@ const Stories = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={1}>
+                        {/* <Grid item xs={12} sm={6} md={1}>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -155,7 +155,7 @@ const Stories = () => {
                             >
                                 Order
                             </Button>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
 
                 </Paper>

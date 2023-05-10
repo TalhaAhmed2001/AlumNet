@@ -232,8 +232,8 @@ const getAlumniByName = async (req, res) => {
 //GET => 3
 const getAlumnusJobs = async (req, res) => {
 
-    //const id = req.params.pid
-    const id = parseInt(req.userData.userERP)
+    const id = req.params.pid
+    //const id = parseInt(req.userData.userERP)
     console.log("thi is id")
 
     // if (id != token_id){
@@ -252,7 +252,7 @@ const getAlumnusJobs = async (req, res) => {
             res.status(200).json(result.recordset)
         }
         else {
-            res.status(400).json({ message: `Alumnus with id = ${id} deos not exist` })
+            res.status(400).json({ message: `Alumnus with id = ${id} does not exist` })
         }
 
     }

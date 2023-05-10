@@ -2,8 +2,6 @@ import Login from './pages/loggedout/Login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Register from './pages/loggedout/Register';
 
-import Navbar from './components/navbars/Navbar';
-import MyProfile from './pages/users/MyProfile';
 import Home from './pages/users/Home';
 import Create from './pages/users/Create';
 import PendingProfiles from './pages/admin/PendingProfiles';
@@ -12,23 +10,24 @@ import Eradication from './pages/admin/Eradication';
 import Stories from './pages/users/Stories';
 import Advices from './pages/users/Advices';
 import Alumni from './pages/users/Alumni';
-import { useEffect, useState } from 'react';
+// import { useState } from 'react';
 import AdminNavbar from './components/navbars/AdminNavbar';
 import StudentNavbar from './components/navbars/StudentNavbar';
 import AlumnusNavbar from './components/navbars/AlumnusNavbar';
-import UpdateStudentProfile from './components/updates/UpdateStudentProfile';
-import UpdateAlumnusProfile from './components/updates/UpdateAlumnusProfile';
 import UpdateStudent from './components/UpdateStudent';
 import UpdateAlumnus from './components/UpdateAlumnus';
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
+import Alumnus from './pages/users/Alumnus';
 
 function App() {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [userId, setUserId] = useState(localStorage.getItem("user_role"))
-    const [token, setToken] = useState(localStorage.getItem("jwt"))
+    // const [isLoggedIn, setIsLoggedIn] = useState(false)
+    // const [userId, setUserId] = useState(localStorage.getItem("user_role"))
+    // const [token, setToken] = useState(localStorage.getItem("jwt"))
 
+    const token = localStorage.getItem("jwt");
+    const userId = localStorage.getItem("user_role");
     // useEffect(() => {
     //     const token = localStorage.getItem("jwt");
     //     const user_id = localStorage.getItem("user_role")
@@ -73,7 +72,8 @@ function App() {
                                         <Route path='/stories' element={<Stories />} />
                                         <Route path='/advices' element={<Advices />} />
                                         <Route path='/alumni' element={<Alumni />} />
-                                        <Route path='*' element={<><Footer/><NotFound /></>} />
+                                        <Route path='/alumni/:id' element={<Alumnus />} />
+                                        <Route path='*' element={<><Footer /><NotFound /></>} />
                                     </Routes>
                                     <Footer />
                                 </Router>
@@ -87,6 +87,7 @@ function App() {
                                             <Route path='/stories' element={<Stories />} />
                                             <Route path='/advices' element={<Advices />} />
                                             <Route path='/alumni' element={<Alumni />} />
+                                            <Route path='/alumni/:id' element={<Alumnus />} />
                                             <Route path='*' element={<NotFound />} />
                                         </Routes>
                                     </Router>

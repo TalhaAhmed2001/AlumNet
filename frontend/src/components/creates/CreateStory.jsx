@@ -57,6 +57,7 @@ const CreateStory = () => {
                 })
 
             setSeverity('success')
+            console.log(response.data)
             setText("Story successfully created!")
 
             setStory({

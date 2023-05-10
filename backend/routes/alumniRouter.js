@@ -13,11 +13,11 @@ router.post("/", validateAlumnusProfile, createAlumnusProfile)
 router.use(checkAuth);
 
 router.get("/", authPermission("getAlumniProfiles"), getAlumniProfiles)
-//router.get("/:pid", authPermission("getAlumnusProfile"), getAlumnusProfile)
+router.get("/:pid", authPermission("getAlumnusProfile"), getAlumnusProfile)
 //router.get("/:name", authPermission("getAlumniProfiles"), getAlumniByName)
 
 router.put("/:pid", authPermission("updateAlumnusProfile"), validateUpdatedAlumnusProfile, updateAlumnusProfile)
-router.get("/jobs", authPermission("addJob"), getAlumnusJobs)
+router.get("/jobs/:pid", authPermission("addJob"), getAlumnusJobs)
 router.post("/jobs", authPermission("addJob"), validateJobDesc, addJob)
 router.patch("/jobs", authPermission("updateJob"), validateUpdatedJobDesc, updateJob)
 router.delete("/jobs/:jid", authPermission("updateJob"), deleteJob)
