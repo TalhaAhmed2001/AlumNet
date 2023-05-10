@@ -5,10 +5,7 @@ import Grid from '@mui/material/Grid';
 import miru from '../images/miru.jpg'
 import Paper from '@mui/material/Paper';
 
-const Alumnus = ({props}) => {
-
-    const { id, first_name, last_name, sex, graduation, degree, major } = props
-
+const Alumnus = () => {
     return (
         <>
             <br />
@@ -31,7 +28,7 @@ const Alumnus = ({props}) => {
                                 <img src={miru} alt='logo' style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Typography variant='h5' textAlign='left' sx={{ mt: -1,fontWeight: 'bold' }}>
+                                <Typography variant='h5' textAlign='left' sx={{ mt: -1, fontWeight: 'bold' }}>
                                     {first_name}{' '}{last_name}
                                 </Typography>
                                 <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
@@ -55,12 +52,12 @@ const Alumnus = ({props}) => {
                             <Grid item xs={12} sm={12}>
                             </Grid>
                             <Grid item xs={12} sm={12}>
-                                
+
                             </Grid>
                             <Grid item xs={12} sm={12}>
                             </Grid>
                             <Grid item xs={12} sm={12}>
-                                
+
                             </Grid>
 
 

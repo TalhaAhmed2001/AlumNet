@@ -21,6 +21,7 @@ import UpdateAlumnusProfile from './components/updates/UpdateAlumnusProfile';
 import UpdateStudent from './components/UpdateStudent';
 import UpdateAlumnus from './components/UpdateAlumnus';
 import NotFound from './pages/NotFound';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
                                     <Route path='/eradication' element={<Eradication />} />
                                     <Route path='*' element={<NotFound />} />
                                 </Routes>
+                                <Footer />
                             </Router>
                             : userId === '2' ?
                                 <Router>
@@ -71,8 +73,9 @@ function App() {
                                         <Route path='/stories' element={<Stories />} />
                                         <Route path='/advices' element={<Advices />} />
                                         <Route path='/alumni' element={<Alumni />} />
-                                        <Route path='*' element={<NotFound />} />
+                                        <Route path='*' element={<><Footer/><NotFound /></>} />
                                     </Routes>
+                                    <Footer />
                                 </Router>
                                 : userId === '3' ?
                                     <Router>

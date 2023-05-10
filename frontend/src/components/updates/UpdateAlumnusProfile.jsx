@@ -72,7 +72,7 @@ const UpdateAlumnusProfile = ({ props }) => {
         }
         catch (err) {
             setSeverity('error')
-            setText(err.response.data.message)
+            setText(err.response.data.error)
         }
 
         setOpen(true)
@@ -118,6 +118,7 @@ const UpdateAlumnusProfile = ({ props }) => {
                                         label="First Name"
                                         onChange={onChange}
                                         value={first_name}
+                                        disabled
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -129,6 +130,7 @@ const UpdateAlumnusProfile = ({ props }) => {
                                         name="last_name"
                                         onChange={onChange}
                                         value={last_name}
+                                        disabled
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>

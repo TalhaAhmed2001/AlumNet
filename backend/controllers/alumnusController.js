@@ -46,7 +46,7 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        return res.status(400).send(err)
+        return res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 })
@@ -68,11 +68,12 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
             res.status(200).json(result.recordset[0])
         }
         else {
-            res.status(400).json({ error: `Alumnus with id = ${id} deos not exist` })
+            res.status(400).json({ error: `Alumnus with id = ${id} does not exist` })
         }
 
     }
     catch (err) {
+        console.log("error is this")
         console.log(`Error executing query: ${err}`)
         res.status(500).json({ error: `Error executing query: ${err}` })
     }
@@ -82,21 +83,25 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
 //PUT => 3
 const updateAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const id = req.userData.userERP
-    const first_name = req.body.first_name
-    const last_name = req.body.last_name
+    const id = req.params.pid
+    // const first_name = req.body.first_name
+    // const last_name = req.body.last_name
     const sex = req.body.sex
     const degree = req.body.degree
     const major = req.body.major
     const graduation = req.body.graduation
+
+    const token_id = req.userData.userERP
+
+    if (id != token_id) {
+        res.status(400).json({ error: "You are not authorized" })
+    }
 
     try {
 
         const request = pool.request()
 
         await request
-            .input('first_name', first_name)
-            .input('last_name', last_name)
             .input('sex', sex)
             .input('degree', degree)
             .input('major', major)
@@ -125,7 +130,7 @@ const updateAlumnusProfile = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 })
@@ -160,7 +165,7 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
         grad_query = ''
     }
 
-    console.log(degree_query)
+    //console.log(degree_query)
     let count
 
     try {
@@ -171,7 +176,7 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
             .query(`SELECT COUNT(*) AS count FROM alumni_profile`)
 
         count = result.recordset[0].count
-        console.log('count' + count)
+        //console.log('count' + count)
         count = Math.ceil(count / page_size)
 
         result = await request
@@ -201,6 +206,7 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
 const getAlumniByName = async (req, res) => {
 
     const name = req.params.name
+
     try {
 
         const request = pool.request()
@@ -226,7 +232,13 @@ const getAlumniByName = async (req, res) => {
 //GET => 3
 const getAlumnusJobs = async (req, res) => {
 
-    const id = req.params.pid
+    //const id = req.params.pid
+    const id = parseInt(req.userData.userERP)
+    console.log("thi is id")
+
+    // if (id != token_id){
+    //     res.status(400).json({error: "You are not authorized"})
+    // }
 
     try {
 
@@ -246,7 +258,7 @@ const getAlumnusJobs = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 }
@@ -258,7 +270,11 @@ const addJob = asyncHandler(async (req, res) => {
     const employer = req.body.employer
     const role = req.body.role
     const date_start = req.body.date_start
-    const date_end = req.body.date_end
+    let date_end = req.body.date_end
+
+    if (date_end == "" || date_end === undefined) {
+        date_end = null
+    }
 
     console.log(id, "\n", employer, "\n", role, "\n", date_start, "\n", date_end)
 
@@ -268,7 +284,7 @@ const addJob = asyncHandler(async (req, res) => {
 
         const result = await request
             .input('id', sql.Int, id)
-            .input('employer', sql.VarChar(20), id)
+            .input('employer', sql.VarChar(20), employer)
             .input('role', sql.VarChar(20), role)
             .input('date_start', sql.Date, date_start)
             .input('date_end', sql.Date, date_end)
@@ -284,7 +300,7 @@ const addJob = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 })
@@ -292,9 +308,19 @@ const addJob = asyncHandler(async (req, res) => {
 //PUT => 3
 const updateJob = asyncHandler(async (req, res) => {
 
-    const id = req.userData.userERP //from token
+    const token_id = parseInt(req.userData.userERP)
+    const id = req.body.id
+
+    if (id != token_id){
+        res.status(400).json({error: "You are not authorized"})
+    }
+
+
+    const job_id = req.body.job_id
     const date_start = req.body.date_start
     const date_end = req.body.date_end
+    const employer = req.body.employer
+    const role = req.body.role
 
     try {
 
@@ -304,9 +330,15 @@ const updateJob = asyncHandler(async (req, res) => {
             .input('date_end', date_end)
             .input('id', id)
             .input('date_start', date_start)
+            .input('job_id', job_id)
+            .input('employer', employer)
+            .input('role', role)
             .query(`UPDATE job_desc 
-            SET date_end = @date_end
-            WHERE id = @id AND date_start = @date_start`)
+            SET date_end = @date_end,
+            date_start = @date_start,
+            employer = @employer,
+            role = @role
+            WHERE id = @id AND job_id = @job_id`)
 
         // await request
         //     .query(`UPDATE job_desc 
@@ -318,7 +350,7 @@ const updateJob = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 })
@@ -327,19 +359,19 @@ const updateJob = asyncHandler(async (req, res) => {
 const deleteJob = async (req, res) => {
 
     const id = req.userData.userERP //from token
-    const date_start = req.body.date_start
+    const job_id = req.params.jid
 
     try {
 
         const request = pool.request()
 
-        console.log(id, date_start)
+        console.log(id, job_id)
 
         await request
             .input('id', id)
-            .input('date_start', date_start)
+            .input('job_id', job_id)
             .query(`DELETE FROM job_desc 
-            WHERE id = @id AND date_start = @date_start`)
+            WHERE id = @id AND job_id = @job_id`)
         // await request
         //     .query(`DELETE FROM job_desc 
         //             WHERE id = '${id}' AND date_start = '${date_start}'`)
@@ -349,7 +381,7 @@ const deleteJob = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 }

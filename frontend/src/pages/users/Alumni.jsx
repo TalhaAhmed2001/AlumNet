@@ -118,7 +118,7 @@ const Alumni = () => {
                                 placeholder='Search Alumni by full name...'
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={2} lg={3}>
+                        <Grid item xs={12} sm={6} md={2} lg={4}>
                             <Button
                                 type="submit"
                                 variant="contained"

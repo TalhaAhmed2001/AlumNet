@@ -14,18 +14,24 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
-const UpdateJob = ({props}) => {
+const UpdateJob = ({ props }) => {
+
+    const token = localStorage.getItem('jwt');
 
     const [job, setJob] = useState({
-        id: props.id,
+        job_id: parseInt(props.job_id),
+        id: parseInt(props.id),
         employer: props.employer,
         role: props.role,
-        date_start: props.date_start,
-        date_end: props.date_end
+        date_start: new Date(props.date_start).toISOString().slice(0, 10),
+        date_end: props.date_end ? new Date(props.date_end).toISOString().slice(0, 10) : ""
     })
 
-    const { id, employer, role, date_start, date_end } = job;
+    const { job_id, id, employer, role, date_start, date_end } = job;
 
     const onChange = e => {
         setJob((prevState) => ({
@@ -35,15 +41,66 @@ const UpdateJob = ({props}) => {
         )
     }
 
-    const onSubmit = (e) => {
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success')
+    const [text, setText] = useState('')
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const onSubmit = async (e) => {
         e.preventDefault();
-        setJob({
-            id: props.id,
-            employer: props.employer,
-            role: props.role,
-            date_start: props.date_start,
-            date_end: props.date_end
-        })
+        //console.log(e.target)
+
+        try {
+            const response = await axios.patch("http://localhost:5000/alumni/jobs",
+                job,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            )
+
+            setSeverity('success')
+            setText(response.data.message)
+            console.log(response.data.message)
+        }
+        catch (err) {
+            console.log(err.response.data.message)
+            setSeverity('error')
+            setText(err.response.data.error || err.response.data.message)
+        }
+
+        setOpen(true)
+    }
+
+    const deleteJob = async () => {
+        try {
+            const response = await axios.delete("http://localhost:5000/alumni/jobs/" + job.job_id,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            )
+
+            setSeverity('success')
+            setText(response.data.message)
+            console.log(response.data.message)
+        }
+        catch (err) {
+            console.log(err.response.data.message)
+            setSeverity('error')
+            setText(err.response.data.error || err.response.data.message)
+        }
+
+        setOpen(true)
     }
 
     const theme = createTheme();
@@ -60,13 +117,22 @@ const UpdateJob = ({props}) => {
                         alignItems: 'left',
                     }}
                 >
+                    <Snackbar
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        open={open}
+                        onClose={handleClose}
+                        autoHideDuration={5000}>
+                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                            {text}
+                        </Alert>
 
+                    </Snackbar>
 
                     <Paper sx={{ p: 4, }} elevation={4} >
 
-                    <Typography component="h1" variant="h5" textAlign='left'>
-                                Jobs
-                            </Typography>
+                        <Typography component="h1" variant="h5" textAlign='left'>
+                            Jobs
+                        </Typography>
                         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
 
@@ -96,9 +162,8 @@ const UpdateJob = ({props}) => {
                                 </Grid>
                                 <Grid item xs={6} xm={6} />
 
-                                <Grid item sx={12} sm={6} md={6}>
+                                <Grid item sx={12} sm={12} md={4} lg={2}>
                                     <TextField
-                                        disabled
                                         type='date'
                                         id="date_start"
                                         label="Start Date"
@@ -108,7 +173,7 @@ const UpdateJob = ({props}) => {
                                         value={date_start}
                                     />
                                 </Grid>
-                                <Grid item sx={12} sm={6} md={6}>
+                                <Grid item sx={12} sm={12} md={8} lg={10}>
                                     <TextField
                                         type='date'
                                         id="date_end"
@@ -121,7 +186,7 @@ const UpdateJob = ({props}) => {
                                 </Grid>
 
 
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={12} md={4} lg={2}>
 
                                     <Button
                                         type="submit"
@@ -129,26 +194,25 @@ const UpdateJob = ({props}) => {
                                         variant="contained"
                                         sx={{ mt: 0, mb: -2 }}
                                         color='success'
+                                        id="update"
+                                        name='update'
                                     >
                                         Update
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={12} md={4} lg={2}>
 
                                     <Button
-                                        type="submit"
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 0, mb: -2 }}
                                         color='error'
+                                        onClick={() => deleteJob()}
                                     >
                                         Delete
                                     </Button>
                                 </Grid>
                             </Grid>
-
-
-
                         </Box>
                     </Paper>
                 </Box>

@@ -184,6 +184,8 @@ const validateUpdatedStudentProfile = (req, res, next) => {
 
 const validateJobDesc = (req, res, next) => {
   const jobDescSchema = Joi.object({
+    // id: Joi.number()
+    //   .required(),
     employer: Joi.string()
       .trim()
       .min(1)
@@ -197,7 +199,41 @@ const validateJobDesc = (req, res, next) => {
     date_start: Joi.date()
       .required(),
     date_end: Joi.date()
-      .optional()
+      .allow("")
+      .allow(null)
+  })
+
+  const { error } = jobDescSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  next();
+}
+
+const validateUpdatedJobDesc = (req, res, next) => {
+
+  const jobDescSchema = Joi.object({
+    id: Joi.number()
+      .required(),
+    job_id: Joi.number()
+      .required(),
+    employer: Joi.string()
+      .trim()
+      .min(1)
+      .max(20)
+      .required(),
+    role: Joi.string()
+      .trim()
+      .min(1)
+      .max(20)
+      .required(),
+    date_start: Joi.date()
+      .required(),
+    date_end: Joi.date()
+      .allow("")
+      .allow(null)
   })
 
   const { error } = jobDescSchema.validate(req.body);
@@ -281,6 +317,7 @@ module.exports = {
   validateStudentProfile,
   validateUpdatedStudentProfile,
   validateJobDesc,
+  validateUpdatedJobDesc,
   validateAdvices,
   validateStories,
   validateLogin

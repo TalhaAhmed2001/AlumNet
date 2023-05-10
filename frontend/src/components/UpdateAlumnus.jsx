@@ -22,11 +22,11 @@ import Snackbar from '@mui/material/Snackbar';
 
 const UpdateAlumnus = () => {
 
-    const pid = 22767
     const token = localStorage.getItem('jwt');
 
     const [action, setAction] = useState('My Profile')
 
+    const [pid, setPid] = useState('')
     const [advices, setAdvices] = useState([])
     const [stories, setStories] = useState([])
     const [profile, setProfile] = useState({
@@ -81,6 +81,7 @@ const UpdateAlumnus = () => {
 
                 setProfile(response.data)
                 console.log("profile getted")
+                setPid(profile.id)
                 //alert(response.data.id)
             }
             catch (err) {
@@ -90,7 +91,7 @@ const UpdateAlumnus = () => {
                 setOpen(true)
             }
         }
-        getProfile()
+        // getProfile()
     }, [token])
 
     useEffect(() => {
@@ -111,7 +112,7 @@ const UpdateAlumnus = () => {
                 setOpen(true)
             }
         }
-        getAdvices()
+        // getAdvices()
     }, [token])
 
     useEffect(() => {
@@ -133,23 +134,26 @@ const UpdateAlumnus = () => {
                 setOpen(true)
             }
         }
-        getStories()
+        // getStories()
     }, [token])
 
     useEffect(() => {
         const getJobs = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/alumni/jobs/" + pid, {
+                const response = await axios.get("http://localhost:5000/alumni/jobs", {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 })
 
                 setJobs(response.data)
+                console.log("hello wolrd")
+                //console.log(response.data)
             }
             catch (err) {
-                console.log(err.response.data.error)
-                setText(err.response.data.error)
+                console.log("helloe?")
+                console.log(err.response.data.error || err.response.data.message)
+                setText(err.response.data.error || err.response.data.message)
                 setSeverity('error')
                 setOpen(true)
             }
@@ -246,7 +250,9 @@ const UpdateAlumnus = () => {
                                     </>
                                     :
                                     <>
-                                        <AddJob />
+                                        <AddJob 
+                                        // props={profile.id} 
+                                        />
                                         <br />
                                         {jobs.map((job) => (<UpdateJob key={job.job_id} props={job} />))}
                                     </>
