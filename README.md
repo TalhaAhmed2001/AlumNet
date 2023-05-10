@@ -1,7 +1,7 @@
 # AlumNet
-Alumni Tracking System built using MERN stack + MS SQL - 6th semester Web Dev Project
+Alumni Tracking System built using MERN stack + MS SQL - 6th semester Web App Deveelopment Project
 
-# Getting Started with Create React App
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
