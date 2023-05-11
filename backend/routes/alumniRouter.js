@@ -15,7 +15,7 @@ router.use(checkAuth);
 router.get("/", authPermission("getAlumniProfiles"), getAlumniProfiles)
 router.get("/profile", authPermission("getAlumnusProfile"), getAlumnusProfile)
 router.get("/profile/:pid", authPermission("getAlumnusProfile"), getAlumnusProfile)
-//router.get("/:name", authPermission("getAlumniProfiles"), getAlumniByName)
+router.get("/profile_by_name/:name", authPermission("getAlumniProfiles"), getAlumniByName)
 
 router.put("/:pid", authPermission("updateAlumnusProfile"), validateUpdatedAlumnusProfile, updateAlumnusProfile)
 router.get("/jobs", authPermission("addJob"), getAlumnusJobs)

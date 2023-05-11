@@ -173,7 +173,7 @@ const Stories = () => {
                 {/* <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" /> */}
 
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
-                    <Pagination className="mt-1 mb-0" count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
+                    <Pagination className="mt-1 mb-0" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
                 </div>
             {/* </Stack> */}
         </div>

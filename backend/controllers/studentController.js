@@ -41,7 +41,7 @@ const createStudentProfile = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(500).send({ error: `Error executing query: ${err}`})
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 })
@@ -78,7 +78,12 @@ const getStudentProfile = async (req, res) => {
 //PATCH => 2
 const requestPromotion = async (req, res) => {
 
-    const id = req.userData.userERP
+    const id = req.params.sid
+    const token_id = req.userData.userERP
+
+    if (id != token_id) {
+        res.status(400).json({ error: "You are not authorized" })
+    }
 
     try {
 
@@ -93,7 +98,7 @@ const requestPromotion = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(500).send({ error: `Error executing query: ${err}`})
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 }
 
@@ -136,9 +141,7 @@ const updateStudentProfile = async (req, res) => {
             .input('degree', degree)
             .input('id', id)
             .query(`UPDATE student_profile 
-            SET first_name = UPPER(@first_name),
-                last_name = UPPER(@last_name),
-                sex = @sex,
+            SET sex = @sex,
                 degree = UPPER(@degree)
             WHERE id = @id`)
 
@@ -162,13 +165,14 @@ const getPromotion = async (req, res) => {
         const request = pool.request()
 
         const result = await request
+            .input('id', id)
             .query(`SELECT promote FROM student_profile WHERE id = @id`)
 
         res.status(200).json(result.recordset[0])
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(500).send({ error: `Error executing query: ${err}`})
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 }
 

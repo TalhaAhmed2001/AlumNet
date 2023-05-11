@@ -3,16 +3,15 @@ import React, { useState } from 'react'
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import FormControl from '@mui/material/FormControl';
+// import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
@@ -23,7 +22,7 @@ const UpdateJob = ({ props }) => {
     const token = localStorage.getItem('jwt');
 
     const job_num = props.index
-    console.log(props)
+    //console.log(props)
 
     const [job, setJob] = useState({
         job_id: parseInt(props.job_id),
@@ -133,7 +132,7 @@ const UpdateJob = ({ props }) => {
 
                     <Paper sx={{ p: 4, }} elevation={4} >
 
-                        <Typography component="h1" variant="h5" textAlign='left'>
+                        <Typography component="h1" variant="h5" textAlign='left' sx={{ mb: 2 }}>
                             Job {' #' + job_num}
                         </Typography>
                         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>

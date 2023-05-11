@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 const StudentNavbar = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" zIndex='0'>
+            <AppBar position="fixed" zindex='0'>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
 
                     <Link to="/">

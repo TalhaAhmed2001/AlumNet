@@ -2,16 +2,16 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
 
     function Copyright() {
         return (
-            <Typography variant="body2" color="text.secondary" align="center">
+            <Typography variant="body2" color="white" align="center">
                 {'Copyright © '}
-                <Link color="inherit" href="https://mui.com/">
-                    Your Website
+                <Link color="inherit" to="/">
+                    AlumNet
                 </Link>{' '}
                 {new Date().getFullYear()}
                 {'.'}
@@ -19,19 +19,19 @@ const Footer = () => {
         );
     }
 
-    const description = 'worldvbecnawicnawiopdnawiofncqw';
+    const description = 'AlumNet';
     const title = 'hellodwdwad wDWQDWDWQD EWFTBHYNJ YJTR HGER ';
 
     return (
-        <Box component="footer" sx={{ bgcolor: 'blue', py: 6 }}>
+        <Box component="footer" sx={{ bgcolor: 'grey', py: 6 }}>
             <Container maxWidth="lg">
-                <Typography variant="h6" align="center" gutterBottom>
+                <Typography variant="h6" align="center" gutterBottom color='white'>
                     {title}
                 </Typography>
                 <Typography
                     variant="subtitle1"
                     align="center"
-                    color="text.secondary"
+                    color="white"
                     component="p"
                 >
                     {description}

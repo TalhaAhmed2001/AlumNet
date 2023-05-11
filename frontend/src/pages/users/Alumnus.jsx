@@ -9,6 +9,8 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
+import { Link } from 'react-router-dom';
+
 const Alumnus = () => {
 
     const token = localStorage.getItem('jwt');
@@ -39,7 +41,7 @@ const Alumnus = () => {
     useEffect(() => {
         const getProfile = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/alumni/" + id, {
+                const response = await axios.get("http://localhost:5000/alumni/profile/" + id, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -124,7 +126,7 @@ const Alumnus = () => {
     }, [id, token])
 
     return (
-        <>
+        < >
             <br />
             <br />
             <br />
@@ -162,23 +164,23 @@ const Alumnus = () => {
                                 <Typography variant='h5' textAlign='left' sx={{ mt: -1, fontWeight: 'bold' }}>
                                     {profile.first_name}{' '}{profile.last_name}
                                     <Typography variant='body1' textAlign='left' sx={{ mt: 2 }}>
-                                    {'Year of Graduation: '}{graduation}
-                                </Typography>
-                                <Typography variant='body1' textAlign='left' sx={{ mt: 0 }}>
-                                    {'Degree : '}{degree}
-                                </Typography>
-                                <Typography variant='body1' textAlign='left' sx={{ mt: 0 }}>
-                                    {'Major : '}{major}
-                                </Typography>
+                                        {'Year of Graduation: '}{graduation}
+                                    </Typography>
+                                    <Typography variant='body1' textAlign='left' sx={{ mt: 0 }}>
+                                        {'Degree : '}{degree}
+                                    </Typography>
+                                    <Typography variant='body1' textAlign='left' sx={{ mt: 0 }}>
+                                        {'Major : '}{major}
+                                    </Typography>
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6} md = {4}>
+                            <Grid item xs={12} sm={6} md={4}>
                                 <Typography variant='h6' textAlign='right' sx={{ mt: 0 }}>
                                     {id}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6} md = {4}>
-                                
+                            <Grid item xs={12} sm={6} md={4}>
+
 
                             </Grid>
 
@@ -250,8 +252,8 @@ const Alumnus = () => {
                         </Grid>
 
                     </Paper>
-                </Box>
-            </Container>
+                </Box >
+            </Container >
         </>
     )
 }

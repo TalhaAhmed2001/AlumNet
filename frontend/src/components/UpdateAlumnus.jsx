@@ -79,7 +79,8 @@ const UpdateAlumnus = () => {
                 })
 
                 setProfile(response.data)
-                console.log("profile getted")
+                //console.log("profile getted")
+                console.log(profile.sex)
                 setPid(profile.id)
                 //alert(response.data.id)
             }
@@ -124,7 +125,7 @@ const UpdateAlumnus = () => {
                 })
 
                 setStories(response.data.stories)
-                console.log(stories)
+                //console.log(stories)
             }
             catch (err) {
                 console.log(err.response.data.error)
@@ -146,8 +147,8 @@ const UpdateAlumnus = () => {
                 })
 
                 setJobs(response.data)
-                console.log("hello wolrd")
-                console.log(response.data[0])
+                //console.log("hello wolrd")
+                //console.log(response.data[0])
             }
             catch (err) {
                 console.log("helloe?")
@@ -241,11 +242,19 @@ const UpdateAlumnus = () => {
                             </>
                             : action === 'My Advices' ?
                                 <>
-                                    {advices.map((advice) => (<UpdateAdvice key={advice._id} props={advice} />))}
+                                    {advices.map((advice,index) => {
+                                        let obj = advice
+                                        obj.index = index + 1
+                                        return (<UpdateAdvice key={advice._id} props={obj} />)
+                                    })}
                                 </>
                                 : action === 'My Stories' ?
                                     <>
-                                        {stories.map((story) => (<UpdateStory key={story._id} props={story} />))}
+                                        {stories.map((story, index) => {
+                                            let obj = story
+                                            obj.index = index + 1
+                                            return (<UpdateStory key={story._id} props={obj} />)
+                                        })}
                                     </>
                                     :
                                     <>
@@ -254,12 +263,10 @@ const UpdateAlumnus = () => {
                                         />
                                         <br />
                                         {jobs.map((job, index) => {
-                                            console.log(index)
+                                            //console.log(index)
                                             let obj = job
                                             obj.index = index + 1
-                                            return (<UpdateJob
-                                                key={job.job_id}
-                                                props={obj} />)
+                                            return (<UpdateJob key={job.job_id} props={obj} />)
                                         })}
                                     </>
                         }

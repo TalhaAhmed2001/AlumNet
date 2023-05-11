@@ -112,7 +112,7 @@ const AddJob = () => {
 
                     <Paper sx={{ p: 4, }} elevation={4} >
 
-                        <Typography component="h1" variant="h5" textAlign='left'>
+                        <Typography component="h1" variant="h5" textAlign='left' sx={{ mb: 2 }}>
                             Add
                         </Typography>
                         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>

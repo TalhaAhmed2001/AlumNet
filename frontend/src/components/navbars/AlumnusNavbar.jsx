@@ -12,14 +12,14 @@ const AlumnusNavbar = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" zindex='0'>
+            <AppBar position="fixed" >
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
-                    
+
                     <Link to="/">
                         <img src={AlumNet} alt="logo" height='60vmin' component={Link} href='/' />
 
                     </Link>
-                    
+
                     <>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
                             <Button sx={{ my: 2, color: 'white', display: 'block', ml: 4 }} component={Link} to='/alumni'>

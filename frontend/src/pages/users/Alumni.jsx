@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../../components/navbars/Navbar'
 import Alumnus from '../../components/Alumnus'
 
+import { Link } from 'react-router-dom';
 import { Box, Paper, Typography } from '@mui/material'
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -50,10 +50,12 @@ const Alumni = () => {
 
     const onFilter = e => {
         setFilter(e.target.value)
+        setSearch('')
     }
 
     const onSort = e => {
         setSort(e.target.value)
+        setSearch('')
     }
 
     const onSearch = e => {
@@ -86,7 +88,25 @@ const Alumni = () => {
         }
         getAlumni()
 
-    }, [query, currentPage, filter, sort])
+    }, [currentPage, filter, sort])
+
+    const onSubmit = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/alumni/profile_by_name/" + search, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            //setTotalPages(response.data.totalPages)
+            //setCurrentPage(response.data.currentPage)
+            setAlumnus(response.data)
+            //console.log('totalpages = ' + response.data.totalPages + 'currentpage = ' + response.data.currentPage)
+        }
+        catch (err) {
+            console.log(err.response.data.error)
+        }
+    }
 
     return (
         <>
@@ -124,7 +144,7 @@ const Alumni = () => {
                                 variant="contained"
                                 sx={{ mt: 0, mb: -2 }}
                                 color='secondary'
-                                onClick={onChange}
+                                onClick={onSubmit}
                                 size="large"
                                 fullWidth
                             >
@@ -175,7 +195,7 @@ const Alumni = () => {
                                 >
                                     <MenuItem value={''}>-</MenuItem>
                                     <MenuItem value={'grad asc'}>Ascending</MenuItem>
-                                    <MenuItem value={'grad desc'}>Dscending</MenuItem>
+                                    <MenuItem value={'grad desc'}>Descending</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -197,11 +217,14 @@ const Alumni = () => {
             </Box>
             {
                 alumnus.map((profile) => (
-                    <Alumnus key={profile.id} props={profile} />
+                    <Link to={`/alumni/${profile.id}`} style={{textDecoration : 'none'}} key={profile.id} >
+
+                        <Alumnus key={profile.id} props={profile} />
+                    </Link >
                 ))
             }
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
-                <Pagination className="mt-1 mb-1" count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
+                <Pagination className="mt-1 mb-1" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
             </div>
         </>
     )

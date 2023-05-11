@@ -43,19 +43,19 @@ const getAllAdvices = async (req, res, next) => {
 
 const getAdvices = async (req, res, next) => {
 
-    const pid = req.params.pid
+    const ERP = req.params.ERP
     const token_id = req.userData.userERP
 
-    console.log('pid = ' + pid)
+    console.log('ERP = ' + ERP)
     console.log('token_id = ' + token_id)
 
     let userERP;
 
-    if (pid === undefined) {
+    if (ERP === undefined) {
         userERP = token_id
     }
     else {
-        userERP = pid
+        userERP = ERP
     }
 
     //const userERP = req.params.ERP;

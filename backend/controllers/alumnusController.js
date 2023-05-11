@@ -227,17 +227,18 @@ const getAlumniByName = async (req, res) => {
         let result = await request
             .input('name', name)
             .query(`SELECT * FROM alumni_profile 
-            WHERE CONCAT(first_name, ' ', last_name) = @name`)
+            WHERE CONCAT(first_name, ' ', last_name) = UPPER(@name)`)
 
         // let result = await request
         //     .query(`SELECT * FROM alumni_profile 
         //                 WHERE CONCAT(first_name, ' ', last_name) = '${name}'`)
 
+        console.log(result.recordset)
         res.status(200).json(result.recordset)
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 
 }

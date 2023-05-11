@@ -61,7 +61,7 @@ function App() {
                                     <Route path='/eradication' element={<Eradication />} />
                                     <Route path='*' element={<NotFound />} />
                                 </Routes>
-                                <Footer />
+                                {/* <Footer /> */}
                             </Router>
                             : userId === '2' ?
                                 <Router>
@@ -75,7 +75,7 @@ function App() {
                                         <Route path='/alumni/:id' element={<Alumnus />} />
                                         <Route path='*' element={<><Footer /><NotFound /></>} />
                                     </Routes>
-                                    <Footer />
+                                    {/* <Footer /> */}
                                 </Router>
                                 : userId === '3' ?
                                     <Router>

@@ -27,12 +27,12 @@ const UpdateStudent = () => {
     const token = localStorage.getItem('jwt')
 
     //const sid = 10000
-    const [action, setAction] = useState('My Profile')
+    const [action, setAction] = useState('Personal Info')
 
     const [profile, setProfile] = useState({})
 
     const setProfileAction = () => {
-        setAction('My Profile')
+        setAction('Personal Info')
     }
 
     const drawerWidth = 250;
@@ -112,7 +112,7 @@ const UpdateStudent = () => {
                         <List>
                             <Divider />
                             <ListItemButton onClick={setProfileAction}>
-                                <ListItemText primary='Profile' />
+                                <ListItemText primary='Personal Info' />
                             </ListItemButton>
                             <Divider />
 

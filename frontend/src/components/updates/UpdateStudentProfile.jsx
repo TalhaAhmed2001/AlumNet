@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -29,6 +28,8 @@ const UpdateStudentProfile = ({ props }) => {
         sex: props.sex,
         degree: props.degree,
     })
+
+    const [requested, setRequested] = useState(false)
 
     const { first_name, last_name, id, sex, degree } = profile;
 
@@ -77,6 +78,56 @@ const UpdateStudentProfile = ({ props }) => {
 
     const theme = createTheme();
 
+    useEffect(() => {
+        const getPromotion = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/student/promotion",
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+
+                //console.log(response.data.promote)
+                if (response.data.promote === 'true') {
+                    setRequested(true)
+                }
+            }
+            catch (err) {
+                setSeverity('error')
+                setText(err.response.error || err.response.data.message)
+                setOpen(true)
+            }
+
+
+        }
+        getPromotion()
+    }, [token])
+
+    const request = async () => {
+
+        try {
+            const response = await axios.patch("http://localhost:5000/student/" + profile.id,
+                null,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+            console.log(response.data)
+            setSeverity('success')
+            setText(response.data.message)
+            //setRequested(false)
+        }
+        catch (err) {
+            setSeverity('error')
+            setText(err.response.error || err.response.data.message)
+        }
+
+        setOpen(true)
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="m">
@@ -115,6 +166,7 @@ const UpdateStudentProfile = ({ props }) => {
                                         label="First Name"
                                         onChange={onChange}
                                         value={first_name}
+                                        disabled
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -126,6 +178,7 @@ const UpdateStudentProfile = ({ props }) => {
                                         name="last_name"
                                         onChange={onChange}
                                         value={last_name}
+                                        disabled
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -175,7 +228,7 @@ const UpdateStudentProfile = ({ props }) => {
 
                                 <Grid item xs={12} sm={6} />
 
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={6} md={4} lg={2}>
 
                                     <Button
                                         type="submit"
@@ -193,6 +246,30 @@ const UpdateStudentProfile = ({ props }) => {
 
                         </Box>
                     </Paper>
+
+                    <br />
+                    <br />
+
+                    <Grid container alignItems="center">
+                        <Grid item>
+                            <Button variant='contained' color='secondary' size='large' disabled={requested} onClick={() => request()}>
+                                Request promotion
+                            </Button>
+                        </Grid>
+                        {requested ?
+                            <>
+                                <Grid item xs={0.5}>
+                                </Grid>
+                                <Grid item >
+                                    <Typography variant='subtitle2' color='grey'>
+                                        Waiting for admin approval
+                                    </Typography>
+                                </Grid>
+                            </>
+                            : null}
+
+                    </Grid>
+
                 </Box>
 
             </Container>

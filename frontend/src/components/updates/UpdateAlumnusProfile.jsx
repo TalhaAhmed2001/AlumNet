@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -104,7 +103,7 @@ const UpdateAlumnusProfile = ({ props }) => {
                 >
                     <Paper sx={{ p: 4, }} elevation={5} >
 
-                        <Typography component="h1" variant="h5" textAlign='left'>
+                        <Typography component="h1" variant="h5" textAlign='left' sx={{ mb: 2 }}>
                             Personal Information
                         </Typography>
                         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
@@ -199,7 +198,7 @@ const UpdateAlumnusProfile = ({ props }) => {
                                     />
                                 </Grid>
 
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={6} md={4} lg={2}>
 
                                     <Button
                                         type="submit"

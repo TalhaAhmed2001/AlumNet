@@ -23,6 +23,8 @@ const UpdateStory = ({ props }) => {
 
     const token = localStorage.getItem('jwt');
 
+    const story_num = props.index
+
     const [story, setStory] = useState({
         _id: props._id,
         ERP: props.ERP,
@@ -125,7 +127,9 @@ const UpdateStory = ({ props }) => {
 
                     </Snackbar>
                     <Paper sx={{ p: 4, }} elevation={4} >
-
+                        <Typography component="h1" variant="h5" textAlign='left' sx={{ mb: 2 }}>
+                            Story {' #' + story_num}
+                        </Typography>
                         <Box component="form" onSubmit={updateAdvice} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
 
