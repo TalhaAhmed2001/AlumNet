@@ -12,7 +12,7 @@ router.post('/', validateStudentProfile, createStudentProfile)
 
 router.use(checkAuth);
 
-router.get('/:sid', authPermission("requestPromotion"), getStudentProfile)
+router.get('/', authPermission("requestPromotion"), getStudentProfile)
 router.put('/:sid', authPermission("requestPromotion"), validateUpdatedStudentProfile, updateStudentProfile)
 router.patch('/:sid', authPermission("requestPromotion"), requestPromotion)
 router.get("/promotingstudents", authPermission("promoteStudent"), getPromotingStudents)

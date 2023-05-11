@@ -14,15 +14,19 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
-
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 //import SaveIcon from '@mui/icons-material/Save';
 
-const UpdateStory = ({props}) => {
+const UpdateStory = ({ props }) => {
+
+    const token = localStorage.getItem('jwt');
 
     const [story, setStory] = useState({
         _id: props._id,
         ERP: props.ERP,
-        Name: props.Name,
+        //Name: props.Name,
         title: props.title,
         content: props.content
     })
@@ -37,15 +41,63 @@ const UpdateStory = ({props}) => {
         )
     }
 
-    const onSubmit = (e) => {
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success')
+    const [text, setText] = useState('')
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const updateAdvice = async (e) => {
+
         e.preventDefault();
-        setStory({
-            ERP: props.ERP,
-            Name: props.Name,
-            title: props.title,
-            content: props.content
-        })
+
+        try {
+            const response = await axios.patch("http://localhost:5000/stories/" + _id,
+                story,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+            setSeverity('success')
+            setText('Story successfully updated')
+        }
+        catch (err) {
+            console.log(err.response.data)
+            setSeverity('error')
+            setText(err.response.data.error || err.response.data.message)
+        }
+        setOpen(true)
     }
+
+    const deleteAdvice = async (e) => {
+
+        try {
+            const response = await axios.delete("http://localhost:5000/stories/" + _id, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            setSeverity('success')
+            setText('Story successfully deleted')
+        }
+        catch (err) {
+            console.log(err.response.data.error)
+            setSeverity('error')
+            setText(err.response.data.error || err.response.data.message)
+        }
+        setOpen(true)
+    }
+
+
 
     const theme = createTheme();
 
@@ -62,10 +114,19 @@ const UpdateStory = ({props}) => {
                     }}
                 >
 
+                    <Snackbar
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        open={open}
+                        onClose={handleClose}
+                        autoHideDuration={5000}>
+                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                            {text}
+                        </Alert>
 
+                    </Snackbar>
                     <Paper sx={{ p: 4, }} elevation={4} >
 
-                        <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" onSubmit={updateAdvice} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
 
 
@@ -119,6 +180,7 @@ const UpdateStory = ({props}) => {
                                         variant="contained"
                                         sx={{ mt: 0, mb: -2 }}
                                         color='error'
+                                        onClick={() => deleteAdvice()}
                                     >
                                         Delete
                                     </Button>

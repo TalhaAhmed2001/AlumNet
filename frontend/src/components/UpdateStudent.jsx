@@ -26,7 +26,7 @@ const UpdateStudent = () => {
 
     const token = localStorage.getItem('jwt')
 
-    const sid = 10000
+    //const sid = 10000
     const [action, setAction] = useState('My Profile')
 
     const [profile, setProfile] = useState({})
@@ -52,7 +52,7 @@ const UpdateStudent = () => {
     useEffect(() => {
         const getProfile = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/student/" + sid, {
+                const response = await axios.get("http://localhost:5000/student/", {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

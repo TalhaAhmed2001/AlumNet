@@ -247,6 +247,13 @@ const validateUpdatedJobDesc = (req, res, next) => {
 
 const validateAdvices = (req, res, next) => {
   const advicesSchema = Joi.object({
+    _id: Joi.string()
+      .allow("")
+      .optional()
+      .allow(null),
+      ERP: Joi.number()
+      .optional()
+      .allow(null),
     category: Joi.valid('BSCS', 'BSS', 'SSLA', 'BSAF', 'BBA', 'General')
       .required(),
     title: Joi.string()
@@ -270,6 +277,13 @@ const validateAdvices = (req, res, next) => {
 
 const validateStories = (req, res, next) => {
   const storiesSchema = Joi.object({
+    _id: Joi.string()
+      .allow("")
+      .optional()
+      .allow(null),
+      ERP: Joi.number()
+      .optional()
+      .allow(null),
     title: Joi.string()
       .trim()
       .min(1)

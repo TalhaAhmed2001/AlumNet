@@ -54,7 +54,20 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
 //GET => 3
 const getAlumnusProfile = asyncHandler(async (req, res) => {
 
-    const id = req.params.pid
+    const pid = req.params.pid
+    const token_id = req.userData.userERP
+
+    console.log('pid = ' + pid)
+    console.log('token_id = ' + token_id)
+
+    let id;
+
+    if (pid === undefined) {
+        id = token_id
+    }
+    else {
+        id = pid
+    }
 
     try {
 
@@ -232,13 +245,20 @@ const getAlumniByName = async (req, res) => {
 //GET => 3
 const getAlumnusJobs = async (req, res) => {
 
-    const id = req.params.pid
-    //const id = parseInt(req.userData.userERP)
-    console.log("thi is id")
+    const pid = req.params.pid
+    const token_id = req.userData.userERP
 
-    // if (id != token_id){
-    //     res.status(400).json({error: "You are not authorized"})
-    // }
+    console.log('pid = ' + pid)
+    console.log('token_id = ' + token_id)
+
+    let id;
+
+    if (pid === undefined) {
+        id = token_id
+    }
+    else {
+        id = pid
+    }
 
     try {
 
@@ -311,8 +331,8 @@ const updateJob = asyncHandler(async (req, res) => {
     const token_id = parseInt(req.userData.userERP)
     const id = req.body.id
 
-    if (id != token_id){
-        res.status(400).json({error: "You are not authorized"})
+    if (id != token_id) {
+        res.status(400).json({ error: "You are not authorized" })
     }
 
 

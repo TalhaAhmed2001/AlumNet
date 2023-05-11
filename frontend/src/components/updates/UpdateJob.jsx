@@ -22,6 +22,9 @@ const UpdateJob = ({ props }) => {
 
     const token = localStorage.getItem('jwt');
 
+    const job_num = props.index
+    console.log(props)
+
     const [job, setJob] = useState({
         job_id: parseInt(props.job_id),
         id: parseInt(props.id),
@@ -131,7 +134,7 @@ const UpdateJob = ({ props }) => {
                     <Paper sx={{ p: 4, }} elevation={4} >
 
                         <Typography component="h1" variant="h5" textAlign='left'>
-                            Jobs
+                            Job {' #' + job_num}
                         </Typography>
                         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
@@ -162,7 +165,7 @@ const UpdateJob = ({ props }) => {
                                 </Grid>
                                 <Grid item xs={6} xm={6} />
 
-                                <Grid item sx={12} sm={12} md={4} lg={2}>
+                                <Grid item xs={12} sm={12} md={4} lg={2}>
                                     <TextField
                                         type='date'
                                         id="date_start"
@@ -173,7 +176,7 @@ const UpdateJob = ({ props }) => {
                                         value={date_start}
                                     />
                                 </Grid>
-                                <Grid item sx={12} sm={12} md={8} lg={10}>
+                                <Grid item xs={12} sm={12} md={8} lg={10}>
                                     <TextField
                                         type='date'
                                         id="date_end"

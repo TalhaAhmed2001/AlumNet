@@ -41,14 +41,15 @@ const createStudentProfile = asyncHandler(async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}`})
     }
 
 })
 
 //GET => 2
 const getStudentProfile = async (req, res) => {
-    const id = req.params.sid
+
+    const id = req.userData.userERP
 
     try {
 
@@ -92,7 +93,7 @@ const requestPromotion = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}`})
     }
 }
 
@@ -111,7 +112,7 @@ const getPromotingStudents = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}` })
     }
 }
 
@@ -119,8 +120,8 @@ const getPromotingStudents = async (req, res) => {
 const updateStudentProfile = async (req, res) => {
 
     const id = req.userData.userERP
-    const first_name = req.body.first_name
-    const last_name = req.body.last_name
+    // const first_name = req.body.first_name
+    // const last_name = req.body.last_name
     const sex = req.body.sex
     const degree = req.body.degree
 
@@ -129,8 +130,8 @@ const updateStudentProfile = async (req, res) => {
         const request = pool.request()
 
         await request
-            .input('first_name', first_name)
-            .input('last_name', last_name)
+            // .input('first_name', first_name)
+            // .input('last_name', last_name)
             .input('sex', sex)
             .input('degree', degree)
             .input('id', id)
@@ -146,7 +147,7 @@ const updateStudentProfile = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(500).json({error: `Error executing query: ${err}`})
+        res.status(500).json({ error: `Error executing query: ${err}` })
     }
 
 }
@@ -167,7 +168,7 @@ const getPromotion = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(500).send(err)
+        res.status(500).send({ error: `Error executing query: ${err}`})
     }
 }
 

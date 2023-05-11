@@ -17,7 +17,7 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
-const AddJob = ({props}) => {
+const AddJob = () => {
 
     const token = localStorage.getItem('jwt');
 

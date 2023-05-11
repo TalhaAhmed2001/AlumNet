@@ -25,7 +25,6 @@ const UpdateAdvice = ({ props }) => {
     const [advice, setAdvice] = useState({
         _id: props._id,
         ERP: props.ERP,
-        Name: props.Name,
         category: props.category,
         title: props.title,
         content: props.content
@@ -41,34 +40,60 @@ const UpdateAdvice = ({ props }) => {
         )
     }
 
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success')
+    const [text, setText] = useState('')
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
     const updateAdvice = async (e) => {
 
-        try {
-            const response = await axios.patch("http://localhost:5000/advices/" + _id, {
-                header: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+        e.preventDefault();
 
+        try {
+            const response = await axios.patch("http://localhost:5000/advices/" + _id,
+                advice,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+            setSeverity('success')
+            setText('Advice successfully updated')
         }
         catch (err) {
-
+            console.log(err.response.data)
+            setSeverity('error')
+            setText(err.response.data.error || err.response.data.message)
         }
+        setOpen(true)
     }
 
     const deleteAdvice = async (e) => {
 
         try {
             const response = await axios.delete("http://localhost:5000/advices/" + _id, {
-                header: {
+                headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
 
+            setSeverity('success')
+            setText('Advice successfully deleted')
         }
         catch (err) {
-
+            console.log(err.response.data.error)
+            setSeverity('error')
+            setText(err.response.data.error || err.response.data.message)
         }
+        setOpen(true)
     }
 
 
@@ -88,7 +113,16 @@ const UpdateAdvice = ({ props }) => {
                     }}
                 >
 
+                    <Snackbar
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        open={open}
+                        onClose={handleClose}
+                        autoHideDuration={5000}>
+                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                            {text}
+                        </Alert>
 
+                    </Snackbar>
                     <Paper sx={{ p: 4, }} elevation={4} >
 
                         <Box component="form" onSubmit={updateAdvice} sx={{ mt: 1 }}>
@@ -160,12 +194,11 @@ const UpdateAdvice = ({ props }) => {
                                 <Grid item xs={12} sm={2}>
 
                                     <Button
-                                        type="submit"
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 0, mb: -2 }}
                                         color='error'
-                                        onClick={deleteAdvice}
+                                        onClick={() => deleteAdvice()}
                                     >
                                         Delete
                                     </Button>

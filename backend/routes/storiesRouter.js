@@ -11,7 +11,9 @@ const router = express.Router();
 router.use(checkAuth);
 
 router.get("/", authPermission("getStories"), getAllStories)
-router.get("/:sid", authPermission("getStories"), getStoryById)
+//router.get("/:sid", authPermission("getStories"), getStoryById)
+
+router.get("/alumni", authPermission("getStories"), getStories)
 router.get("/alumni/:ERP", authPermission("getStories"), getStories)
 
 router.post("/", authPermission("createStories"), validateStories, createStories)

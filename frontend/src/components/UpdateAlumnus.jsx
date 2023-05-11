@@ -23,7 +23,7 @@ const UpdateAlumnus = () => {
 
     const token = localStorage.getItem('jwt');
 
-    const [action, setAction] = useState('My Profile')
+    const [action, setAction] = useState('Personal Info')
 
     const [pid, setPid] = useState('')
     const [advices, setAdvices] = useState([])
@@ -40,7 +40,7 @@ const UpdateAlumnus = () => {
     const [jobs, setJobs] = useState([])
 
     const setProfileAction = () => {
-        setAction('My Profile')
+        setAction('Personal Info')
     }
 
     const setAdviceAction = () => {
@@ -72,7 +72,7 @@ const UpdateAlumnus = () => {
     useEffect(() => {
         const getProfile = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/alumni/" + pid, {
+                const response = await axios.get("http://localhost:5000/alumni/profile/", {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -90,13 +90,13 @@ const UpdateAlumnus = () => {
                 setOpen(true)
             }
         }
-        // getProfile()
+        getProfile()
     }, [token])
 
     useEffect(() => {
         const getAdvices = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/advices/alumni/" + pid, {
+                const response = await axios.get("http://localhost:5000/advices/alumni", {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -111,13 +111,13 @@ const UpdateAlumnus = () => {
                 setOpen(true)
             }
         }
-        // getAdvices()
-    }, [pid])
+        getAdvices()
+    }, [])
 
     useEffect(() => {
         const getStories = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/stories/alumni/" + pid, {
+                const response = await axios.get("http://localhost:5000/stories/alumni", {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -133,13 +133,13 @@ const UpdateAlumnus = () => {
                 setOpen(true)
             }
         }
-        // getStories()
-    }, [pid])
+        getStories()
+    }, [])
 
     useEffect(() => {
         const getJobs = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/alumni/jobs" + pid, {
+                const response = await axios.get("http://localhost:5000/alumni/jobs", {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -147,7 +147,7 @@ const UpdateAlumnus = () => {
 
                 setJobs(response.data)
                 console.log("hello wolrd")
-                //console.log(response.data)
+                console.log(response.data[0])
             }
             catch (err) {
                 console.log("helloe?")
@@ -158,7 +158,7 @@ const UpdateAlumnus = () => {
             }
         }
         getJobs()
-    }, [pid])
+    }, [token])
 
     return (
         <>
@@ -233,7 +233,7 @@ const UpdateAlumnus = () => {
 
                         </Snackbar>
                         <Toolbar />
-                        {action === 'My Profile' ?
+                        {action === 'Personal Info' ?
                             <>
                                 <UpdateAlumnusProfile key={profile.id} props={profile} />
 
@@ -253,7 +253,14 @@ const UpdateAlumnus = () => {
                                         // props={profile.id} 
                                         />
                                         <br />
-                                        {jobs.map((job) => (<UpdateJob key={job.job_id} props={job} />))}
+                                        {jobs.map((job, index) => {
+                                            console.log(index)
+                                            let obj = job
+                                            obj.index = index + 1
+                                            return (<UpdateJob
+                                                key={job.job_id}
+                                                props={obj} />)
+                                        })}
                                     </>
                         }
                     </Box>

@@ -35,7 +35,23 @@ const getAllStories = async (req, res, next) => {
 
 //GET // ALL STORIES FOR A SPECIFIC alumni
 const getStories = async (req, res, next) => {
-    const userERP = req.params.ERP;
+
+    const pid = req.params.pid
+    const token_id = req.userData.userERP
+
+    console.log('pid = ' + pid)
+    console.log('token_id = ' + token_id)
+
+    let userERP;
+
+    if (pid === undefined) {
+        userERP = token_id
+    }
+    else {
+        userERP = pid
+    }
+
+    //const userERP = req.params.ERP;
 
     let stories;
     try {
