@@ -16,6 +16,7 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import AddIcon from '@mui/icons-material/Add';
 
 const AddJob = () => {
 
@@ -113,7 +114,7 @@ const AddJob = () => {
                     <Paper sx={{ p: 4, }} elevation={4} >
 
                         <Typography component="h1" variant="h5" textAlign='left' sx={{ mb: 2 }}>
-                            Add
+                            Add Job
                         </Typography>
                         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
@@ -178,7 +179,9 @@ const AddJob = () => {
                                         sx={{ mt: 0, mb: -2 }}
                                         color='secondary'
                                     >
-                                        Add Job
+                                        Add
+                                        <AddIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
 

@@ -15,7 +15,9 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { Fab } from '@mui/material';
 
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 const UpdateAlumnusProfile = ({ props }) => {
 
     const token = localStorage.getItem('jwt')
@@ -208,7 +210,20 @@ const UpdateAlumnusProfile = ({ props }) => {
                                         color='success'
                                     >
                                         Update
+                                        <UpgradeIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
+                                    {/* <Fab
+                                        variant='extended'
+                                        type="submit"
+                                        fullWidth
+                                        // variant="contained"  
+                                        // size='large'
+                                        sx={{ mt: 0, mb: -2, minWidth: 200, maxWidth: 200 }}
+                                        color='success'
+                                    >
+                                        Update
+                                    </Fab> */}
                                 </Grid>
                             </Grid>
 

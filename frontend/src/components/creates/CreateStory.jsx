@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import CreateIcon from '@mui/icons-material/Create';
 
 const CreateStory = () => {
 
@@ -143,7 +144,7 @@ const CreateStory = () => {
                                         />
                                     </Grid>
 
-                                    <Grid item xs={12} sm={2}>
+                                    <Grid item xs={12} sm={2.5}>
 
                                         <Button
                                             type="submit"
@@ -152,7 +153,10 @@ const CreateStory = () => {
                                             sx={{ mt: 0, mb: -2 }}
                                             color='secondary'
                                         >
+                                            
                                             Create
+                                            <CreateIcon sx={{ ml: 1, mr: -1 }} />
+
                                         </Button>
                                     </Grid>
                                 </Grid>

@@ -16,6 +16,8 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 const UpdateJob = ({ props }) => {
 
@@ -200,6 +202,8 @@ const UpdateJob = ({ props }) => {
                                         name='update'
                                     >
                                         Update
+                                        <UpgradeIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={4} lg={2}>
@@ -212,6 +216,8 @@ const UpdateJob = ({ props }) => {
                                         onClick={() => deleteJob()}
                                     >
                                         Delete
+                                        <DeleteOutlineIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
                             </Grid>

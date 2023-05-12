@@ -17,8 +17,12 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+import SaveIcon from '@mui/icons-material/Save'
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
-const UpdateAdvice = ({ props }) => {
+const UpdateAdvice = ({ props, onDelete }) => {
 
     const token = localStorage.getItem('jwt');
 
@@ -89,13 +93,19 @@ const UpdateAdvice = ({ props }) => {
 
             setSeverity('success')
             setText('Advice successfully deleted')
+            setOpen(true)
+            setTimeout(() => {
+                onDelete()
+            },
+                1000);
         }
         catch (err) {
             console.log(err.response.data.error)
             setSeverity('error')
             setText(err.response.data.error || err.response.data.message)
+            setOpen(true)
         }
-        setOpen(true)
+
     }
 
 
@@ -157,7 +167,7 @@ const UpdateAdvice = ({ props }) => {
                                 <Grid item xs={8} sm={8} lg={10} />
 
 
-                                <Grid item xs={6} sm={6}>
+                                <Grid item xs={12} sm={4} md={6}>
                                     <TextField
                                         required
                                         fullWidth
@@ -183,7 +193,7 @@ const UpdateAdvice = ({ props }) => {
                                     />
                                 </Grid>
 
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={12} md={4} lg={2}>
 
                                     <Button
                                         type="submit"
@@ -193,9 +203,11 @@ const UpdateAdvice = ({ props }) => {
                                         color='success'
                                     >
                                         Update
+                                        <SaveAsIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={12} md={4} lg={2}>
 
                                     <Button
                                         fullWidth
@@ -205,6 +217,8 @@ const UpdateAdvice = ({ props }) => {
                                         onClick={() => deleteAdvice()}
                                     >
                                         Delete
+                                        <DeleteOutlineIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
                             </Grid>

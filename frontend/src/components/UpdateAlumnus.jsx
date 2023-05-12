@@ -161,6 +161,17 @@ const UpdateAlumnus = () => {
         getJobs()
     }, [token])
 
+    const onAdviceDelete = async (id) => {
+        setAdvices(prevData => prevData.filter(item => item._id !== id));
+        //console.log('deleted')
+    }
+
+    const onStoryDelete = async (id) => {
+        setStories(prevData => prevData.filter(item => item._id !== id));
+        //console.log('deleted')
+    }
+
+
     return (
         <>
             <Box sx={{ display: 'flex', marginTop: 10 }}>
@@ -242,10 +253,10 @@ const UpdateAlumnus = () => {
                             </>
                             : action === 'My Advices' ?
                                 <>
-                                    {advices.map((advice,index) => {
+                                    {advices.map((advice, index) => {
                                         let obj = advice
                                         obj.index = index + 1
-                                        return (<UpdateAdvice key={advice._id} props={obj} />)
+                                        return (<UpdateAdvice key={advice._id} props={obj} onDelete={() => onAdviceDelete(advice._id)} />)
                                     })}
                                 </>
                                 : action === 'My Stories' ?
@@ -253,7 +264,7 @@ const UpdateAlumnus = () => {
                                         {stories.map((story, index) => {
                                             let obj = story
                                             obj.index = index + 1
-                                            return (<UpdateStory key={story._id} props={obj} />)
+                                            return (<UpdateStory key={story._id} props={obj} onDelete={() => onStoryDelete(story._id)} />)
                                         })}
                                     </>
                                     :

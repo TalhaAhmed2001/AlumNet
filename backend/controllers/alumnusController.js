@@ -121,9 +121,7 @@ const updateAlumnusProfile = asyncHandler(async (req, res) => {
             .input('graduation', graduation)
             .input('id', id)
             .query(`UPDATE alumni_profile 
-            SET first_name = UPPER(@first_name),
-                last_name = UPPER(@last_name),
-                sex = @sex,
+            SET sex = @sex,
                 degree = UPPER(@degree),
                 major = @major,
                 graduation = @graduation

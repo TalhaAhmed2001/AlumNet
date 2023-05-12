@@ -18,8 +18,11 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 //import SaveIcon from '@mui/icons-material/Save';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+import SaveIcon from '@mui/icons-material/Save';
 
-const UpdateStory = ({ props }) => {
+const UpdateStory = ({ props, onDelete }) => {
 
     const token = localStorage.getItem('jwt');
 
@@ -55,7 +58,7 @@ const UpdateStory = ({ props }) => {
         setOpen(false);
     };
 
-    const updateAdvice = async (e) => {
+    const updateStory = async (e) => {
 
         e.preventDefault();
 
@@ -79,7 +82,7 @@ const UpdateStory = ({ props }) => {
         setOpen(true)
     }
 
-    const deleteAdvice = async (e) => {
+    const deleteStory = async (e) => {
 
         try {
             const response = await axios.delete("http://localhost:5000/stories/" + _id, {
@@ -90,13 +93,20 @@ const UpdateStory = ({ props }) => {
 
             setSeverity('success')
             setText('Story successfully deleted')
+            //console.log('in updatestory')
+            setOpen(true)
+            setTimeout(() => {
+                onDelete()
+            },
+                1000);
         }
         catch (err) {
             console.log(err.response.data.error)
             setSeverity('error')
             setText(err.response.data.error || err.response.data.message)
+            setOpen(true)
         }
-        setOpen(true)
+
     }
 
 
@@ -130,7 +140,7 @@ const UpdateStory = ({ props }) => {
                         <Typography component="h1" variant="h5" textAlign='left' sx={{ mb: 2 }}>
                             Story {' #' + story_num}
                         </Typography>
-                        <Box component="form" onSubmit={updateAdvice} sx={{ mt: 1 }}>
+                        <Box component="form" onSubmit={updateStory} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
 
 
@@ -163,7 +173,7 @@ const UpdateStory = ({ props }) => {
                                     />
                                 </Grid>
 
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={12} md={4} lg={2}>
 
                                     <Button
                                         type="submit"
@@ -174,19 +184,22 @@ const UpdateStory = ({ props }) => {
                                     >
                                         {/* <SaveIcon/> */}
                                         Update
+                                        <SaveIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} sm={2}>
+                                <Grid item xs={12} sm={12} md={4} lg={2}>
 
                                     <Button
-                                        type="submit"
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 0, mb: -2 }}
                                         color='error'
-                                        onClick={() => deleteAdvice()}
+                                        onClick={() => deleteStory()}
                                     >
                                         Delete
+                                        <DeleteOutlineIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
                             </Grid>
