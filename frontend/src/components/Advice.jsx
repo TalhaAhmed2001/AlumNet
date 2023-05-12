@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 
 import Paper from '@mui/material/Paper';
 
-const Advice = ({props}) => {
+const Advice = ({ props }) => {
 
     const { ERP, Name, category, title, content } = props
 
@@ -24,7 +24,10 @@ const Advice = ({props}) => {
                         marginBottom: -1
                     }}
                 >
-                    <Paper sx={{ p: 4, }} elevation={4} >
+                    <Paper sx={{
+                        p: 4,
+                        backgroundColor: 'white'
+                    }} elevation={4} >
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12}>
@@ -52,7 +55,7 @@ const Advice = ({props}) => {
                                     {Name}{' '}{ERP}
                                 </Typography>
                             </Grid>
-                            
+
 
                         </Grid>
 

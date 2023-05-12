@@ -15,10 +15,9 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from 'react-router-dom';
+import home from '../../images/AlumNet_home_1.png'
 
 const Login = () => {
-
-    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
         id: '',
@@ -88,7 +87,21 @@ const Login = () => {
 
                     </Snackbar>
                     <CssBaseline />
-                    <br/>
+                    {/* <Grid
+                        item
+                        xs={false}
+                        sm={4}
+                        md={7}
+                        sx={{
+                            backgroundImage: {home},
+                            backgroundRepeat: 'no-repeat',
+                            backgroundColor: (t) =>
+                                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                        }}
+                    /> */}
+                    <br />
                     <Box
                         sx={{
                             marginTop: 4,
@@ -101,8 +114,7 @@ const Login = () => {
                         <Paper sx={{ p: 4, width: 500 }} elevation={5} square>
                             <Box sx={{ marginTop: 0, marginBottom: 1, alignItems: 'center' }}>
                                 <img src={AlumNet2} alt="logo" className="Applogo" width='50%' height='50%' style={{ display: 'block', margin: 'auto' }} />
-                                {/* <Icon alt="logo" className="Applogo"height='10vmin' style={{ display: 'block', margin: 'auto' }}/> */}
-                            </Box>
+                                </Box>
 
                             <Typography component="h1" variant="h5" textAlign='center'>
                                 Sign in

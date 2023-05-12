@@ -27,12 +27,12 @@ const Create = () => {
     };
 
     return (
-        <>
+        <Box sx={{ backgroundColor: 'floralwhite' }}>
             <br />
             <br />
             <br />
 
-            <Box sx={{ width: '100%', bgcolor: 'background.paper', marginBottom:0 }}>
+            <Box sx={{ width: '100%', backgroundColor: 'floralwhite', marginBottom: 0 }}>
                 <Tabs value={value} onChange={handleChange} centered >
                     <Tab label="Advice" onClick={setAdvice} />
                     <Tab label="Story" onClick={setStory} />
@@ -40,21 +40,20 @@ const Create = () => {
 
             </Box>
 
-            {action === 'Create Advice' ?
-                <>
-                    <CreateAdvice />
-                    
-                </>
-                :
-                <CreateStory />}
-            {/* <Box sx={{
-                marginTop: 15,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
+            <Box sx={{
+                backgroundColor: 'floralwhite'
             }}>
-            </Box> */}
-        </>
+                {action === 'Create Advice' ?
+                    <>
+                        <CreateAdvice />
+
+                    </>
+                    :
+                    <CreateStory />}
+
+            </Box>
+            <br />
+        </Box>
     )
 }
 

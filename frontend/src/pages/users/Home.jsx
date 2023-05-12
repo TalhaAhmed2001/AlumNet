@@ -58,12 +58,12 @@ const Home = () => {
                                     letterSpacing: '',
                                     textDecoration: 'none'
                                 }}>
-                                {'AlumNet is an alumni tracking system designed to help educational institutions stay connected with their former students. By providing a platform for alumni to connect with each other and their alma mater, AlumNet fosters a sense of community and belonging that lasts long after graduation.'}
+                                {'AlumNet is an alumni tracking system designed to help educational institutions stay connected with their former students. By providing a platform for alumni to connect with each other and their alma mater, AlumNet fosters a sense of...'}
                             </Typography>
                             <Typography>
 
                                 <a href='#about_us' style={{ color: 'beige' }}>
-                                    Read more
+                                    Continue Reading
                                 </a>
 
                             </Typography>
@@ -105,7 +105,7 @@ const Home = () => {
                                   and contribute to fundraising efforts.
                                    Overall, alumni are a valuable resource for educational institutions and the next generation of students.`}
                             </Typography>
-                            <Button variant='contained' color='inherit' size='large' component={Link} to="/stories">
+                            <Button variant='contained' color='inherit' size='large' component={Link} to="/alumni">
                                 View Alumni
                             </Button>
                         </Grid>

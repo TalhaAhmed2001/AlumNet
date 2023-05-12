@@ -67,7 +67,7 @@ const Advices = () => {
                     params: {
                         'category': `${filter}`,
                         'sort': `${sort}`,
-                        'page': `${1}`,
+                        'page': `${currentPage}`,
                         'order': `${order}`
                     },
                     headers: {
@@ -76,7 +76,7 @@ const Advices = () => {
                 })
 
                 setTotalPages(response.data.totalPages)
-                setCurrentPage(response.data.currentPage)
+                //setCurrentPage(response.data.currentPage)
                 setAdvice(response.data.advices)
             }
             catch (err) {
@@ -96,7 +96,9 @@ const Advices = () => {
                 flexDirection: 'column',
                 alignItems: 'left',
             }}>
-                <Paper sx={{ p: 4, }} elevation={4}>
+                <Paper sx={{
+                    p: 4,
+                }} elevation={4}>
                     <br />
 
                     <Grid container spacing={2}>
@@ -200,6 +202,7 @@ const Advices = () => {
                 </Paper>
 
             </Box>
+            <Box sx={{backgroundColor:'floralwhite'}}>
             {advice.length !== 0 ?
                 advice.map((adv) => (
 
@@ -213,11 +216,12 @@ const Advices = () => {
                     <br />
 
                     <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
-                        No Advices found under {filter}
+                        No Results Found
                     </Typography>
                 </>
 
             }
+            </Box>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
                 <Pagination className="mt-1 mb-1" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
             </div>

@@ -119,7 +119,7 @@ const Alumni = () => {
                 <Paper sx={{ p: 4, }} elevation={4}>
                     <br />
 
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} alignItems='center' >
                         <Grid item xs={12} sm={12} md={3} lg={2}>
                             <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
                                 Alumni
@@ -215,14 +215,26 @@ const Alumni = () => {
                 </Paper>
 
             </Box>
-            {
-                alumnus.map((profile) => (
-                    <Link to={`/alumni/${profile.id}`} style={{textDecoration : 'none'}} key={profile.id} >
+            <Box sx={{ backgroundColor: 'floralwhite' }}>
+                {alumnus.length !== 0 ?
+                    alumnus.map((profile) => (
 
                         <Alumnus key={profile.id} props={profile} />
-                    </Link >
-                ))
-            }
+                        // </Link >
+                    ))
+                    :
+                    <>
+                        <br />
+                        <br />
+                        <br />
+
+                        <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                            No Results Found
+                        </Typography>
+                    </>
+                }
+            </Box>
+
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
                 <Pagination className="mt-1 mb-1" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
             </div>

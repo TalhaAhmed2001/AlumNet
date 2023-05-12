@@ -126,7 +126,9 @@ const Alumnus = () => {
     }, [id, token])
 
     return (
-        < >
+        <Box sx={{
+            backgroundColor: 'floralwhite'
+        }}>
             <br />
             <br />
             <br />
@@ -160,79 +162,116 @@ const Alumnus = () => {
                             <Grid item xs={12} sm={2} md={2}>
                                 <img src={miru} alt='logo' style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }} />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant='h5' textAlign='left' sx={{ mt: -1, fontWeight: 'bold' }}>
-                                    {profile.first_name}{' '}{profile.last_name}
-                                    <Typography variant='body1' textAlign='left' sx={{ mt: 2 }}>
-                                        {'Year of Graduation: '}{graduation}
-                                    </Typography>
-                                    <Typography variant='body1' textAlign='left' sx={{ mt: 0 }}>
-                                        {'Degree : '}{degree}
-                                    </Typography>
-                                    <Typography variant='body1' textAlign='left' sx={{ mt: 0 }}>
-                                        {'Major : '}{major}
-                                    </Typography>
+                            <Grid item xs={12} sm={9}>
+                                <Typography variant='h4' textAlign='left' sx={{ mt: -1, fontWeight: 'bold' }}>
+                                    {first_name}{' '}{last_name}
                                 </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                                <Typography variant='h6' textAlign='right' sx={{ mt: 0 }}>
+                                <Typography variant='h5' textAlign='left' sx={{ mt: 2, fontWeight: '' }}>
                                     {id}
                                 </Typography>
+                                <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
+                                    {'Class of '}{graduation}
+                                </Typography>
+                                <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
+                                    {'Degree : '}{degree}
+                                </Typography>
+                                <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
+                                    {'Major : '}{major}
+                                </Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
+                            {/* <Grid item xs={1}>
+                                <Typography variant='h6' textAlign='right' sx={{ mt: -1 }}>
+                                    {id}
+                                </Typography>
+                            </Grid> */}
 
+                            <Grid item xs={12}>
+                                <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                                    Job list:
+
+                                </Typography>
 
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            {jobs.map((job, index) => {
+                                //console.log(index)
+                                let obj = job
+                                obj.index = index + 1
+                                return (
+                                    // <div key={job.job_id}>
+                                    <>
+                                        <Grid item sm={8} key={job.job_id}>
 
-                            </Grid>
+                                            <Typography variant='h6' textAlign='left'>
+
+                                                {index + 1}. {' '}{job.role}{' at '}{job.employer} {" "}
+
+                                            </Typography>
+
+                                        </Grid>
+                                        <Grid item sm={4}>
+                                            <Typography variant='h6' textAlign='left'>
+
+                                                {new Date(job.date_start).toISOString().slice(0, 10)}{' --- '}{job.date_end ? new Date(job.date_end).toISOString().slice(0, 10) : "          "}
+                                            </Typography>
+                                        </Grid>
+                                    </>
+                                    // </div>
+                                )
+                            })}
 
                             <br />
-                            <br />
+
+                            <Grid item xs={12}>
+                                <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                                    Advices:
+
+                                </Typography>
+                            </Grid>
+
                             {advices.map((advice) => (
                                 <>
                                     <Grid item xs={12} sm={12}>
-                                        <Typography variant='h6' textAlign='left' sx={{ mt: -2 }}>
-                                            {advice.title}
+                                        <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
+                                            Title : {" "}{advice.title}
                                         </Typography>
                                     </Grid>
 
-                                    <Grid item xs={12} sm={6}>
-                                        <Typography variant='body1' textAlign='left' sx={{ mt: -2 }}>
-                                            {advice.category}
+                                    <Grid item xs={12} sm={12}>
+                                        <Typography variant='body1' textAlign='left' sx={{ mt: -1 }}>
+                                            Category : {" "}{advice.category}
                                         </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12}>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12}>
-                                        <Typography variant='subtitle2' textAlign='left' sx={{ mt: -2 }}>
-                                            {advice.content}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12}>
                                     </Grid>
 
+                                    <Grid item xs={12} sm={12}>
+                                        <Typography variant='body2' textAlign='left' sx={{ mt: -1 }}>
+                                            Content : {" "}{advice.content}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item >
+
+                                    </Grid>
                                 </>
                             ))}
 
                             <br />
-                            <br />
-                            <br />
+
+                            <Grid item xs={12}>
+                                <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                                    Stories:
+
+                                </Typography>
+                            </Grid>
                             {stories.map((story) => (
                                 <>
                                     <Grid item xs={12} sm={12}>
-                                        <Typography variant='h6' textAlign='left' sx={{ mt: -2 }}>
-                                            {story.title}
+                                        <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
+                                            Title : {" "}{story.title}
                                         </Typography>
                                     </Grid>
-
-
                                     <Grid item xs={12} sm={12}>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12}>
-                                        <Typography variant='subtitle2' textAlign='left' sx={{ mt: -2 }}>
-                                            {story.content}
+                                        <Typography variant='body2' textAlign='left' sx={{ mt: -1 }}>
+                                            Content : {" "}{story.content}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
@@ -254,7 +293,7 @@ const Alumnus = () => {
                     </Paper>
                 </Box >
             </Container >
-        </>
+        </Box>
     )
 }
 

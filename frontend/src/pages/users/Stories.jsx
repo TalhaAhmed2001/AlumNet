@@ -51,7 +51,7 @@ const Stories = () => {
         setSort(e.target.value)
     }
 
-    const onOrder = e => {      
+    const onOrder = e => {
         setOrder(e.target.value)
     }
 
@@ -70,7 +70,7 @@ const Stories = () => {
                 })
 
                 setTotalPages(response.data.totalPages)
-                setCurrentPage(response.data.currentPage)
+                //setCurrentPage(response.data.currentPage)
                 setStory(response.data.stories)
             }
             catch (err) {
@@ -80,7 +80,7 @@ const Stories = () => {
         }
         getStories()
 
-    }, [query, currentPage])
+    }, [query, sort, order, currentPage])
 
     return (
         < div style={{ width: '100%', height: '100%', backgroundColor: '' }}>
@@ -89,6 +89,7 @@ const Stories = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'left',
+
             }}>
                 <Paper sx={{ p: 4, }} elevation={4}>
                     <br />
@@ -113,7 +114,6 @@ const Stories = () => {
                                 >
                                     <MenuItem value={''}>-</MenuItem>
                                     <MenuItem value={'date'}>Sort by Date</MenuItem>
-                                    <MenuItem value={'popularity'}>Sort by Popularity</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -161,20 +161,33 @@ const Stories = () => {
                 </Paper>
 
             </Box >
-            {
-                story.map((sto) => (
-                    <Story key={sto._id} props={sto} />
-                ))
-            }
+            <Box sx={{ backgroundColor: 'floralwhite' }}>
+                {story.length !== 0 ?
+                    story.map((sto) => (
+                        <Story key={sto._id} props={sto} />
+                    ))
+                    :
+                    <>
+                        <br />
+                        <br />
+                        <br />
+
+                        <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                            No Results Found
+                        </Typography>
+                    </>
+
+                }
+            </Box>
             {/* <Stack spacing={0}
                 // sx={{ position: 'relative', ml: 72, mt: 5, mb: 2 }}
             > */}
 
-                {/* <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" /> */}
+            {/* <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" /> */}
 
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
-                    <Pagination className="mt-1 mb-0" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
-                </div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
+                <Pagination className="mt-1 mb-0" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
+            </div>
             {/* </Stack> */}
         </div>
     )
