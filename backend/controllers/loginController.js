@@ -85,7 +85,7 @@ const login = async (req, res) => {
     }
     catch (err) {
         console.log(`Error executing query: ${err}`)
-        res.status(400).send(err)
+        res.status(400).send({ message: `Error executing query: ${err}` })
     }
 }
 

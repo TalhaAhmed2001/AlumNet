@@ -55,8 +55,54 @@ const Stories = () => {
         setOrder(e.target.value)
     }
 
+    const printStories = () => {
+        console.log(story)
+    }
+
+    const getLikedStories = async () => {
+        try {
+            const res = await axios.get("http://localhost:5000/stories/likedstories", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            const list = res.data
+            //console.log(res.data)
+            console.log(list)
+
+            //arr.map(v => ({...v, isActive: v.value > 1}))
+
+            //setStory(story.map(stori =>({...stori, (list.includes(stori._id) : ))))
+            //console.log(list.length)
+
+            console.log(story.length)
+            console.log(story[0])
+            // const sto = story.map((stori) => {
+            //     console.log("mapp")
+            //     if (list.includes(stori._id)) {
+            //         console.log('true')
+            //         return { ...stori, liked: true };
+            //     }
+            //     else {
+            //         console.log('false')
+            //         return { ...stori, liked: false };
+            //     }
+            // })
+
+            // console.log(sto)
+            // setStory(sto)
+            //console.log(story)
+        }
+        catch (err) {
+            console.log(err.res.data.error)
+        }
+    }
+
     useEffect(() => {
+
         const getStories = async () => {
+
             try {
                 const response = await axios.get("http://localhost:5000/stories", {
                     params: {
@@ -69,18 +115,61 @@ const Stories = () => {
                     }
                 })
 
+                const stories = response.data.stories
                 setTotalPages(response.data.totalPages)
                 //setCurrentPage(response.data.currentPage)
-                setStory(response.data.stories)
+                setStory(stories)
+                
+                try {
+                    const res = await axios.get("http://localhost:5000/stories/likedstories", {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+        
+                    const list = res.data
+                    //console.log(res.data)
+                    console.log(list)
+        
+                    //arr.map(v => ({...v, isActive: v.value > 1}))
+        
+                    //setStory(story.map(stori =>({...stori, (list.includes(stori._id) : ))))
+                    //console.log(list.length)
+        
+                    console.log(stories.length)
+                    console.log(stories[0])
+                    const sto = stories.map((stori) => {
+                        console.log("mapp")
+                        if (list.includes(stori._id)) {
+                            console.log('true')
+                            return { ...stori, liked: true };
+                        }
+                        else {
+                            console.log('false')
+                            return { ...stori, liked: false };
+                        }
+                    })
+        
+                    // console.log(sto)
+                    setStory(sto)
+                    console.log(story)
+                }
+                catch (err) {
+                    console.log(err.res.data.error)
+                }
             }
             catch (err) {
                 //console.log(err.response.data.error)
                 console.log(err.response.data.error)
             }
         }
+
         getStories()
 
-    }, [query, sort, order, currentPage])
+
+    }, [token, query, sort, order, currentPage])
+
+
 
     return (
         < div style={{ width: '100%', height: '100%', backgroundColor: '' }}>
@@ -114,6 +203,7 @@ const Stories = () => {
                                 >
                                     <MenuItem value={''}>-</MenuItem>
                                     <MenuItem value={'date'}>Sort by Date</MenuItem>
+                                    <MenuItem value={'popularity'}>Sort by Popularity</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>

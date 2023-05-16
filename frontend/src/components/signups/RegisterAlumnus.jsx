@@ -59,6 +59,100 @@ const RegisterAlumnus = () => {
     const onSubmit = async (e) => {
 
         e.preventDefault();
+        setOpen(false)
+
+        setSeverity('error')
+
+        if (first_name.trim() === '') {
+            setText("'First Name' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (first_name.length > 20) {
+            setText("'First Name' must be less than 20 characters")
+            setOpen(true)
+            return
+        }
+        else if (last_name.trim() === '') {
+            setText("'Last Name' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (last_name.length > 20) {
+            setText("'Last Name' must be less than 20 characters")
+            setOpen(true)
+            return
+        }
+        else if (id.trim() === '') {
+            setText("'ID' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (isNaN(id)) {
+            setText("'ID' must be a number")
+            setOpen(true)
+            return
+        }
+        else if (id.length !== 5) {
+            setText("'ID' must be 5 digits only")
+            setOpen(true)
+            return
+        }
+        else if (sex === '') {
+            setText("'Sex' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (sex !== 'M' && sex !== 'F') {
+            setText("Invalid value for field 'Sex'")
+            setOpen(true)
+            return
+        }
+        else if (password.trim() === '') {
+            setText("'Password' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (password.length > 20 || password.length < 8) {
+            setText("'Password' must be between 8 and 20 characters")
+            setOpen(true)
+            return
+        }
+        else if (graduation.trim() === '') {
+            setText("'Graduation Year' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (isNaN(graduation)) {
+            setText("'Graduation Year' must be a number")
+            setOpen(true)
+            return
+        }
+        else if (graduation < 1990 || graduation > 2023) {
+            setText("'Graduation Year' must be between 1990 and 2023")
+            setOpen(true)
+            return
+        }
+        else if (degree.trim() === '') {
+            setText("'Degree' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (degree.length > 20 || degree.length < 3) {
+            setText("'Degree' must be between 3 and 20 characters")
+            setOpen(true)
+            return
+        }
+        else if (major.trim() === '') {
+            setText("'Major' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (major.length > 20 || major.length < 3) {
+            setText("'Major' must be between 3 and 20 characters")
+            setOpen(true)
+            return
+        }
 
         try {
             const response = await axios.post("http://localhost:5000/alumni", profile)
@@ -79,7 +173,7 @@ const RegisterAlumnus = () => {
             setTimeout(() => {
                 navigate('/login')
             },
-                5000);
+                2500);
         }
         catch (err) {
             setSeverity('error')
@@ -125,7 +219,6 @@ const RegisterAlumnus = () => {
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         name="first_name"
-                                        required
                                         fullWidth
                                         id="first_name"
                                         label="First Name"
@@ -135,7 +228,6 @@ const RegisterAlumnus = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="last_name"
                                         label="Last Name"
@@ -146,12 +238,11 @@ const RegisterAlumnus = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="id"
                                         label="ID"
                                         name="id"
-                                        type='Number'
+                                        type='text'
                                         onChange={onChange}
                                         value={id}
                                     />
@@ -166,7 +257,6 @@ const RegisterAlumnus = () => {
                                             value={sex}
                                             label="Sex"
                                             onChange={onChange}
-                                            required
                                         >
                                             <MenuItem value={'M'}>Male</MenuItem>
                                             <MenuItem value={'F'}>Female</MenuItem>
@@ -176,7 +266,6 @@ const RegisterAlumnus = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        required
                                         fullWidth
                                         name="password"
                                         label="Password"
@@ -188,7 +277,6 @@ const RegisterAlumnus = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="graduation"
                                         label="Graduation Year"
@@ -207,7 +295,6 @@ const RegisterAlumnus = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="degree"
                                         label="Degree"
@@ -218,7 +305,6 @@ const RegisterAlumnus = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        required
                                         fullWidth
                                         name="major"
                                         label="Major"

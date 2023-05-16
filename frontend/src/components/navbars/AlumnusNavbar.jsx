@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
+import Grid from '@mui/material/Grid';
+
 const AlumnusNavbar = () => {
 
     return (
@@ -21,40 +23,69 @@ const AlumnusNavbar = () => {
                     </Link>
 
                     <>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-                            <Button sx={{ my: 2, color: 'white', display: 'block', ml: 4 }} component={Link} to='/alumni'>
-                                Alumni
-                            </Button>
-                        </Typography>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-                            <Button sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to='/stories'>
-                                Stories
-                            </Button>
-                        </Typography>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-                            <Button sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to='/advices'>
-                                Advices
-                            </Button>
-                        </Typography>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-                            <Button sx={{ my: 2, color: 'inherit', display: 'block' }} component={Link} to='/create'>
-                                Create
-                            </Button>
-                        </Typography>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        </Typography>
+                        <Grid container alignItems='center'>
+
+                            <Grid item md={0.5} />
+
+                            <Grid item lg={1.5}>
+                                <Typography variant="h6" component="div" sx={{ display: { sm: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                                    <Button sx={{ my: 2, color: 'white', display: 'block', }} component={Link} to='/alumni'>
+                                        Alumni
+                                    </Button>
+                                </Typography>
+                            </Grid>
+
+                            <Grid item lg={1.5}>
+                                <Typography variant="h6" component="div" sx={{ display: { sm: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                                    <Button sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to='/stories'>
+                                        Stories
+                                    </Button>
+                                </Typography>
+                            </Grid>
+
+                            <Grid item lg={1.5}>
+                                <Typography variant="h6" component="div" sx={{ display: { sm: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                                    <Button sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to='/advices'>
+                                        Advices
+                                    </Button>
+                                </Typography>
+                            </Grid>
+
+                            <Grid item lg={1.5}>
+                                <Typography variant="h6" component="div" sx={{ display: { sm: 'flex' }, flexGrow: 0.1 }}>
+                                    <Button sx={{ my: 2, color: 'inherit', display: 'block' }} component={Link} to='/create'>
+                                        Create
+                                    </Button>
+                                </Typography>
+                            </Grid>
+
+                            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            </Typography> */}
+
+                            <Grid item sm={3.5} />
+
+                            <Grid item md={1.25}>
+
+                                <Button color='inherit' component={Link} to='/myprofile'>
+                                    My Profile
+                                </Button>
+
+                            </Grid>
+                            <Grid item md={0.5}>
+
+                                <Button color="inherit" onClick={() => { localStorage.removeItem('jwt'); localStorage.removeItem('user_role'); window.location.assign('/') }}
+                                // component={Link} to='/login'
+                                >
+                                    Logout
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+
 
                     </>
 
-                    <Button color='inherit' component={Link} to='/myprofile'>
-                        My Profile
-                    </Button>
 
-                    <Button color="inherit" onClick={() => { localStorage.removeItem('jwt'); localStorage.removeItem('user_role'); window.location.assign('/') }}
-                    // component={Link} to='/login'
-                    >
-                        Logout
-                    </Button>
                 </Toolbar>
             </AppBar>
         </Box>

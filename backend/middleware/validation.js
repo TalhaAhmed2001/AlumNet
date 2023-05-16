@@ -39,7 +39,7 @@ const validateAlumnusProfile = (req, res, next) => {
       .required(),
     graduation: Joi.number()
       .min(1990)
-      .max(2022)
+      .max(2023)
       .integer()
       .required()
   });
@@ -306,13 +306,9 @@ const validateStories = (req, res, next) => {
 const validateLogin = (req, res, next) => {
   const loginSchema = Joi.object({
     id: Joi.number()
-      .min(1000)
-      .max(99999)
       .integer()
       .required(),
     password: Joi.string()
-      .min(8)
-      .max(20)
       .required()
   })
 

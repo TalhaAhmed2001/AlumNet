@@ -50,6 +50,24 @@ const Login = () => {
     const onSubmit = async (e) => {
 
         e.preventDefault();
+        
+        setOpen(false)
+
+        if (id.trim() === ''){
+            setText("'ID' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if(isNaN(id)){
+            setText("'ID' must be a number")
+            setOpen(true)
+            return
+        }
+        else if (password.trim() === ''){
+            setText("'Password' field cannot be empty")
+            setOpen(true)
+            return
+        }
 
         try {
             const response = await axios.post("http://localhost:5000/login", loginData)
@@ -114,16 +132,25 @@ const Login = () => {
                         <Paper sx={{ p: 4, width: 500 }} elevation={5} square>
                             <Box sx={{ marginTop: 0, marginBottom: 1, alignItems: 'center' }}>
                                 <img src={AlumNet2} alt="logo" className="Applogo" width='50%' height='50%' style={{ display: 'block', margin: 'auto' }} />
-                                </Box>
+                            </Box>
 
                             <Typography component="h1" variant="h5" textAlign='center'>
                                 Sign in
                             </Typography>
                             <Box component="form" onSubmit={onSubmit} sx={{ mt: 2 }}>
-                                <TextField required margin="normal" value={id} onChange={onChange} type='Number' fullWidth id="id" label="ID" name="id" autoComplete="id" />
                                 <TextField
                                     margin="normal"
-                                    required
+                                    value={id}
+                                    onChange={onChange}
+                                    type='text'
+                                    fullWidth
+                                    id="id"
+                                    label="ID"
+                                    name="id"
+                                    minlength="4"
+                                />
+                                <TextField
+                                    margin="normal"
                                     fullWidth
                                     value={password}
                                     onChange={onChange}
@@ -131,7 +158,6 @@ const Login = () => {
                                     label="Password"
                                     type="password"
                                     id="password"
-                                    autoComplete="current-password"
                                 />
 
                                 <Button

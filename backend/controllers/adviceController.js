@@ -15,7 +15,7 @@ const getAllAdvices = async (req, res, next) => {
 
     let sortCriteria = {};
     //console.log("this is sortfiled = " + sortField)
-    if (sortField === "date asc") {
+    if (sortField === "date") {
         if (req.query.order === "asc") {
             sortCriteria.date = 1;
         } else {
@@ -26,6 +26,15 @@ const getAllAdvices = async (req, res, next) => {
         sortCriteria.popularity = -1;
     }
 
+    // let liked;
+
+    // if (userIndex !== -1) {
+    //     liked = true
+    // }
+    // else {
+    //     liked = false
+    // }
+
     try {
         const total = await Advice.countDocuments(query);
         const advices = await Advice.find(query).sort(sortCriteria).limit(PAGE_SIZE).skip(PAGE_SIZE * page);
@@ -33,6 +42,7 @@ const getAllAdvices = async (req, res, next) => {
             totalPages: Math.ceil(total / PAGE_SIZE),
             currentPage,
             advices,
+            //liked : liked
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -41,6 +51,7 @@ const getAllAdvices = async (req, res, next) => {
 
 }
 
+//GET
 const getAdvices = async (req, res, next) => {
 
     const ERP = req.params.ERP
@@ -79,6 +90,7 @@ const getAdvices = async (req, res, next) => {
 
 }
 
+//GET
 const getAdviceById = async (req, res, next) => {
     const adviceId = req.params.aid;
 
@@ -94,6 +106,66 @@ const getAdviceById = async (req, res, next) => {
     }
 
     return res.json({ advice: advice.toObject({ getters: true }) });
+
+}
+
+//PATCH
+const likeAdvice = async (req, res, next) => {
+    const adviceId = req.params.aid;
+    const userERP = req.userData.userERP;
+
+    let advice;
+    try {
+        advice = await Advice.findById(adviceId);
+    } catch (err) {
+        return res.json("Something went wrong, could not update advice " + err)
+    }
+    if (!advice) {
+        return res.json("advice with the provided id was not found ")
+    }
+
+    const likedBy = advice.likedBy;
+    const userIndex = likedBy.indexOf(userERP);
+    var response = '';
+    let liked;
+
+    if (userIndex !== -1) {
+        likedBy.splice(userIndex, 1);
+        advice.popularity = advice.popularity - 1;
+        response = 'Removed Like'
+        liked = false
+    } else {
+        likedBy.push(userERP);
+        advice.popularity = advice.popularity + 1;
+        response = 'Added Like'
+        liked = true
+    }
+    advice.likedBy = likedBy;
+
+    try {
+        await advice.save();
+    } catch (err) {
+        return res.json("Something went wrong, could not update advice " + err);
+    }
+
+    const resp = { popularity: advice.popularity, liked: liked }
+
+    return res.json(resp);
+
+
+}
+
+//GET
+const getLikedAdvices = async (req, res, next) => {
+    const userERP = req.userData.userERP;
+
+    try {
+        const likedAdvices = await Advice.find({ likedBy: userERP }, '_id');
+        const likedAdviceIds = likedAdvices.map(advic => advic._id);
+        return res.json(likedAdviceIds);
+    } catch (err) {
+        return res.json("Something went wrong, could not retrieve liked advvices " + err);
+    }
 
 }
 
@@ -185,6 +257,8 @@ module.exports = {
     getAllAdvices,
     getAdvices,
     getAdviceById,
+    getLikedAdvices,
+    likeAdvice,
     createAdvices,
     updateAdvices,
     deleteAdvices

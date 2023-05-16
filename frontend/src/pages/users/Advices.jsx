@@ -77,6 +77,8 @@ const Advices = () => {
 
                 setTotalPages(response.data.totalPages)
                 //setCurrentPage(response.data.currentPage)
+                let advic = response.data.advices
+                advic.liked = response.data.liked
                 setAdvice(response.data.advices)
             }
             catch (err) {
@@ -121,7 +123,6 @@ const Advices = () => {
                                 >
                                     <MenuItem value={''}>-</MenuItem>
                                     <MenuItem value={'date'}>Sort by Date</MenuItem>
-                                    {/* <MenuItem value={'date desc'}>Sort by Date - Descending</MenuItem> */}
                                     <MenuItem value={'popularity'}>Sort by Popularity</MenuItem>
                                 </Select>
                             </FormControl>
@@ -202,25 +203,23 @@ const Advices = () => {
                 </Paper>
 
             </Box>
-            <Box sx={{backgroundColor:'floralwhite'}}>
-            {advice.length !== 0 ?
-                advice.map((adv) => (
+            <Box sx={{ backgroundColor: 'floralwhite' }}>
+                {advice.length !== 0 ?
+                    advice.map((adv) => {
+                        return (<Advice key={adv._id} props={adv} />)
+                    })
+                    :
+                    <>
+                        <br />
+                        <br />
+                        <br />
 
-                    <Advice key={adv._id} props={adv} />
+                        <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                            No Results Found
+                        </Typography>
+                    </>
 
-                ))
-                :
-                <>
-                    <br />
-                    <br />
-                    <br />
-
-                    <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
-                        No Results Found
-                    </Typography>
-                </>
-
-            }
+                }
             </Box>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
                 <Pagination className="mt-1 mb-1" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />

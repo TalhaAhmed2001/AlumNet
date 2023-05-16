@@ -88,6 +88,66 @@ const getStoryById = async (req, res, next) => {
     return res.json({ story: story.toObject({ getters: true }) });
 }
 
+//PATCH
+const likeStory = async (req, res, next) => {
+    const storyId = req.params.sid;
+    const userERP = req.userData.userERP;
+
+    let story;
+    try {
+        story = await Stories.findById(storyId);
+    } catch (err) {
+        return res.json("Something went wrong, could not update story " + err)
+    }
+    if (!story) {
+        return res.json("Story with the provided id was not found ")
+    }
+
+    const likedBy = story.likedBy;
+    const userIndex = likedBy.indexOf(userERP);
+    var response = '';
+    let liked;
+
+    if (userIndex !== -1) {
+        likedBy.splice(userIndex, 1);
+        story.popularity = story.popularity - 1;
+        response = 'Removed Like'
+        liked = false
+    } else {
+        likedBy.push(userERP);
+        story.popularity = story.popularity + 1;
+        response = 'Added Like'
+        liked = true
+    }
+    story.likedBy = likedBy;
+
+    try {
+        await story.save();
+    } catch (err) {
+        return res.json("Something went wrong, could not update story " + err);
+    }
+
+    const resp = { popularity: story.popularity, liked: liked }
+
+    return res.json(resp);
+
+
+}
+
+//GET
+const getLikedStories = async (req, res, next) => {
+    const userERP = req.userData.userERP;
+
+    try {
+        const likedStories = await Stories.find({ likedBy: userERP }, '_id');
+        const likedStoryIds = likedStories.map(story => story._id);
+        return res.json(likedStoryIds);
+    } catch (err) {
+        return res.json("Something went wrong, could not retrieve liked stories " + err);
+    }
+
+}
+
 //POST
 const createStories = async (req, res, next) => {
 
@@ -173,6 +233,8 @@ module.exports = {
     getAllStories,
     getStories,
     getStoryById,
+    getLikedStories,
+    likeStory,
     createStories,
     updateStories,
     deleteStories

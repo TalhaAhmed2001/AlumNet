@@ -7,8 +7,7 @@ const storiesSchema = mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     popularity: { type: Number, default: 0 },
-
-
+    likedBy: [{ type: Number }]
 },
     {
         timestamps: true

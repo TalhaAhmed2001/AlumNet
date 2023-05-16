@@ -188,7 +188,7 @@ const Home = () => {
                                     creating a sense of belonging and community. `}
                             </Typography>
                             <Button variant='contained' color='inherit' size='large' component={Link} to="/stories">
-                                View Stories
+                                View Featured Stories
                             </Button>
                         </Grid>
                     </Grid>

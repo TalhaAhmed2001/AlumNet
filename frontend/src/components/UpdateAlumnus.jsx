@@ -80,7 +80,7 @@ const UpdateAlumnus = () => {
 
                 setProfile(response.data)
                 //console.log("profile getted")
-                console.log(profile.sex)
+                console.log("sex=" + profile.sex)
                 setPid(profile.id)
                 //alert(response.data.id)
             }

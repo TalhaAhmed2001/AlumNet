@@ -57,7 +57,78 @@ const RegisterStudent = () => {
     const theme = createTheme();
 
     const onSubmit = async (e) => {
+
         e.preventDefault();
+        setOpen(false)
+
+        setSeverity('error')
+
+        if (first_name.trim() === '') {
+            setText("'First Name' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (first_name.length > 20) {
+            setText("'First Name' must be less than 20 characters")
+            setOpen(true)
+            return
+        }
+        else if (last_name.trim() === '') {
+            setText("'Last Name' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (last_name.length > 20) {
+            setText("'Last Name' must be less than 20 characters")
+            setOpen(true)
+            return
+        }
+        else if (id.trim() === '') {
+            setText("'ID' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (isNaN(id)) {
+            setText("'ID' must be a number")
+            setOpen(true)
+            return
+        }
+        else if (id.length !== 5) {
+            setText("'ID' must be 5 digits only")
+            setOpen(true)
+            return
+        }
+        else if (sex === '') {
+            setText("'Sex' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (sex !== 'M' && sex !== 'F') {
+            setText("Invalid value for field 'Sex'")
+            setOpen(true)
+            return
+        }
+        else if (password.trim() === '') {
+            setText("'Password' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (password.length > 20 || password.length < 8) {
+            setText("'Password' must be between 8 and 20 characters")
+            setOpen(true)
+            return
+        }
+        else if (degree.trim() === '') {
+            setText("'Degree' field cannot be empty")
+            setOpen(true)
+            return
+        }
+        else if (degree.length > 20 || degree.length < 3) {
+            setText("'Degree' must be between 3 and 20 characters")
+            setOpen(true)
+            return
+        }
+
         try {
             const response = await axios.post("http://localhost:5000/student", profile)
 
@@ -75,7 +146,7 @@ const RegisterStudent = () => {
             setTimeout(() => {
                 navigate('/login')
             },
-                5000);
+                2500);
 
         }
         catch (err) {
@@ -120,7 +191,6 @@ const RegisterStudent = () => {
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         name="first_name"
-                                        required
                                         fullWidth
                                         id="first_name"
                                         label="First Name"
@@ -130,7 +200,6 @@ const RegisterStudent = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="last_name"
                                         label="Last Name"
@@ -141,12 +210,11 @@ const RegisterStudent = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="id"
                                         label="ID"
                                         name="id"
-                                        type='Number'
+                                        type='text'
                                         onChange={onChange}
                                         value={id}
                                     />
@@ -161,7 +229,6 @@ const RegisterStudent = () => {
                                             value={sex}
                                             label="Sex"
                                             onChange={onChange}
-                                            required
                                         >
                                             <MenuItem value={'M'}>Male</MenuItem>
                                             <MenuItem value={'F'}>Female</MenuItem>
@@ -170,7 +237,6 @@ const RegisterStudent = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        required
                                         fullWidth
                                         name="password"
                                         label="Password"
@@ -183,7 +249,6 @@ const RegisterStudent = () => {
 
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="degree"
                                         label="Degree"

@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createStories, getStoryById, updateStories, getAllStories, getStories, deleteStories } = require('../controllers/storiesController');
+const { createStories, getStoryById, updateStories, getAllStories, getStories, deleteStories, likeStory, getLikedStories } = require('../controllers/storiesController');
 const checkAuth = require("../middleware/check-auth");
 const { authPermission } = require("../middleware/check-permission");
 const { validateStories } = require("../middleware/validation");
@@ -15,6 +15,9 @@ router.get("/", authPermission("getStories"), getAllStories)
 
 router.get("/alumni", authPermission("getStories"), getStories)
 router.get("/alumni/:ERP", authPermission("getStories"), getStories)
+
+router.patch("/like/:sid", authPermission("getStories"), likeStory)
+router.get("/likedstories", authPermission("getStories"), getLikedStories)
 
 router.post("/", authPermission("createStories"), validateStories, createStories)
 router.patch("/:sid", authPermission("updateStories"), validateStories, updateStories)

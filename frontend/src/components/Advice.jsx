@@ -1,13 +1,46 @@
-import { Container, CssBaseline, Typography } from '@mui/material'
-import React from 'react'
+import { Container, CssBaseline, Typography, Button } from '@mui/material'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Paper from '@mui/material/Paper';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import axios from 'axios';
 
 const Advice = ({ props }) => {
 
-    const { ERP, Name, category, title, content } = props
+    const token = localStorage.getItem('jwt')
+
+    const { _id, ERP, Name, date, category, title, content } = props
+
+    const [popularity, setPopularity] = useState(props.popularity)
+
+    const [liked, setLiked] = useState('')
+    //console.log('liked' + liked)
+
+    const like = async () => {
+
+        try {
+            const response = await axios.patch('http://localhost:5000/advices/like/' + _id,
+                null,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            )
+
+            setPopularity(response.data.popularity)
+            setLiked(response.data.liked)
+            console.log(popularity)
+        }
+        catch (err) {
+            console.log(err.response.data.error)
+
+        }
+
+    }
 
     return (
         <>
@@ -29,34 +62,49 @@ const Advice = ({ props }) => {
                         backgroundColor: 'white'
                     }} elevation={4} >
 
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12}>
-                                <Typography variant='h6' textAlign='left' sx={{ mt: -2 }}>
-                                    {title}
+                        <Grid container spacing={2} alignItems='center'>
+
+                            <Grid item xs={12} sm={9}>
+                                <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
+                                    Title : {" "}{title}
                                 </Typography>
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant='body1' textAlign='left' sx={{ mt: -2 }}>
-                                    {category}
+                            <Grid item xs={12} sm={3}>
+                                <Typography variant='body2' textAlign='right' sx={{ mt: 0 }}>
+                                    Date Created: {new Date(date).toISOString().slice(0, 10)}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={12}>
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <Typography variant='subtitle2' textAlign='left' sx={{ mt: -2 }}>
-                                    {content}
+                                <Typography variant='body1' textAlign='left' sx={{ mt: -1 }}>
+                                    Category: {category}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={12}>
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <Typography variant='body1' textAlign='left' sx={{ mt: -2 }}>
-                                    {Name}{' '}{ERP}
+                                <Typography variant='body2' textAlign='left' sx={{ mb: 1 }}>
+                                    Content : {" "}{content}
                                 </Typography>
                             </Grid>
 
 
+                            <Grid item xs={6} >
+                                <Button variant='outlined' size='small' onClick={() => like()}>
+                                    {liked ?
+                                        <ThumbUpAltIcon sx={{ ml: 0, mr: 2 }} />
+                                        :
+                                        <ThumbUpOffAltIcon sx={{ ml: 0, mr: 2 }} />
+                                    }
+
+                                    {/* <ThumbUpIcon sx={{  ml: 0, mr: 2 }} /> */}
+                                    {popularity}
+
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6} >
+                                <Typography variant='body1' textAlign='right'>
+                                    By: {Name}{' '}{ERP}
+                                </Typography>
+                            </Grid>
                         </Grid>
 
                     </Paper>
