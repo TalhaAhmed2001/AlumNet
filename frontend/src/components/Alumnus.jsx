@@ -1,5 +1,5 @@
 import { Container, CssBaseline, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import miru from '../images/miru.jpg'
@@ -84,9 +84,9 @@ const Alumnus = ({ props }) => {
                                             obj.index = index + 1
                                             return (
                                                 // <Typography key={job.job_id}>
-                                                <>
+                                                <Fragment key={job.job_id}>
                                                     {' '}{job.role}{' at '}{job.employer} {' | '}
-                                                </>
+                                                </Fragment>
                                                 // </Typography>
                                             )
                                         })}

@@ -221,7 +221,7 @@ const RegisterStudent = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Sex *</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Sex</InputLabel>
                                         <Select
                                             labelId='demo-simple-select-label'
                                             name='sex'
@@ -244,6 +244,7 @@ const RegisterStudent = () => {
                                         id="password"
                                         onChange={onChange}
                                         value={password}
+                                        helperText="between 8 and 20 characters"
                                     />
                                 </Grid>
 

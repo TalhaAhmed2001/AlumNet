@@ -110,10 +110,10 @@ const PromotingStudents = () => {
           </TableHead>
           <TableBody>
             {students.map((row) => (
-              <TableRow key={row}>
-                <TableCell align="center">{row}</TableCell>
+              <TableRow key={row.id}>
+                <TableCell align="center">{row.id}</TableCell>
                 <TableCell align="center">
-                  <Button sx={{ ml: 2, mr: 2 }} variant="outlined" color="primary" onClick={() => promote(row)}>
+                  <Button sx={{ ml: 2, mr: 2 }} variant="outlined" color="primary" onClick={() => promote(row.id)}>
                     Promote
                   </Button>
 

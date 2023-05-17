@@ -155,11 +155,12 @@ const UpdateAdvice = ({ props, onDelete }) => {
                                             onChange={onChange}
                                             required
                                         >
+                                            <MenuItem value={'General'}>General</MenuItem>
                                             <MenuItem value={'BSCS'}>BSCS</MenuItem>
                                             <MenuItem value={'BBA'}>BBA</MenuItem>
                                             <MenuItem value={'SSLA'}>SSLA</MenuItem>
-                                            <MenuItem value={'General'}>General</MenuItem>
-
+                                            <MenuItem value={'BSAF'}>BSAF</MenuItem>
+                                            <MenuItem value={'BSS'}>BSS</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>

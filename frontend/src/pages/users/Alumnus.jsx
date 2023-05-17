@@ -1,5 +1,5 @@
 import { Container, CssBaseline, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -199,7 +199,7 @@ const Alumnus = () => {
                                 obj.index = index + 1
                                 return (
                                     // <div key={job.job_id}>
-                                    <>
+                                    <Fragment key={index}>
                                         <Grid item sm={8} key={job.job_id}>
 
                                             <Typography variant='h6' textAlign='left'>
@@ -215,7 +215,7 @@ const Alumnus = () => {
                                                 {new Date(job.date_start).toISOString().slice(0, 10)}{' --- '}{job.date_end ? new Date(job.date_end).toISOString().slice(0, 10) : "          "}
                                             </Typography>
                                         </Grid>
-                                    </>
+                                    </Fragment>
                                     // </div>
                                 )
                             })}
@@ -230,7 +230,7 @@ const Alumnus = () => {
                             </Grid>
 
                             {advices.map((advice) => (
-                                <>
+                                <Fragment key={advice._id}>
                                     <Grid item xs={12} sm={12}>
                                         <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
                                             Title : {" "}{advice.title}
@@ -251,7 +251,7 @@ const Alumnus = () => {
                                     <Grid item >
 
                                     </Grid>
-                                </>
+                                </Fragment>
                             ))}
 
                             <br />
@@ -263,7 +263,7 @@ const Alumnus = () => {
                                 </Typography>
                             </Grid>
                             {stories.map((story) => (
-                                <>
+                                <Fragment key={story._id}>
                                     <Grid item xs={12} sm={12}>
                                         <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
                                             Title : {" "}{story.title}
@@ -277,7 +277,7 @@ const Alumnus = () => {
                                     <Grid item xs={12} sm={12}>
                                     </Grid>
 
-                                </>
+                                </Fragment>
                             ))}
 
 

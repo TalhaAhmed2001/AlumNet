@@ -16,8 +16,12 @@ const Story = ({ props }) => {
 
     const [popularity, setPopularity] = useState(props.popularity)
 
+    //let liked_temp = props.liked
     const [liked, setLiked] = useState(props.liked)
-    console.log(liked)
+   // setLiked(props.liked)
+   //console.log(props)
+    // console.log(likedBy)
+    //console.log(props.liked)
 
     const like = async () => {
 
@@ -84,6 +88,7 @@ const Story = ({ props }) => {
                                 </Grid>
                                 <Grid item xs={6} >
                                     <Button variant='outlined' size='small' onClick={() => like()}>
+                                
                                         {liked ?
                                             <ThumbUpAltIcon sx={{ ml: 0, mr: 2 }} />
                                             :

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Story from '../../components/Story'
 import Navbar from '../../components/navbars/Navbar'
 
@@ -21,11 +21,15 @@ import Stack from '@mui/material/Stack';
 
 const Stories = () => {
 
+    //let liked_list;
+    const likedRef = useRef(null);
+
     const token = localStorage.getItem('jwt');
 
     const [totalPages, setTotalPages] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [story, setStory] = useState([])
+    const [likedStories, setLikedStories] = useState([])
 
     const [query, setQuery] = useState({
         sort: '',
@@ -59,50 +63,54 @@ const Stories = () => {
         console.log(story)
     }
 
-    const getLikedStories = async () => {
-        try {
-            const res = await axios.get("http://localhost:5000/stories/likedstories", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+    useEffect(() => {
+        const getLikedStories = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/stories/likedstories", {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
 
-            const list = res.data
-            //console.log(res.data)
-            console.log(list)
+                const list = res.data
+                //console.log(res.data)
+                console.log(list)
 
-            //arr.map(v => ({...v, isActive: v.value > 1}))
+                
+                let liked_list = story.map((sto) => {
+                    //console.log("mapp")
+                    if (list.includes(sto._id)) {
+                        //console.log('true')
+                        return (true);
+                    }
+                    else {
+                        //console.log('false')
+                        return (false);
+                    }
+                })
+                //console.log(liked_list)
+                likedRef.current = liked_list;
+                setLikedStories(liked_list)
 
-            //setStory(story.map(stori =>({...stori, (list.includes(stori._id) : ))))
-            //console.log(list.length)
-
-            console.log(story.length)
-            console.log(story[0])
-            // const sto = story.map((stori) => {
-            //     console.log("mapp")
-            //     if (list.includes(stori._id)) {
-            //         console.log('true')
-            //         return { ...stori, liked: true };
-            //     }
-            //     else {
-            //         console.log('false')
-            //         return { ...stori, liked: false };
-            //     }
-            // })
-
-            // console.log(sto)
-            // setStory(sto)
-            //console.log(story)
+                //console.log(sto)
+                //setStory(sto)
+                //console.log(story)
+                console.log("in liked Stories")
+            }
+            catch (err) {
+                console.log(err.res.data.error)
+            }
         }
-        catch (err) {
-            console.log(err.res.data.error)
-        }
-    }
+        getLikedStories();
+
+    }, [story])
+
 
     useEffect(() => {
 
         const getStories = async () => {
 
+           setLikedStories([])
             try {
                 const response = await axios.get("http://localhost:5000/stories", {
                     params: {
@@ -115,48 +123,12 @@ const Stories = () => {
                     }
                 })
 
-                const stories = response.data.stories
+                //let stories = response.data.stories
                 setTotalPages(response.data.totalPages)
                 //setCurrentPage(response.data.currentPage)
-                setStory(stories)
-                
-                try {
-                    const res = await axios.get("http://localhost:5000/stories/likedstories", {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    })
-        
-                    const list = res.data
-                    //console.log(res.data)
-                    console.log(list)
-        
-                    //arr.map(v => ({...v, isActive: v.value > 1}))
-        
-                    //setStory(story.map(stori =>({...stori, (list.includes(stori._id) : ))))
-                    //console.log(list.length)
-        
-                    console.log(stories.length)
-                    console.log(stories[0])
-                    const sto = stories.map((stori) => {
-                        console.log("mapp")
-                        if (list.includes(stori._id)) {
-                            console.log('true')
-                            return { ...stori, liked: true };
-                        }
-                        else {
-                            console.log('false')
-                            return { ...stori, liked: false };
-                        }
-                    })
-        
-                    // console.log(sto)
-                    setStory(sto)
-                    console.log(story)
-                }
-                catch (err) {
-                    console.log(err.res.data.error)
-                }
+                //setStory("hallo")
+                setStory(response.data.stories)
+
             }
             catch (err) {
                 //console.log(err.response.data.error)
@@ -168,6 +140,8 @@ const Stories = () => {
 
 
     }, [token, query, sort, order, currentPage])
+
+    //console.log(story)
 
 
 
@@ -252,20 +226,30 @@ const Stories = () => {
 
             </Box >
             <Box sx={{ backgroundColor: 'floralwhite' }}>
-                {story.length !== 0 ?
-                    story.map((sto) => (
-                        <Story key={sto._id} props={sto} />
-                    ))
-                    :
-                    <>
-                        <br />
-                        <br />
-                        <br />
+                {likedStories.length !== 0 ?
+                    story.length !== 0 ?
+                        story.map((sto, index) => {
+                            let obj = sto;
+                            obj.liked = likedStories[index];
+                            //console.log(likedRef.current)
+                            return (<Story key={obj._id} props={obj} />)
+                            // return (<Story key={sto._id} props={sto} />)
+                        }
+                        )
+                        :
+                        <>
+                            <br />
+                            <br />
+                            <br />
 
-                        <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
-                            No Results Found
-                        </Typography>
-                    </>
+                            <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                                No Results Found
+                            </Typography>
+                        </>
+                    :
+                    <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                        Loading
+                    </Typography>
 
                 }
             </Box>

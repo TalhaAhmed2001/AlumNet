@@ -17,7 +17,7 @@ router.get("/alumni/:ERP", authPermission("getAdvices"), getAdvices)
 //router.get("/:aid(\\d+)", authPermission("getAdvices"), getAdviceById)
 
 router.patch("/like/:aid", authPermission("getAdvices"), likeAdvice)
-router.get("/LikedStories", authPermission("getAdvices"), getLikedAdvices)
+router.get("/likedadvices", authPermission("getAdvices"), getLikedAdvices)
 
 router.post("/", authPermission("createAdvices"), validateAdvices, createAdvices)
 router.patch("/:aid", authPermission("updateAdvices"), validateAdvices, updateAdvices)

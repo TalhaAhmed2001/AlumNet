@@ -33,6 +33,16 @@ const RegisterAlumnus = () => {
         graduation: ''
     })
 
+    const [fNameError, setfNameError] = useState(null)
+    const [lNameError, setlNameError] = useState(null)
+    const [idError, setIdError] = useState(null)
+    const [passwordError, setPasswordError] = useState(null)
+    const [sexError, setSexError] = useState(null)
+    const [degreeError, setDegreeError] = useState(null)
+    const [majorError, setfMajorError] = useState(null)
+    const [graduationError, setfGraduationError] = useState(null)
+
+
     const { first_name, last_name, id, password, sex, degree, major, graduation } = profile;
 
     const onChange = (e) => {
@@ -42,48 +52,38 @@ const RegisterAlumnus = () => {
             [e.target.name]: e.target.value
         })
         )
-    }
-
-    const [open, setOpen] = useState(false);
-    const [severity, setSeverity] = useState('success')
-    const [text, setText] = useState('')
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-    };
-
-    const onSubmit = async (e) => {
-
-        e.preventDefault();
-        setOpen(false)
-
-        setSeverity('error')
 
         if (first_name.trim() === '') {
             setText("'First Name' field cannot be empty")
             setOpen(true)
+            setfNameError("'First Name' field cannot be empty")
             return
         }
         else if (first_name.length > 20) {
             setText("'First Name' must be less than 20 characters")
             setOpen(true)
+            setfNameError("'First Name' must be less than 20 characters")
             return
         }
-        else if (last_name.trim() === '') {
+        else{
+            setfNameError('')
+        }
+        if (last_name.trim() === '') {
             setText("'Last Name' field cannot be empty")
             setOpen(true)
+            setlNameError("'Last Name' field cannot be empty")
             return
         }
         else if (last_name.length > 20) {
             setText("'Last Name' must be less than 20 characters")
             setOpen(true)
+            setlNameError("'Last Name' must be less than 20 characters")
             return
         }
-        else if (id.trim() === '') {
+        else{
+            setlNameError('')
+        }
+        if (id.trim() === '') {
             setText("'ID' field cannot be empty")
             setOpen(true)
             return
@@ -154,6 +154,28 @@ const RegisterAlumnus = () => {
             return
         }
 
+    }
+
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success')
+    const [text, setText] = useState('')
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const onSubmit = async (e) => {
+
+        e.preventDefault();
+        setOpen(false)
+
+        setSeverity('error')
+
+        
         try {
             const response = await axios.post("http://localhost:5000/alumni", profile)
 
@@ -224,6 +246,7 @@ const RegisterAlumnus = () => {
                                         label="First Name"
                                         onChange={onChange}
                                         value={first_name}
+                                        helperText={fNameError}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -234,6 +257,7 @@ const RegisterAlumnus = () => {
                                         name="last_name"
                                         onChange={onChange}
                                         value={last_name}
+                                        helperText={lNameError}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -245,11 +269,12 @@ const RegisterAlumnus = () => {
                                         type='text'
                                         onChange={onChange}
                                         value={id}
+                                        helperText={idError}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Sex *</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Sex</InputLabel>
                                         <Select
                                             labelId='demo-simple-select-label'
                                             name='sex'
@@ -257,6 +282,7 @@ const RegisterAlumnus = () => {
                                             value={sex}
                                             label="Sex"
                                             onChange={onChange}
+                                            helperText={sexError}
                                         >
                                             <MenuItem value={'M'}>Male</MenuItem>
                                             <MenuItem value={'F'}>Female</MenuItem>
@@ -273,6 +299,8 @@ const RegisterAlumnus = () => {
                                         id="password"
                                         onChange={onChange}
                                         value={password}
+                                        helperText={passwordError} 
+                                        //|| "*between 8 and 20 characters"}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>

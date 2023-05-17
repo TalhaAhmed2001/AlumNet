@@ -24,6 +24,7 @@ const Advices = () => {
     const [totalPages, setTotalPages] = useState('')
     const [currentPage, setCurrentPage] = useState('')
     const [advice, setAdvice] = useState([])
+    const [likedAdvices, setLikedAdvices] = useState([])
 
     const [query, setQuery] = useState({
         filter: '',
@@ -59,6 +60,48 @@ const Advices = () => {
     const onOrder = e => {
         setOrder(e.target.value)
     }
+
+    useEffect(() => {
+        const getLikedAdvices = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/advices/likedadvices", {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                const list = res.data
+                //console.log(res.data)
+                console.log(list)
+
+
+                let liked_list = advice.map((adv) => {
+                    //console.log("mapp")
+                    if (list.includes(adv._id)) {
+                        //console.log('true')
+                        return (true);
+                    }
+                    else {
+                        //console.log('false')
+                        return (false);
+                    }
+                })
+                //console.log(liked_list)
+                //likedRef.current = liked_list;
+                setLikedAdvices(liked_list)
+
+                //console.log(sto)
+                //setStory(sto)
+                //console.log(story)
+                console.log("in liked advices")
+            }
+            catch (err) {
+                console.log(err.res.data.error)
+            }
+        }
+        getLikedAdvices();
+
+    }, [advice])
 
     useEffect(() => {
         const getAdvices = async () => {
@@ -204,21 +247,27 @@ const Advices = () => {
 
             </Box>
             <Box sx={{ backgroundColor: 'floralwhite' }}>
-                {advice.length !== 0 ?
-                    advice.map((adv) => {
-                        return (<Advice key={adv._id} props={adv} />)
-                    })
+                {likedAdvices.length !== 0 ?
+                    advice.length !== 0 ?
+                        advice.map((adv, index) => {
+                            let obj = adv;
+                            obj.liked = likedAdvices[index];
+                            return (<Advice key={obj._id} props={obj} />)
+                        })
+                        :
+                        <>
+                            <br />
+                            <br />
+                            <br />
+
+                            <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                                No Results Found
+                            </Typography>
+                        </>
                     :
-                    <>
-                        <br />
-                        <br />
-                        <br />
-
-                        <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
-                            No Results Found
-                        </Typography>
-                    </>
-
+                    <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
+                        Loading
+                    </Typography>
                 }
             </Box>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>

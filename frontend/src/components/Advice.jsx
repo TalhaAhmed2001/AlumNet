@@ -16,7 +16,7 @@ const Advice = ({ props }) => {
 
     const [popularity, setPopularity] = useState(props.popularity)
 
-    const [liked, setLiked] = useState('')
+    const [liked, setLiked] = useState(props.liked)
     //console.log('liked' + liked)
 
     const like = async () => {
