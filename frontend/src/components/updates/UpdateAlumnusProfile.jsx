@@ -16,8 +16,8 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { Fab } from '@mui/material';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
-import UpgradeIcon from '@mui/icons-material/Upgrade';
 const UpdateAlumnusProfile = ({ props }) => {
 
     const token = localStorage.getItem('jwt')
@@ -210,7 +210,7 @@ const UpdateAlumnusProfile = ({ props }) => {
                                         color='success'
                                     >
                                         Update
-                                        <UpgradeIcon sx={{ ml: 1, mr: -1 }} />
+                                        <SaveAsIcon sx={{ ml: 1, mr: -1 }} />
 
                                     </Button>
                                     {/* <Fab

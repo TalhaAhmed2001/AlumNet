@@ -18,8 +18,8 @@ const Story = ({ props }) => {
 
     //let liked_temp = props.liked
     const [liked, setLiked] = useState(props.liked)
-   // setLiked(props.liked)
-   //console.log(props)
+    // setLiked(props.liked)
+    //console.log(props)
     // console.log(likedBy)
     //console.log(props.liked)
 
@@ -65,7 +65,7 @@ const Story = ({ props }) => {
                         backgroundColor: 'white'
                     }} elevation={4} >
 
-                        <Grid container spacing={2} alignItems='center'>
+                        {/* <Grid container spacing={2} alignItems='center'>
 
 
                             <>
@@ -88,14 +88,13 @@ const Story = ({ props }) => {
                                 </Grid>
                                 <Grid item xs={6} >
                                     <Button variant='outlined' size='small' onClick={() => like()}>
-                                
+
                                         {liked ?
                                             <ThumbUpAltIcon sx={{ ml: 0, mr: 2 }} />
                                             :
                                             <ThumbUpOffAltIcon sx={{ ml: 0, mr: 2 }} />
                                         }
 
-                                        {/* <ThumbUpIcon sx={{  ml: 0, mr: 2 }} /> */}
                                         {popularity}
 
                                     </Button>
@@ -107,7 +106,45 @@ const Story = ({ props }) => {
                                 </Grid>
                             </>
 
+                        </Grid> */}
+
+                        <Grid container spacing={2} alignItems="center">
+                            <Grid item xs={12} sm={9}>
+                                <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
+                                    Title: {title}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12} sm={3}>
+                                <Typography variant="body2" align="right" sx={{ fontStyle: 'italic' }}>
+                                    Date Created: {new Date(date).toLocaleDateString()}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Typography variant="body2" align="left" sx={{ marginBottom: 2 }}>
+                                    Content: {content}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                                <Button variant="outlined" size="medium" onClick={() => like()}>
+                                    {liked ? (
+                                        <ThumbUpAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1 }} />
+                                    ) : (
+                                        <ThumbUpOffAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1 }} />
+                                    )}
+                                    {popularity}
+                                </Button>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                                <Typography variant="body1" align="right" sx={{ fontStyle: 'italic' }}>
+                                    By: {Name} {ERP}
+                                </Typography>
+                            </Grid>
                         </Grid>
+
 
                     </Paper>
                 </Box>

@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 const AdminNavbar = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" zindex='0'>
+            <AppBar position="fixed" zindex='0' sx={{ backgroundColor: 'blueviolet' }}>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
 
                     <Link to="/">

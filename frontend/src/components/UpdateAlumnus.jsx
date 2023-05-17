@@ -186,7 +186,7 @@ const UpdateAlumnus = () => {
                             width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`, mt: 8.6
                         }}
                     >
-                        <Toolbar>
+                        <Toolbar sx={{ backgroundColor: 'darkgray' }}>
                             <Typography variant="h6" noWrap component="div">
                                 {action}
                             </Typography>
@@ -208,7 +208,7 @@ const UpdateAlumnus = () => {
                         variant="permanent"
                         anchor="left"
                     >
-                        <Toolbar />
+                        <Toolbar sx={{mt:-0.4}}/>
 
                         <List>
                             <Divider />

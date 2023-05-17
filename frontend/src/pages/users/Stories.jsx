@@ -158,9 +158,9 @@ const Stories = () => {
                     <br />
 
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={4} lg={8}>
-                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
-                                Stories
+                        <Grid item xs={12} sm={12} md={8} lg={8}>
+                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily:'sans' }}>
+                                Alumni Stories
                             </Typography>
                         </Grid>
 

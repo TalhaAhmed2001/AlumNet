@@ -1,4 +1,4 @@
-import { Container, CssBaseline, Typography } from '@mui/material'
+import { Container, CssBaseline, Divider, Typography } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -147,7 +147,8 @@ const Alumnus = () => {
 
                 </Snackbar>
                 <CssBaseline />
-                <Box
+
+                {/* <Box
                     sx={{
                         marginTop: -1,
                         display: 'flex',
@@ -179,12 +180,7 @@ const Alumnus = () => {
                                     {'Major : '}{major}
                                 </Typography>
                             </Grid>
-                            {/* <Grid item xs={1}>
-                                <Typography variant='h6' textAlign='right' sx={{ mt: -1 }}>
-                                    {id}
-                                </Typography>
-                            </Grid> */}
-
+                            
                             <Grid item xs={12}>
                                 <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
                                     Job list:
@@ -291,7 +287,119 @@ const Alumnus = () => {
                         </Grid>
 
                     </Paper>
-                </Box >
+                </Box > */}
+
+                <Box
+                    sx={{
+                        marginTop: -1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'left',
+                        marginBottom: -1,
+                    }}
+                >
+                    <Paper sx={{ p: 4 }} elevation={4}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={2} md={2}>
+                                <img
+                                    src={miru}
+                                    alt='logo'
+                                    style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={9}>
+                                <Typography variant='h4' align='left' sx={{ mt: -1, fontWeight: 'bold' }}>
+                                    {first_name} {last_name}
+                                </Typography>
+                                <Typography variant='h5' align='left' sx={{ mt: 2 }}>
+                                    ID : {id}
+                                </Typography>
+                                <Typography variant='h6' align='left' sx={{ mt: 0 }}>
+                                    Class of {graduation}
+                                </Typography>
+                                <Typography variant='h6' align='left' sx={{ mt: 0 }}>
+                                    Degree: {degree}
+                                </Typography>
+                                <Typography variant='h6' align='left' sx={{ mt: 0 }}>
+                                    Major: {major}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Typography variant='h5' sx={{ fontWeight: 'bold', mt: 2 }}>
+                                    Job list:
+                                </Typography>
+                            </Grid>
+
+                            {jobs.map((job, index) => (
+                                <Fragment key={job.job_id}>
+                                    <Grid item xs={12} sm={9}>
+                                        <Typography variant='h6' align='left'>
+                                            {index + 1}. {job.role} at {job.employer}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={3}>
+                                        <Typography variant='h6' align='left'>
+                                            {new Date(job.date_start).toLocaleDateString()}{' - '}
+                                            {job.date_end ? new Date(job.date_end).toLocaleDateString() : ''}
+                                        </Typography>
+                                    </Grid>
+                                </Fragment>
+                            ))}
+
+                            <Grid item xs={12}>
+                                <Divider sx={{ my: 2 }} />
+                                <Typography variant='h5' sx={{ fontWeight: 'bold', mt: 2 }}>
+                                    Advices:
+                                </Typography>
+                            </Grid>
+
+                            {advices.map((advice) => (
+                                <Fragment key={advice._id}>
+                                    <Grid item xs={12} sm={12}>
+                                        <Typography variant='h6' align='left' sx={{ mt: 0 }}>
+                                            Title: {advice.title}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12}>
+                                        <Typography variant='body1' align='left' sx={{ mt: -1 }}>
+                                            Category: {advice.category}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12}>
+                                        <Typography variant='body2' align='left' sx={{ mt: -1 }}>
+                                            Content: {advice.content}
+                                        </Typography>
+                                    </Grid>
+                                </Fragment>
+                            ))}
+
+                            <Grid item xs={12}>
+                                <Divider sx={{ my: 2 }} />
+                                <Typography variant='h5' sx={{ fontWeight: 'bold', mt: 2 }}>
+                                    Stories:
+                                </Typography>
+                            </Grid>
+
+                            {stories.map((story) => (
+                                <Fragment key={story._id}>
+                                    <Grid item xs={12} sm={12}>
+                                        <Typography variant='h6' align='left' sx={{ mt: 0 }}>
+                                            Title: {story.title}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12}>
+                                        <Typography variant='body2' align='left' sx={{ mt: -1 }}>
+                                            Content: {story.content}
+                                        </Typography>
+                                    </Grid>
+                                </Fragment>
+                            ))}
+                        </Grid>
+                        <br/>
+                    </Paper>
+                </Box>
+
             </Container >
         </Box>
     )

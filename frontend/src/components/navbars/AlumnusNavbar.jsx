@@ -14,11 +14,11 @@ const AlumnusNavbar = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" >
+            <AppBar position="fixed" sx={{ backgroundColor: 'blueviolet' }}>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
 
                     <Link to="/">
-                        <img src={AlumNet} alt="logo" height='60vmin' component={Link} href='/' />
+                        <img src={AlumNet} alt="logo" height='60vmin' component={Link} href='/'/>
 
                     </Link>
 
@@ -27,8 +27,13 @@ const AlumnusNavbar = () => {
 
                             <Grid item md={0.5} />
 
+                            <Grid item xs={4} sx={{ display: { xs: 'flex', md: 'none' }}}>
+                                {/* <Typography variant="h6" component="div" sx={{ display: { sm: 'flex', md: 'none' }, flexGrow: 0.1 }}>
+
+                                </Typography> */}
+                            </Grid>
                             <Grid item lg={1.5}>
-                                <Typography variant="h6" component="div" sx={{ display: { sm: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
                                     <Button sx={{ my: 2, color: 'white', display: 'block', }} component={Link} to='/alumni'>
                                         Alumni
                                     </Button>
@@ -36,7 +41,7 @@ const AlumnusNavbar = () => {
                             </Grid>
 
                             <Grid item lg={1.5}>
-                                <Typography variant="h6" component="div" sx={{ display: { sm: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
                                     <Button sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to='/stories'>
                                         Stories
                                     </Button>
@@ -44,7 +49,7 @@ const AlumnusNavbar = () => {
                             </Grid>
 
                             <Grid item lg={1.5}>
-                                <Typography variant="h6" component="div" sx={{ display: { sm: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
                                     <Button sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to='/advices'>
                                         Advices
                                     </Button>
@@ -52,7 +57,7 @@ const AlumnusNavbar = () => {
                             </Grid>
 
                             <Grid item lg={1.5}>
-                                <Typography variant="h6" component="div" sx={{ display: { sm: 'flex' }, flexGrow: 0.1 }}>
+                                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
                                     <Button sx={{ my: 2, color: 'inherit', display: 'block' }} component={Link} to='/create'>
                                         Create
                                     </Button>
@@ -64,7 +69,7 @@ const AlumnusNavbar = () => {
 
                             <Grid item sm={3.5} />
 
-                            <Grid item md={1.25}>
+                            <Grid item md={1.25} sx={{ display: { xs: 'none', md: 'flex' }}}>
 
                                 <Button color='inherit' component={Link} to='/myprofile'>
                                     My Profile

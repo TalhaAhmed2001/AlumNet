@@ -18,6 +18,7 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 const UpdateJob = ({ props }) => {
 
@@ -202,7 +203,7 @@ const UpdateJob = ({ props }) => {
                                         name='update'
                                     >
                                         Update
-                                        <UpgradeIcon sx={{ ml: 1, mr: -1 }} />
+                                        <SaveAsIcon sx={{ ml: 1, mr: -1 }} />
 
                                     </Button>
                                 </Grid>

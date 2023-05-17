@@ -17,6 +17,7 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 const UpdateStudentProfile = ({ props }) => {
 
     const token = localStorage.getItem('jwt')
@@ -237,7 +238,10 @@ const UpdateStudentProfile = ({ props }) => {
                                         sx={{ mt: 0, mb: -2 }}
                                         color='success'
                                     >
+
                                         Update
+                                        <SaveAsIcon sx={{ ml: 1, mr: -1 }} />
+
                                     </Button>
                                 </Grid>
                             </Grid>

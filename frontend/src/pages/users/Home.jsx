@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { Link } from 'react-router-dom';
 import home_1 from "../../images/home_3.jpg"
@@ -35,7 +35,7 @@ const Home = () => {
                     style={{ maxWidth: '100%', maxHeight: '50%', objectFit: 'cover' }}
                 />
                 <div style={{ position: 'absolute', top: '60%', left: '50%', transform: 'translate(-5%, -60%)' }}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} >
                         <Grid item >
                             <img
                                 src={logo}
@@ -51,38 +51,48 @@ const Home = () => {
                                 gutterBottom
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    display: { xs: 'none', sm: 'flex', md: 'flex' },
                                     flexGrow: 0.1,
-                                    flexShrink: 0.1,
+                                    flexShrink: 1,
                                     fontWeight: 100,
                                     letterSpacing: '',
-                                    textDecoration: 'none'
+                                    textDecoration: 'none',
+                                    fontSize: { xs: 'none', sm: '2vw', md: '1.6vw' }
                                 }}>
                                 {'AlumNet is an alumni tracking system designed to help educational institutions stay connected with their former students. By providing a platform for alumni to connect with each other and their alma mater, AlumNet fosters a sense of...'}
                             </Typography>
                             <Typography>
 
-                                <a href='#about_us' style={{ color: 'beige' }}>
-                                    Continue Reading
-                                </a>
+                                <Typography sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                    <a href='#about_us' style={{ color: 'beige', }}>
+                                        Continue Reading
+                                    </a>
+                                </Typography>
+
 
                             </Typography>
                         </Grid>
                     </Grid>
 
                 </div>
-            </div>
+            </div >
 
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', marginTop: -4 }}>
                 <img
                     src={alumnus}
                     alt="bg"
                     style={{ maxWidth: '100%', maxHeight: '50%', objectFit: 'cover' }}
                 />
                 <div style={{ position: 'absolute', top: '60%', left: '15%', transform: 'translate(-10%, -10%)' }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography variant='h3' color='gold'>
+                    <Grid container spacing={2} sx={{ my: 0 }}>
+                        <Grid item xs={2}>
+                            <Typography
+                                variant='h3'
+                                color='gold'
+                                sx={{
+                                    // display: { xs: 'none', sm: 'flex', md: 'flex' },
+                                    fontSize: { xs: '6vw', sm: '5.5vw', md: '3.5vw' }
+                                }}>
                                 Alumni
                             </Typography>
                         </Grid>
@@ -93,12 +103,13 @@ const Home = () => {
                                 gutterBottom
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    display: { xs: 'none', sm: 'none', md: 'flex' },
                                     flexGrow: 0.1,
                                     flexShrink: 0.1,
                                     fontWeight: 100,
                                     letterSpacing: '',
                                     textDecoration: 'none',
+                                    fontSize: { xs: 'none', sm: 'none', md: '1.5vw' }
                                 }}>
                                 {` Alumni are former students who play a vital role in their alma mater's success.
                                  They offer career advice and mentorship to current students, create networking opportunities,
@@ -114,7 +125,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', marginTop: -4 }}>
                 <img
                     src={advice}
                     alt="bg"
@@ -123,7 +134,13 @@ const Home = () => {
                 <div style={{ position: 'absolute', top: '30%', left: '15%', transform: 'translate(-10%, -50%)' }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography variant='h3' color='darkviolet'>
+                            <Typography
+                                variant='h3'
+                                color='darkviolet'
+                                sx={{
+                                    // display: { xs: 'none', sm: 'flex', md: 'flex' },
+                                    fontSize: { xs: '6vw', sm: '5.5vw', md: '3.5vw' }
+                                }}>
                                 Advices
                             </Typography>
                         </Grid>
@@ -134,19 +151,20 @@ const Home = () => {
                                 gutterBottom
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    display: { xs: 'none', sm: 'none', md: 'flex' },
                                     flexGrow: 0.1,
                                     flexShrink: 0.1,
                                     fontWeight: '100',
                                     letterSpacing: '',
                                     textDecoration: 'none',
+                                    fontSize: { xs: 'none', sm: 'none', md: '1.5vw' }
                                 }}>
                                 {`Alumni often provide valuable advice to current students and recent graduates that can help them navigate their journey towards success.
                                  This advice can be general or specific to a certain degree, and it draws from the alumni's own experiences and knowledge.
                                   These pieces of advice may include tips on time management, resilience, networking, mentorship, pursuing opportunities, and more. `}
                             </Typography>
                             <Button variant='contained' color='inherit' size='large' component={Link} to="/advices">
-                                View featured advices
+                                View All advices
                             </Button>
                         </Grid>
                     </Grid>
@@ -154,7 +172,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', marginTop: -4 }}>
                 <img
                     src={story}
                     alt="bg"
@@ -163,7 +181,13 @@ const Home = () => {
                 <div style={{ position: 'absolute', top: '55%', left: '45%', transform: 'translate(-10%, -10%)' }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography variant='h3' color='black'>
+                            <Typography
+                                variant='h3'
+                                color='black'
+                                sx={{
+                                    // display: { xs: 'none', sm: 'flex', md: 'flex' },
+                                    fontSize: { xs: '6vw', sm: '5.5vw', md: '3.5vw' }
+                                }}>
                                 Stories
                             </Typography>
                         </Grid>
@@ -174,12 +198,13 @@ const Home = () => {
                                 gutterBottom
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    display: { xs: 'none', sm: 'none', md: 'flex' },
                                     flexGrow: 0.1,
                                     flexShrink: 0.1,
                                     fontWeight: 100,
                                     letterSpacing: '',
                                     textDecoration: 'none',
+                                    fontSize: { xs: 'none', sm: 'none', md: '1.5vw' }
                                 }}>
                                 {`Alumni stories are narratives about the journey from graduation to achieving one's career goals.
                                  They offer valuable insights and wisdom for current students and recent graduates,
@@ -188,7 +213,7 @@ const Home = () => {
                                     creating a sense of belonging and community. `}
                             </Typography>
                             <Button variant='contained' color='inherit' size='large' component={Link} to="/stories">
-                                View Featured Stories
+                                View All Stories
                             </Button>
                         </Grid>
                     </Grid>
@@ -196,7 +221,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', marginTop: -4 }}>
                 <img
                     src={grad}
                     alt="bg"
@@ -211,7 +236,8 @@ const Home = () => {
                                 color='white'
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    // display: { xs: 'flex', md: 'flex' },
+                                    fontSize: { xs: '6vw', sm: '5.5vw', md: '3.5vw' },
                                     flexGrow: 0.1,
                                     flexShrink: 0.1,
                                     fontWeight: 'bold',
@@ -228,12 +254,13 @@ const Home = () => {
                                 gutterBottom
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    display: { xs: 'flex', sm: 'flex', md: 'flex' },
                                     flexGrow: 0.1,
                                     flexShrink: 0.1,
                                     fontWeight: 100,
                                     letterSpacing: '',
                                     textDecoration: 'none',
+                                    fontSize: { xs: '2vw', sm: '1.8vw', md: '1.5vw' }
                                 }}>
                                 {`AlumNet is an alumni management system designed to help educational institutions
                                  stay connected with their former students.
@@ -250,12 +277,13 @@ const Home = () => {
                                 gutterBottom
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    display: { xs: 'none', sm: 'flex', md: 'flex' },
                                     flexGrow: 0.1,
                                     flexShrink: 0.1,
                                     fontWeight: 100,
                                     letterSpacing: '',
                                     textDecoration: 'none',
+                                    fontSize: { xs: 'none', sm: '1.8vw', md: '1.5vw' }
                                 }}>
                                 {`At the same time, institutions can use AlumNet to track alumni engagement
                                      and measure the impact of their alumni programs.
@@ -272,12 +300,13 @@ const Home = () => {
                                 gutterBottom
                                 sx={{
                                     //ml: -28,
-                                    display: { xs: 'flex', md: 'flex' },
+                                    display: { xs: 'none', sm: 'none', md: 'flex' },
                                     flexGrow: 0.1,
                                     flexShrink: 0.1,
                                     fontWeight: 100,
                                     letterSpacing: '',
                                     textDecoration: 'none',
+                                    fontSize: { xs: 'none', sm: 'none', md: '1.5vw' }
                                 }}>
                                 {`Whether you're a recent graduate or a seasoned alum,
                                      AlumNet is the perfect tool for staying connected and making a difference in the lives of future graduates. `}

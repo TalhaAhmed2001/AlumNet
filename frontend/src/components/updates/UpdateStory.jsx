@@ -21,6 +21,7 @@ import Snackbar from '@mui/material/Snackbar';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import SaveIcon from '@mui/icons-material/Save';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 const UpdateStory = ({ props, onDelete }) => {
 
@@ -184,7 +185,7 @@ const UpdateStory = ({ props, onDelete }) => {
                                     >
                                         {/* <SaveIcon/> */}
                                         Update
-                                        <SaveIcon sx={{ ml: 1, mr: -1 }} />
+                                        <SaveAsIcon sx={{ ml: 1, mr: -1 }} />
 
                                     </Button>
                                 </Grid>

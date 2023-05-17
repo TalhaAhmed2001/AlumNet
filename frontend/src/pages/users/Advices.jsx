@@ -104,7 +104,10 @@ const Advices = () => {
     }, [advice])
 
     useEffect(() => {
+
         const getAdvices = async () => {
+
+            setLikedAdvices([])
             try {
                 const response = await axios.get("http://localhost:5000/advices", {
                     params: {
@@ -147,9 +150,9 @@ const Advices = () => {
                     <br />
 
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={3} lg={6}>
-                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
-                                Advices
+                        <Grid item xs={12} sm={12} md={6} lg={6}>
+                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily:'sans' }}>
+                                Alumni Advices
                             </Typography>
                         </Grid>
 

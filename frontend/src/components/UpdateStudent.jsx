@@ -22,6 +22,7 @@ import axios from 'axios'
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
+
 const UpdateStudent = () => {
 
     const token = localStorage.getItem('jwt')
@@ -85,8 +86,8 @@ const UpdateStudent = () => {
                             width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`, mt: 8.6
                         }}
                     >
-                        <Toolbar>
-                            <Typography variant="h6" noWrap component="div">
+                        <Toolbar sx={{ backgroundColor: 'goldenrod' }}>
+                            <Typography variant="h6" noWrap component="div" >
                                 {action}
                             </Typography>
                         </Toolbar>
@@ -107,12 +108,24 @@ const UpdateStudent = () => {
                         variant="permanent"
                         anchor="left"
                     >
-                        <Toolbar />
+                        <Toolbar  sx={{mt:-0.4}}/>
 
                         <List>
                             <Divider />
-                            <ListItemButton onClick={setProfileAction}>
+                            <ListItemButton onClick={setProfileAction} >
                                 <ListItemText primary='Personal Info' />
+                            </ListItemButton>
+                            <Divider />
+                            <ListItemButton disabled>
+                                <ListItemText primary='Advices' />
+                            </ListItemButton>
+                            <Divider />
+                            <ListItemButton disabled>
+                                <ListItemText primary='Stories' />
+                            </ListItemButton>
+                            <Divider />
+                            <ListItemButton disabled>
+                                <ListItemText primary='Jobs' />
                             </ListItemButton>
                             <Divider />
 

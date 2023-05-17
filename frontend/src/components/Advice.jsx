@@ -48,7 +48,8 @@ const Advice = ({ props }) => {
             <br />
             <Container component="main" maxWidth='lg'>
                 <CssBaseline />
-                <Box
+
+                {/* <Box
                     sx={{
                         marginTop: -1,
                         display: 'flex',
@@ -95,7 +96,6 @@ const Advice = ({ props }) => {
                                         <ThumbUpOffAltIcon sx={{ ml: 0, mr: 2 }} />
                                     }
 
-                                    {/* <ThumbUpIcon sx={{  ml: 0, mr: 2 }} /> */}
                                     {popularity}
 
                                 </Button>
@@ -108,7 +108,63 @@ const Advice = ({ props }) => {
                         </Grid>
 
                     </Paper>
+                </Box> */}
+
+                <Box
+                    sx={{
+                        marginTop: -1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'left',
+                        marginBottom: -1,
+                    }}
+                >
+                    <Paper sx={{ p: 4, backgroundColor: 'white' }} elevation={4}>
+                        <Grid container spacing={2} alignItems='center'>
+                            <Grid item xs={12} sm={9}>
+                                <Typography variant='h6' align='left' sx={{ fontWeight: 'bold', marginTop: 0 }}>
+                                    Title: {title}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12} sm={3}>
+                                <Typography variant='body2' align='right'  sx={{ fontStyle: 'italic' }}>
+                                    Date Created: {new Date(date).toLocaleDateString()}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12} sm={12}>
+                                <Typography variant='body1' align='left' sx={{ marginTop: -1 }}>
+                                    Category: {category}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12} sm={12}>
+                                <Typography variant='body2' align='left' sx={{ marginBottom: 1 }}>
+                                    Content: {content}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                                <Button variant='outlined' size='medium' onClick={like}>
+                                    {liked ? (
+                                        <ThumbUpAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1, }} />
+                                    ) : (
+                                        <ThumbUpOffAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1 }} />
+                                    )}
+                                    {popularity}
+                                </Button>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                                <Typography variant='body1' align='right'  sx={{ fontStyle: 'italic' }}>
+                                    By: {Name} {ERP}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Paper>
                 </Box>
+
             </Container>
         </>
     )

@@ -19,7 +19,7 @@ router.get("/profile_by_name/:name", authPermission("getAlumniProfiles"), getAlu
 
 router.put("/:pid", authPermission("updateAlumnusProfile"), validateUpdatedAlumnusProfile, updateAlumnusProfile)
 router.get("/jobs", authPermission("addJob"), getAlumnusJobs)
-router.get("/jobs/:pid", authPermission("addJob"), getAlumnusJobs)
+router.get("/jobs/:pid", authPermission("getAlumnusProfile"), getAlumnusJobs)
 router.post("/jobs", authPermission("addJob"), validateJobDesc, addJob)
 router.patch("/jobs", authPermission("updateJob"), validateUpdatedJobDesc, updateJob)
 router.delete("/jobs/:jid", authPermission("updateJob"), deleteJob)

@@ -116,12 +116,12 @@ const Alumni = () => {
                 flexDirection: 'column',
                 alignItems: 'left',
             }}>
-                <Paper sx={{ p: 4, }} elevation={4}>
+                <Paper sx={{ p: 4, backgroundColor: 'white' }} elevation={4} >
                     <br />
 
                     <Grid container spacing={2} alignItems='center' >
                         <Grid item xs={12} sm={12} md={3} lg={2}>
-                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold' }}>
+                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily:'sans'  }}>
                                 Alumni
                             </Typography>
                         </Grid>
@@ -142,7 +142,7 @@ const Alumni = () => {
                             <Button
                                 type="submit"
                                 variant="contained"
-                                sx={{ mt: 0, mb: -2 }}
+                                sx={{ mt: 1, mb: 1 }}
                                 color='secondary'
                                 onClick={onSubmit}
                                 size="large"
