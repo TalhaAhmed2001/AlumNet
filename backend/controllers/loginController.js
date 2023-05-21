@@ -57,7 +57,7 @@ const login = async (req, res) => {
                 }
 
                 if (status == "Pending") {
-                    return res.status(200).json({ message: "Profile waiting to be approved..." })
+                    return res.status(400).json({ message: "Profile waiting to be approved..." })
                 }
 
                 let token;

@@ -11,6 +11,8 @@ const createStudentProfile = asyncHandler(async (req, res) => {
     const last_name = req.body.last_name
     const sex = req.body.sex
     const degree = req.body.degree
+    
+    const image = req.file.path
 
     try {
 
@@ -29,6 +31,7 @@ const createStudentProfile = asyncHandler(async (req, res) => {
             .input('last_name', sql.VarChar(20), last_name)
             .input('sex', sql.Char(1), sex)
             .input('degree', sql.VarChar(20), degree)
+            .input('image', sql.VarChar(60), image)
             .execute('CreateStudentProfile')
 
         if (result.returnValue === 1) {

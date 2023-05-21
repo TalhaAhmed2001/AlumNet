@@ -73,6 +73,7 @@ const getStories = async (req, res, next) => {
 //GET A SPECIFIC STORY
 const getStoryById = async (req, res, next) => {
     const storyId = req.params.sid;
+    console.log(storyId)
 
     let story;
     try {
@@ -212,7 +213,7 @@ const deleteStories = async (req, res, next) => {
     try {
         story = await Stories.findById(storyId);
     } catch (err) {
-        return res.status(500).json({ error: "Something went wrong, Could not delete place" });
+        return res.status(500).json({ error: "Something went wrong, Could not delete story" });
 
     }
 
@@ -229,6 +230,19 @@ const deleteStories = async (req, res, next) => {
     }
 }
 
+//DELETE
+const deleteAllStories = async(req,res)=>{
+    
+    const erp = req.params.erp
+
+    try {
+        const deletedStory = await Stories.deleteMany({ ERP: erp });
+        return res.json(deletedStory);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 module.exports = {
     getAllStories,
     getStories,
@@ -237,5 +251,6 @@ module.exports = {
     likeStory,
     createStories,
     updateStories,
-    deleteStories
+    deleteStories,
+    deleteAllStories
 }

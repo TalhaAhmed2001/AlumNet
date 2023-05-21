@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 
+import CircularProgress from '@mui/material/CircularProgress';
 const Advices = () => {
 
     const token = localStorage.getItem('jwt');
@@ -137,7 +138,7 @@ const Advices = () => {
     }, [token, filter, sort, order, query, currentPage])
 
     return (
-        <>
+        <Box sx={{backgroundColor:'floralwhite'}}>
             <Box sx={{
                 marginTop: 4,
                 display: 'flex',
@@ -151,7 +152,7 @@ const Advices = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={6} lg={6}>
-                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily:'sans' }}>
+                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily: 'sans' }}>
                                 Alumni Advices
                             </Typography>
                         </Grid>
@@ -268,15 +269,15 @@ const Advices = () => {
                             </Typography>
                         </>
                     :
-                    <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
-                        Loading
-                    </Typography>
+                    <Box display="flex" justifyContent="center">
+                        <CircularProgress sx={{ mt: 10, mb: 10 }} />
+                    </Box>
                 }
             </Box>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
                 <Pagination className="mt-1 mb-1" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
             </div>
-        </>
+        </Box>
     )
 }
 

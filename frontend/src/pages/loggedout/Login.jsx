@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import AlumNet2 from '../../images/AlumNet2_1.png';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,6 +16,7 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from 'react-router-dom';
 import home from '../../images/AlumNet_home_1.png'
+import login from '../../images/login.jpg'
 
 const Login = () => {
 
@@ -50,20 +51,20 @@ const Login = () => {
     const onSubmit = async (e) => {
 
         e.preventDefault();
-        
+
         setOpen(false)
 
-        if (id.trim() === ''){
+        if (id.trim() === '') {
             setText("'ID' field cannot be empty")
             setOpen(true)
             return
         }
-        else if(isNaN(id)){
+        else if (isNaN(id)) {
             setText("'ID' must be a number")
             setOpen(true)
             return
         }
-        else if (password.trim() === ''){
+        else if (password.trim() === '') {
             setText("'Password' field cannot be empty")
             setOpen(true)
             return
@@ -91,9 +92,34 @@ const Login = () => {
 
     return (
         <>
+            {/* <br /> */}
+            {/* <br /> */}
+            <div style={{ position: 'relative' }}>
+                <img
+                    id='home'
+                    src={login}
+                    alt="bg"
+                    style={{
+                        width: '100%',
+                        minHeight: '100%',
+                        minWidth: '100%',
+                        objectFit: 'cover',
+                        margin: '-12.5vh 0', // Apply negative margin to crop the image beyond the height
+                    }} />
+            </div>
 
             <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
+                {/* <Container component="main" maxWidth="xs"> */}
+                <Container
+                    component="main"
+                    maxWidth="xs"
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                    }}
+                >
                     <Snackbar
                         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                         open={open}
@@ -105,20 +131,7 @@ const Login = () => {
 
                     </Snackbar>
                     <CssBaseline />
-                    {/* <Grid
-                        item
-                        xs={false}
-                        sm={4}
-                        md={7}
-                        sx={{
-                            backgroundImage: {home},
-                            backgroundRepeat: 'no-repeat',
-                            backgroundColor: (t) =>
-                                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
-                    /> */}
+
                     <br />
                     <Box
                         sx={{
@@ -165,6 +178,7 @@ const Login = () => {
                                     fullWidth
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
+                                    color='secondary'
                                 >
                                     Sign In
                                 </Button>

@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 const Advice = ({ props }) => {
 
     const token = localStorage.getItem('jwt')
@@ -49,121 +49,77 @@ const Advice = ({ props }) => {
             <Container component="main" maxWidth='lg'>
                 <CssBaseline />
 
-                {/* <Box
-                    sx={{
-                        marginTop: -1,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'left',
-                        marginBottom: -1
-                    }}
-                >
-                    <Paper sx={{
-                        p: 4,
-                        backgroundColor: 'white'
-                    }} elevation={4} >
+                
+                    <Box
+                        sx={{
+                            marginTop: -1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'left',
+                            marginBottom: -1,
+                        }}
+                    >
+                        <Paper sx={{ p: 4, backgroundColor: 'white' }} elevation={4}>
+                        
+                            <Grid container spacing={2} alignItems='center'>
+                                <Grid item xs={12} sm={9}>
+                                <Link to={`/advices/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
 
-                        <Grid container spacing={2} alignItems='center'>
+                                    <Typography variant='h6' align='left' sx={{ fontWeight: 'bold', marginTop: 0, color:'black' }}>
+                                        Title: {title}
+                                    </Typography>
+                                    </Link>
+                                </Grid>
 
-                            <Grid item xs={12} sm={9}>
-                                <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
-                                    Title : {" "}{title}
-                                </Typography>
+                                <Grid item xs={12} sm={3}>
+                                <Link to={`/advices/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant='body2' align='right' sx={{ fontStyle: 'italic',color:'black' }}>
+                                        Date Created: {new Date(date).toLocaleDateString()}
+                                    </Typography>
+                                    </Link>
+                                </Grid>
+
+                                <Grid item xs={12} sm={12}>
+                                <Link to={`/advices/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant='body1' align='left' sx={{ marginTop: -1,color:'black' }}>
+                                        Category: {category}
+                                    </Typography>
+                                    </Link>
+                                </Grid>
+
+                                <Grid item xs={12} sm={12}>
+                                <Link to={`/advices/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant='body2' align='left' sx={{ marginBottom: 1,color:'black' }}>
+                                        Content: {content}
+                                    </Typography>
+                                    </Link>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <Button variant='outlined' size='medium' onClick={like}>
+                                        {liked ? (
+                                            <ThumbUpAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1, }} />
+                                        ) : (
+                                            <ThumbUpOffAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1 }} />
+                                        )}
+                                        {popularity}
+                                    </Button>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                <Link to={`/advices/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant='body1' align='right' sx={{ fontStyle: 'italic',color:'black' }}>
+                                        By: {Name} {ERP}
+                                    </Typography>
+                                    </Link>
+                                </Grid>
                             </Grid>
-
-                            <Grid item xs={12} sm={3}>
-                                <Typography variant='body2' textAlign='right' sx={{ mt: 0 }}>
-                                    Date Created: {new Date(date).toISOString().slice(0, 10)}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <Typography variant='body1' textAlign='left' sx={{ mt: -1 }}>
-                                    Category: {category}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <Typography variant='body2' textAlign='left' sx={{ mb: 1 }}>
-                                    Content : {" "}{content}
-                                </Typography>
-                            </Grid>
-
-
-                            <Grid item xs={6} >
-                                <Button variant='outlined' size='small' onClick={() => like()}>
-                                    {liked ?
-                                        <ThumbUpAltIcon sx={{ ml: 0, mr: 2 }} />
-                                        :
-                                        <ThumbUpOffAltIcon sx={{ ml: 0, mr: 2 }} />
-                                    }
-
-                                    {popularity}
-
-                                </Button>
-                            </Grid>
-                            <Grid item xs={6} >
-                                <Typography variant='body1' textAlign='right'>
-                                    By: {Name}{' '}{ERP}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-
-                    </Paper>
-                </Box> */}
-
-                <Box
-                    sx={{
-                        marginTop: -1,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'left',
-                        marginBottom: -1,
-                    }}
-                >
-                    <Paper sx={{ p: 4, backgroundColor: 'white' }} elevation={4}>
-                        <Grid container spacing={2} alignItems='center'>
-                            <Grid item xs={12} sm={9}>
-                                <Typography variant='h6' align='left' sx={{ fontWeight: 'bold', marginTop: 0 }}>
-                                    Title: {title}
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={12} sm={3}>
-                                <Typography variant='body2' align='right'  sx={{ fontStyle: 'italic' }}>
-                                    Date Created: {new Date(date).toLocaleDateString()}
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={12} sm={12}>
-                                <Typography variant='body1' align='left' sx={{ marginTop: -1 }}>
-                                    Category: {category}
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={12} sm={12}>
-                                <Typography variant='body2' align='left' sx={{ marginBottom: 1 }}>
-                                    Content: {content}
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <Button variant='outlined' size='medium' onClick={like}>
-                                    {liked ? (
-                                        <ThumbUpAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1, }} />
-                                    ) : (
-                                        <ThumbUpOffAltIcon sx={{ fontSize: 24, marginLeft: 0, marginRight: 1 }} />
-                                    )}
-                                    {popularity}
-                                </Button>
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <Typography variant='body1' align='right'  sx={{ fontStyle: 'italic' }}>
-                                    By: {Name} {ERP}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                </Box>
+                        </Paper>
+                    </Box>
 
             </Container>
         </>

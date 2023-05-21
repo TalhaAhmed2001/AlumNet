@@ -67,6 +67,24 @@ const Eradication = () => {
           }
         })
 
+      if (user === 'alumnus') {
+
+        const resp = await axios.delete("http://localhost:5000/delete/stories/" + `${id}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+
+        const res = await axios.delete("http://localhost:5000/delete/advices/" + `${id}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+
+      }
+
       setText(response.data.message)
       setSeverity('success')
       setOpen(true)

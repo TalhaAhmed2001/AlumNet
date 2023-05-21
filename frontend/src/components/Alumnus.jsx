@@ -11,7 +11,7 @@ const Alumnus = ({ props }) => {
 
     const token = localStorage.getItem('jwt')
 
-    const { id, first_name, last_name, graduation, degree, major } = props
+    const { id, first_name, last_name, graduation, degree, major, image } = props
 
     const [jobs, setJobs] = useState([])
 
@@ -44,68 +44,6 @@ const Alumnus = ({ props }) => {
                 <CssBaseline />
                 <Link to={`/alumni/${id}`} style={{ textDecoration: 'none' }} >
 
-                    {/* <Box
-                        sx={{
-                            marginTop: -1,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'left',
-                            marginBottom: -1,
-                        }}
-                    >
-                        <Paper sx={{
-                            p: 4,
-                            backgroundColor: 'white'
-                        }} elevation={4} >
-
-                            <Grid container spacing={2}>
-                                <Grid item xs={4} sm={4} md={2}>
-                                    <img src={miru} alt='logo' style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }} />
-                                </Grid>
-                                <Grid item xs={12} sm={9}>
-                                    <Typography variant='h5' textAlign='left' sx={{ mt: -1, fontWeight: 'bold' }}>
-                                        {first_name}{' '}{last_name}
-                                    </Typography>
-                                    <Typography variant='h6' textAlign='left' sx={{ mt: 2 }}>
-                                        {'Class of '}{graduation}
-                                    </Typography>
-                                    <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
-                                        {'Degree : '}{degree}
-                                    </Typography>
-                                    <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
-                                        {'Major : '}{major}
-                                    </Typography>
-                                    <Typography variant='h6'>
-                                        Job list:
-
-                                        {jobs.length !== 0 ?
-                                            jobs.map((job, index) => {
-                                                //console.log(index)
-                                                let obj = job
-                                                obj.index = index + 1
-                                                return (
-                                                    // <Typography key={job.job_id}>
-                                                    <Fragment key={job.job_id}>
-                                                        {' '}{job.role}{' at '}{job.employer} {' | '}
-                                                    </Fragment>
-                                                    // </Typography>
-                                                )
-                                            })
-                                            :
-                                            null}
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant='h6' textAlign='right' sx={{ mt: -1 }}>
-                                        {id}
-                                    </Typography>
-                                </Grid>
-
-                            </Grid>
-
-                        </Paper>
-                    </Box> */}
-
                     <Box
                         sx={{
                             marginTop: -1,
@@ -118,9 +56,14 @@ const Alumnus = ({ props }) => {
                         <Paper sx={{ p: 4, backgroundColor: 'white' }} elevation={4}>
                             <Grid container spacing={2}>
                                 <Grid item xs={4} sm={4} md={2}>
-                                    <img
+                                    {/* <img
                                         src={miru}
                                         alt='logo'
+                                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                    /> */}
+                                    <img
+                                        src={`${'http://localhost:5000'}/${props.image}`}
+                                        alt={props.title}
                                         style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
                                     />
                                 </Grid>
@@ -165,7 +108,7 @@ const Alumnus = ({ props }) => {
                             </Grid>
                         </Paper>
                     </Box>
-                    
+
                 </Link>
             </Container>
         </>

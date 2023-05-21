@@ -6,7 +6,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import axios from 'axios';
 import { Paper, Button } from '@mui/material';
-
+import { useParams, Link } from 'react-router-dom';
 
 const Story = ({ props }) => {
 
@@ -51,6 +51,7 @@ const Story = ({ props }) => {
             <br />
             <Container component="main" maxWidth='lg'>
                 <CssBaseline />
+
                 <Box
                     sx={{
                         marginTop: -1,
@@ -65,66 +66,36 @@ const Story = ({ props }) => {
                         backgroundColor: 'white'
                     }} elevation={4} >
 
-                        {/* <Grid container spacing={2} alignItems='center'>
-
-
-                            <>
-                                <Grid item xs={12} sm={9}>
-                                    <Typography variant='h6' textAlign='left' sx={{ mt: 0 }}>
-                                        Title : {" "}{title}
-                                    </Typography>
-                                </Grid>
-
-                                <Grid item xs={12} sm={3}>
-                                    <Typography variant='body2' textAlign='right' sx={{ mt: 0 }}>
-                                        Date Created: {new Date(date).toISOString().slice(0, 10)}
-                                    </Typography>
-                                </Grid>
-
-                                <Grid item xs={12} sm={12}>
-                                    <Typography variant='body2' textAlign='left' sx={{ mb: 1 }}>
-                                        Content : {" "}{content}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6} >
-                                    <Button variant='outlined' size='small' onClick={() => like()}>
-
-                                        {liked ?
-                                            <ThumbUpAltIcon sx={{ ml: 0, mr: 2 }} />
-                                            :
-                                            <ThumbUpOffAltIcon sx={{ ml: 0, mr: 2 }} />
-                                        }
-
-                                        {popularity}
-
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={6} >
-                                    <Typography variant='body1' textAlign='right'>
-                                        By: {Name}{' '}{ERP}
-                                    </Typography>
-                                </Grid>
-                            </>
-
-                        </Grid> */}
 
                         <Grid container spacing={2} alignItems="center">
                             <Grid item xs={12} sm={9}>
-                                <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
-                                    Title: {title}
-                                </Typography>
+                                <Link to={`/stories/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1, color: 'black' }}>
+                                        Title: {title}
+                                    </Typography>
+
+                                </Link>
                             </Grid>
 
                             <Grid item xs={12} sm={3}>
-                                <Typography variant="body2" align="right" sx={{ fontStyle: 'italic' }}>
-                                    Date Created: {new Date(date).toLocaleDateString()}
-                                </Typography>
+                                <Link to={`/stories/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant="body2" align="right" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                        Date Created: {new Date(date).toLocaleDateString()}
+                                    </Typography>
+
+                                </Link>
                             </Grid>
 
                             <Grid item xs={12}>
-                                <Typography variant="body2" align="left" sx={{ marginBottom: 2 }}>
-                                    Content: {content}
-                                </Typography>
+                                <Link to={`/stories/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant="body2" align="left" sx={{ marginBottom: 2, color: 'black' }}>
+                                        Content: {content}
+                                    </Typography>
+
+                                </Link>
                             </Grid>
 
                             <Grid item xs={6}>
@@ -139,9 +110,13 @@ const Story = ({ props }) => {
                             </Grid>
 
                             <Grid item xs={6}>
-                                <Typography variant="body1" align="right" sx={{ fontStyle: 'italic' }}>
-                                    By: {Name} {ERP}
-                                </Typography>
+                                <Link to={`/stories/${ERP}/${_id}`} style={{ textDecoration: 'none' }} >
+
+                                    <Typography variant="body1" align="right" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                        By: {Name} {ERP}
+                                    </Typography>
+
+                                </Link>
                             </Grid>
                         </Grid>
 

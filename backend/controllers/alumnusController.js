@@ -13,6 +13,9 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
     const degree = req.body.degree
     const major = req.body.major
     const graduation = req.body.graduation
+    
+    //console.log(req.body)
+    const image = req.file.path
 
     try {
 
@@ -33,6 +36,7 @@ const createAlumnusProfile = asyncHandler(async (req, res) => {
             .input('degree', sql.VarChar(10), degree)
             .input('major', sql.VarChar(20), major)
             .input('graduation', sql.Int, graduation)
+            .input('image', sql.VarChar(60), image)
             .execute('CreateAlumnusProfile')
 
         //console.log("count = ", result.returnValue)
@@ -69,6 +73,7 @@ const getAlumnusProfile = asyncHandler(async (req, res) => {
         id = pid
     }
 
+    console.log('hello' + id)
     try {
 
         const request = pool.request()
@@ -184,7 +189,7 @@ const getAlumniProfiles = asyncHandler(async (req, res) => {
         const request = pool.request()
 
         let result = await request
-            .query(`SELECT COUNT(*) AS count FROM alumni_profile`)
+            .query(`SELECT COUNT(*) AS count FROM alumni_profile ${degree_query}`)
 
         count = result.recordset[0].count
         //console.log('count' + count)

@@ -14,7 +14,7 @@ router.get("/", authPermission("getAdvices"), getAllAdvices)
 
 router.get("/alumni", authPermission("getAdvices"), getAdvices)
 router.get("/alumni/:ERP", authPermission("getAdvices"), getAdvices)
-//router.get("/:aid(\\d+)", authPermission("getAdvices"), getAdviceById)
+router.get("/alumnus/:aid", authPermission("getAdvices"), getAdviceById)
 
 router.patch("/like/:aid", authPermission("getAdvices"), likeAdvice)
 router.get("/likedadvices", authPermission("getAdvices"), getLikedAdvices)

@@ -19,6 +19,7 @@ import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
+import CircularProgress from '@mui/material/CircularProgress';
 const Stories = () => {
 
     //let liked_list;
@@ -76,7 +77,7 @@ const Stories = () => {
                 //console.log(res.data)
                 console.log(list)
 
-                
+
                 let liked_list = story.map((sto) => {
                     //console.log("mapp")
                     if (list.includes(sto._id)) {
@@ -110,7 +111,7 @@ const Stories = () => {
 
         const getStories = async () => {
 
-           setLikedStories([])
+            setLikedStories([])
             try {
                 const response = await axios.get("http://localhost:5000/stories", {
                     params: {
@@ -146,7 +147,7 @@ const Stories = () => {
 
 
     return (
-        < div style={{ width: '100%', height: '100%', backgroundColor: '' }}>
+        < Box sx={{ backgroundColor: 'floralwhite' }}>
             <Box sx={{
                 marginTop: 4,
                 display: 'flex',
@@ -159,7 +160,7 @@ const Stories = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={8} lg={8}>
-                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily:'sans' }}>
+                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily: 'sans' }}>
                                 Alumni Stories
                             </Typography>
                         </Grid>
@@ -247,9 +248,9 @@ const Stories = () => {
                             </Typography>
                         </>
                     :
-                    <Typography variant="h5" textAlign='center' sx={{ fontWeight: 'bold' }}>
-                        Loading
-                    </Typography>
+                    <Box display="flex" justifyContent="center">
+                        <CircularProgress sx={{ mt: 10, mb: 10 }} />
+                    </Box>
 
                 }
             </Box>
@@ -263,7 +264,7 @@ const Stories = () => {
                 <Pagination className="mt-1 mb-0" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
             </div>
             {/* </Stack> */}
-        </div>
+        </Box>
     )
 }
 

@@ -3,18 +3,83 @@ import PropTypes from 'prop-types'
 import AdminNavbar from './AdminNavbar';
 import StudentNavbar from './StudentNavbar';
 import AlumnusNavbar from './AlumnusNavbar';
+import { Link } from 'react-router-dom';
 
-const Navbar = props => {
-    
-    const {user_id} = props;
+import AlumNet from '../../images/AlumNet_home_1.png'
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
+import Box from '@mui/material/Box';
+
+import Grid from '@mui/material/Grid';
+const Navbar = () => {
 
   return (
-        <>
-        {user_id === 1 ? <AdminNavbar/> : user_id === 2 ? <StudentNavbar/> : <AlumnusNavbar/>}
-        </>
-  )
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="fixed" sx={{ backgroundColor: 'blueviolet' }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+
+          <Link to="/">
+            <img src={AlumNet} alt="logo" height='60vmin' component={Link} href='/' />
+
+          </Link>
+
+          <>
+            <Grid container alignItems='center'>
+
+              <Grid item md={0.5} />
+
+              <Grid item xs={4} sx={{ display: { xs: 'flex', md: 'none' } }}>
+                {/* <Typography variant="h6" component="div" sx={{ display: { sm: 'flex', md: 'none' }, flexGrow: 0.1 }}>
+
+                            </Typography> */}
+              </Grid>
+              <Grid item lg={1.5}>
+
+              </Grid>
+
+              <Grid item lg={1.5}>
+
+              </Grid>
+
+              <Grid item lg={1.5}>
+
+              </Grid>
+
+              <Grid item lg={1.5}>
+
+              </Grid>
+
+              <Grid item sm={4} />
+
+              <Grid item md={0.75}>
+
+                <Button color='inherit' component={Link} to='/login'>
+                  Login
+                </Button>
+
+              </Grid>
+              <Grid item md={0.5} sx={{ display: { xs: 'none', md: 'flex' } }} >
+
+                <Button color="inherit" component={Link} to='/register'>
+                  Register
+                </Button>
+
+              </Grid>
+            </Grid>
+
+
+          </>
+
+
+        </Toolbar>
+      </AppBar>
+    </Box >
+  );
 }
 
-Navbar.propTypes = {user_id: PropTypes.number}
+// Navbar.propTypes = { user_id: PropTypes.number }
 
 export default Navbar

@@ -1,5 +1,5 @@
 import Login from './pages/loggedout/Login';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Register from './pages/loggedout/Register';
 
 import Home from './pages/users/Home';
@@ -18,13 +18,17 @@ import UpdateStudent from './components/UpdateStudent';
 import UpdateAlumnus from './components/UpdateAlumnus';
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
-import Alumnus from './pages/users/Alumnus';
+import Alumnus from './pages/users/AlumnusPage';
+import AdvicePage from './pages/users/AdvicePage';
+import StoryPage from './pages/users/StoryPage';
+import Navbar from './components/navbars/Navbar';
 
 function App() {
 
     // const [isLoggedIn, setIsLoggedIn] = useState(false)
     // const [userId, setUserId] = useState(localStorage.getItem("user_role"))
     // const [token, setToken] = useState(localStorage.getItem("jwt"))
+    // const location = useLocation();
 
     const token = localStorage.getItem("jwt");
     const userId = localStorage.getItem("user_role");
@@ -44,6 +48,7 @@ function App() {
                 {
                     !token ?
                         <Router>
+                            <Navbar/>
                             <Routes>
                                 <Route path='/' element={<Login />} />
                                 <Route path='/login' element={<Login />} />
@@ -61,7 +66,6 @@ function App() {
                                     <Route path='/eradication' element={<Eradication />} />
                                     <Route path='*' element={<NotFound />} />
                                 </Routes>
-                                {/* <Footer /> */}
                             </Router>
                             : userId === '2' ?
                                 <Router>
@@ -70,26 +74,31 @@ function App() {
                                         <Route path='/' element={<><Home /></>} />
                                         <Route path='/myprofile' element={<UpdateStudent />} />
                                         <Route path='/stories' element={<Stories />} />
+                                        <Route path='/stories/:ERP/:_id' element={<StoryPage />} />
                                         <Route path='/advices' element={<Advices />} />
+                                        <Route path='/advices/:ERP/:_id' element={<AdvicePage />} />
                                         <Route path='/alumni' element={<Alumni />} />
                                         <Route path='/alumni/:id' element={<Alumnus />} />
-                                        <Route path='*' element={<><Footer /><NotFound /></>} />
+                                        <Route path='*' element={<><NotFound /></>} />
                                     </Routes>
-                                    {/* <Footer /> */}
+                                    <Footer />
                                 </Router>
                                 : userId === '3' ?
                                     <Router>
                                         <AlumnusNavbar />
                                         <Routes>
                                             <Route path='/' element={<><Home /></>} />
-                                            <Route path='/myprofile' element={<UpdateAlumnus />} />
                                             <Route path='/create' element={<Create />} />
                                             <Route path='/stories' element={<Stories />} />
+                                            <Route path='/myprofile' element={<UpdateAlumnus hideFooter/>} />
+                                            <Route path='/stories/:ERP/:_id' element={<StoryPage />} />
                                             <Route path='/advices' element={<Advices />} />
+                                            <Route path='/advices/:ERP/:_id' element={<AdvicePage />} />
                                             <Route path='/alumni' element={<Alumni />} />
                                             <Route path='/alumni/:id' element={<Alumnus />} />
                                             <Route path='*' element={<NotFound />} />
                                         </Routes>
+                                        <Footer/>
                                     </Router>
                                     : <>hello</>
                 }

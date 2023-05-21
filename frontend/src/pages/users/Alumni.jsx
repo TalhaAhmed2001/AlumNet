@@ -109,7 +109,7 @@ const Alumni = () => {
     }
 
     return (
-        <>
+        <Box sx={{ backgroundColor: 'white' }}>
             <Box sx={{
                 marginTop: 4,
                 display: 'flex',
@@ -121,7 +121,7 @@ const Alumni = () => {
 
                     <Grid container spacing={2} alignItems='center' >
                         <Grid item xs={12} sm={12} md={3} lg={2}>
-                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily:'sans'  }}>
+                            <Typography variant="h3" textAlign='left' sx={{ fontWeight: 'bold', fontFamily: 'sans' }}>
                                 Alumni
                             </Typography>
                         </Grid>
@@ -238,7 +238,7 @@ const Alumni = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '14vh' }}>
                 <Pagination className="mt-1 mb-1" count={parseInt(totalPages) || 1} page={parseInt(currentPage) || 1} onChange={handlePageChange} color="primary" />
             </div>
-        </>
+        </Box>
     )
 }
 

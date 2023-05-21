@@ -1,4 +1,5 @@
 const Joi = require('joi')
+// const JoiExtension = require('joi-extension');
 
 const validateAlumnusProfile = (req, res, next) => {
   const alumnusProfileSchema = Joi.object({
@@ -41,17 +42,25 @@ const validateAlumnusProfile = (req, res, next) => {
       .min(1990)
       .max(2023)
       .integer()
-      .required()
+      .required(),
   });
 
-  const { error } = alumnusProfileSchema.validate(req.body);
+  // Remove the 'image' field from the request body
+  const { image, ...dataToValidate } = req.body;
+
+  //console.log(req)
+  // Validate the remaining fields
+  const { error } = alumnusProfileSchema.validate(dataToValidate);
 
   if (error) {
-    return res.status(400).json({ message: error.details[0].message });
+    // Handle validation error
+    res.status(400).json({ message: error.details[0].message });
+    return;
   }
 
+  // If validation is successful, move to the next middleware
   next();
-}
+};
 
 const validateUpdatedAlumnusProfile = (req, res, next) => {
   const alumnusProfileSchema = Joi.object({
@@ -135,7 +144,9 @@ const validateStudentProfile = (req, res, next) => {
       .required(),
   });
 
-  const { error } = studentProfileSchema.validate(req.body);
+  const { image, ...dataToValidate } = req.body;
+
+  const { error } = studentProfileSchema.validate(dataToValidate);
 
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
@@ -251,7 +262,7 @@ const validateAdvices = (req, res, next) => {
       .allow("")
       .optional()
       .allow(null),
-      ERP: Joi.number()
+    ERP: Joi.number()
       .optional()
       .allow(null),
     category: Joi.valid('BSCS', 'BSS', 'SSLA', 'BSAF', 'BBA', 'General')
@@ -281,7 +292,7 @@ const validateStories = (req, res, next) => {
       .allow("")
       .optional()
       .allow(null),
-      ERP: Joi.number()
+    ERP: Joi.number()
       .optional()
       .allow(null),
     title: Joi.string()

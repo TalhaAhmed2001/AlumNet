@@ -1,16 +1,26 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect, } from 'react'
 
+import { Box, CircularProgress, Paper, Typography } from '@mui/material'
 import { Link } from 'react-router-dom';
 import home_1 from "../../images/home_3.jpg"
-import Typography from '@mui/material/Typography';
 import logo from '../../images/AlumNet_home_1.png'
-import advice from '../../images/advice_1.jpg'
-import story from '../../images/story_1.jpg'
+import advices from '../../images/advice_1.jpg'
+import stories from '../../images/story_1.jpg'
 import alumnus from '../../images/alumnus_1.jpg'
 import grad from '../../images/home_0.jpg'
 import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
-
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 const Home = () => {
 
     // const styles = {
@@ -23,6 +33,117 @@ const Home = () => {
     //         minHeight: '10vh',
     //     }
     // };
+    const token = localStorage.getItem('jwt');
+
+    const [story, setStory] = useState([])
+    const [profile, setProfile] = useState({})
+    const [profile1, setProfile1] = useState({})
+
+    const [advice, setAdvice] = useState([])
+    const [profile2, setProfile2] = useState({})
+    const [profile3, setProfile3] = useState({})
+
+    useEffect(() => {
+
+        const getStories = async () => {
+
+            // setLikedStories([])
+            try {
+                const response = await axios.get("http://localhost:5000/stories", {
+                    params: {
+                        'sort': 'popularity',
+                        'order': null,
+                        'page': 1
+                    },
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                const res = await axios.get("http://localhost:5000/alumni/profile/" + response.data.stories[0].ERP, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                setProfile(res.data)
+
+                const resp = await axios.get("http://localhost:5000/alumni/profile/" + response.data.stories[1].ERP, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                setProfile1(resp.data)
+                //let stories = response.data.stories
+                // setTotalPages(response.data.totalPages)
+                //setCurrentPage(response.data.currentPage)
+                //setStory("hallo")
+                console.log("ao" + response.data.stories)
+                setStory(response.data.stories)
+
+            }
+            catch (err) {
+                //console.log(err.response.data.error)
+                console.log(err.response.data.error)
+            }
+        }
+
+        getStories()
+
+
+    }, [token])
+
+    useEffect(() => {
+
+        const getAdvices = async () => {
+
+            // setLikedStories([])
+            try {
+                const response = await axios.get("http://localhost:5000/advices", {
+                    params: {
+                        'sort': 'popularity',
+                        'order': null,
+                        'page': 1
+                    },
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                const res = await axios.get("http://localhost:5000/alumni/profile/" + response.data.advices[0].ERP, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                setProfile2(res.data)
+
+                const resp = await axios.get("http://localhost:5000/alumni/profile/" + response.data.advices[1].ERP, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                setProfile3(resp.data)
+                //let stories = response.data.stories
+                // setTotalPages(response.data.totalPages)
+                //setCurrentPage(response.data.currentPage)
+                //setStory("hallo")
+                //console.log("ao" + response.data.advices)
+                setAdvice(response.data.advices)
+
+            }
+            catch (err) {
+                //console.log(err.response.data.error)
+                console.log(err.response.data.error)
+            }
+        }
+
+        getAdvices()
+
+
+    }, [token])
 
     return (
         <>
@@ -127,11 +248,11 @@ const Home = () => {
 
             <div style={{ position: 'relative', marginTop: -4 }}>
                 <img
-                    src={advice}
+                    src={advices}
                     alt="bg"
                     style={{ maxWidth: '100%', maxHeight: '50%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', top: '30%', left: '15%', transform: 'translate(-10%, -50%)' }}>
+                <div style={{ position: 'absolute', top: '30%', left: '15%', transform: 'translate(-10%, -30%)' }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography
@@ -163,8 +284,191 @@ const Home = () => {
                                  This advice can be general or specific to a certain degree, and it draws from the alumni's own experiences and knowledge.
                                   These pieces of advice may include tips on time management, resilience, networking, mentorship, pursuing opportunities, and more. `}
                             </Typography>
+                            {/* {advice.length !== 0 && profile3 !== null && profile2 !== null ? <>
+                                <br />
+                                <br />
+                                <Typography
+                                    variant='h6'
+                                    color='black'
+                                    sx={{
+                                        display: { xs: 'none', sm: 'none', md: 'flex' },
+                                        flexGrow: 0.1,
+                                        flexShrink: 0.1,
+                                        fontWeight: 100,
+                                        letterSpacing: '',
+                                        textDecoration: 'none',
+                                        fontSize: { xs: 'none', sm: 'none', md: '2vw' },
+                                        mb: 2
+                                    }}>
+                                    Featured Advices
+                                </Typography>
+                                <Grid container>
+
+                                    <Grid maxWidth='sm' item xs={6}>
+                                        <CssBaseline />
+
+                                        <Box
+                                            sx={{
+                                                marginTop: -1,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'left',
+                                                marginBottom: -1
+                                            }}
+                                        >
+                                            <Paper sx={{
+                                                p: 4,
+                                                backgroundColor: 'white'
+                                            }} elevation={4} >
+
+
+                                                <Grid container spacing={2} alignItems="center">
+                                                    <Grid item xs={4} sm={4} md={4}>
+                                    
+                                                        <img
+                                                            src={`${'http://localhost:5000'}/${profile2.image}`}
+                                                            alt={profile2.first_name}
+                                                            style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={8}>
+                                                        <Link to={`/advices/${advice[0].ERP}/${advice[0]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1, mt: -10, color: 'black', mb: -8 }}>
+                                                                Title: {advice[0].title}
+                                                            </Typography>
+
+                                                        </Link>
+                                                        <Link to={`/advices/${advice[0].ERP}/${advice[0]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1, mt: -10, color: 'black', mb: -8 }}>
+                                                                Category: {advice[0].category}
+                                                            </Typography>
+
+                                                        </Link>
+                                                        <br />
+
+                                                        <br />
+
+                                                        <br />
+
+
+                                                        <Link to={`/advices/${advice[0].ERP}/${advice[0]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body2" align="left" sx={{ fontStyle: 'italic', color: 'black', }}>
+                                                                Date Created: {new Date(advice[0].date).toLocaleDateString()}
+                                                            </Typography>
+
+                                                        </Link>
+
+                                                        <Link to={`/advices/${advice[0].ERP}/${advice[0]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                By: {advice[0].Name} {advice[0].ERP}
+                                                            </Typography>
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                Likes: {advice[0].popularity}
+                                                            </Typography>
+
+                                                        </Link>
+                                                    </Grid>
+
+
+                                                </Grid>
+
+
+                                            </Paper>
+                                        </Box>
+                                    </Grid>
+
+                                    <Grid item xs={0} />
+
+                                    <Grid maxWidth='sm' item xs={6}>
+                                        <CssBaseline />
+
+                                        <Box
+                                            sx={{
+                                                marginTop: -1,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'left',
+                                                marginBottom: -1
+                                            }}
+                                        >
+                                            <Paper sx={{
+                                                p: 4,
+                                                backgroundColor: 'white'
+                                            }} elevation={4} >
+
+
+                                                <Grid container spacing={2} alignItems="center">
+                                                    <Grid item xs={4} sm={4} md={4}>
+                                                        
+                                                        <img
+                                                            src={`${'http://localhost:5000'}/${profile3.image}`}
+                                                            alt={profile3.first_name}
+                                                            style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={8}>
+                                                        <Link to={`/advices/${advice[1].ERP}/${advice[1]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1, mt: -10, color: 'black', mb: -8 }}>
+                                                                Title: {advice[1].title}
+                                                            </Typography>
+
+                                                        </Link>
+                                                        <Link to={`/advices/${advice[1].ERP}/${advice[1]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1, mt: -10, color: 'black', mb: -8 }}>
+                                                                Title: {advice[1].category}
+                                                            </Typography>
+
+                                                        </Link>
+                                                        <br />
+
+                                                        <br />
+
+                                                        <br />
+
+
+                                                        <Link to={`/advices/${advice[1].ERP}/${advice[1]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body2" align="left" sx={{ fontStyle: 'italic', color: 'black', }}>
+                                                                Date Created: {new Date(advice[1].date).toLocaleDateString()}
+                                                            </Typography>
+
+                                                        </Link>
+
+                                                        <Link to={`/advices/${advice[1].ERP}/${advice[1]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                By: {advice[1].Name} {advice[1].ERP}
+                                                            </Typography>
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                Likes: {advice[1].popularity}
+                                                            </Typography>
+
+                                                        </Link>
+                                                    </Grid>
+
+
+                                                </Grid>
+
+
+                                            </Paper>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+
+                            </>
+                                :
+                                <Box display="flex" justifyContent="center">
+                                    <CircularProgress sx={{ mt: 10, mb: 10 }} />
+                                </Box>
+                            } */}
                             <Button variant='contained' color='inherit' size='large' component={Link} to="/advices">
-                                View All advices
+                                View all advices
                             </Button>
                         </Grid>
                     </Grid>
@@ -172,13 +476,15 @@ const Home = () => {
                 </div>
             </div>
 
-            <div style={{ position: 'relative', marginTop: -4 }}>
+            <div style={{ position: 'relative', marginTop: -7 }}>
                 <img
-                    src={story}
+                    src={stories}
                     alt="bg"
                     style={{ maxWidth: '100%', maxHeight: '50%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', top: '55%', left: '45%', transform: 'translate(-10%, -10%)' }}>
+                <div style={{ position: 'absolute', top: '30%', left: '15%', transform: 'translate(-10%, -30%)' }}
+                //style={{ position: 'absolute', top: '55%', left: '45%', transform: 'translate(-10%, -10%)' }}
+                >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography
@@ -212,7 +518,184 @@ const Home = () => {
                                    By sharing stories, alumni stay connected to their alma mater and to each other,
                                     creating a sense of belonging and community. `}
                             </Typography>
-                            <Button variant='contained' color='inherit' size='large' component={Link} to="/stories">
+                            {story.length !== 0 && profile !== null && profile1 !== null ? <>
+                                <br />
+                                <br />
+                                <Typography
+                                    variant='h6'
+                                    color='black'
+                                    sx={{
+                                        display: { xs: 'none', sm: 'none', md: 'flex' },
+                                        flexGrow: 0.1,
+                                        flexShrink: 0.1,
+                                        fontWeight: 100,
+                                        letterSpacing: '',
+                                        textDecoration: 'none',
+                                        fontSize: { xs: 'none', sm: 'none', md: '2vw' },
+                                        mb: 2
+                                    }}>
+                                    Featured Stories
+                                </Typography>
+                                <Grid container>
+
+                                    <Grid maxWidth='sm' item xs={5}>
+                                        <CssBaseline />
+
+                                        <Box
+                                            sx={{
+                                                marginTop: -1,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'left',
+                                                marginBottom: -1
+                                            }}
+                                        >
+                                            <Paper sx={{
+                                                p: 4,
+                                                backgroundColor: 'white'
+                                            }} elevation={4} >
+
+
+                                                <Grid container spacing={2} alignItems="center">
+                                                    <Grid item xs={4} sm={4} md={4}>
+                                                        {/* <img
+                                        src={miru}
+                                        alt='logo'
+                                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                    /> */}
+                                                        <img
+                                                            src={`${'http://localhost:5000'}/${profile.image}`}
+                                                            alt={profile.first_name}
+                                                            style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={8}>
+                                                        <Link to={`/stories/${story[0].ERP}/${story[0]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1, mt: -10, color: 'black', mb: -8 }}>
+                                                                Title: {story[0].title}
+                                                            </Typography>
+
+                                                        </Link>
+                                                        <br />
+
+                                                        <br />
+
+                                                        <br />
+
+
+                                                        <Link to={`/stories/${story[0].ERP}/${story[0]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body2" align="left" sx={{ fontStyle: 'italic', color: 'black', }}>
+                                                                Date Created: {new Date(story[0].date).toLocaleDateString()}
+                                                            </Typography>
+
+                                                        </Link>
+
+                                                        <Link to={`/stories/${story[0].ERP}/${story[0]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                By: {story[0].Name} {story[0].ERP}
+                                                            </Typography>
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                Likes: {story[0].popularity}
+                                                            </Typography>
+
+                                                        </Link>
+                                                    </Grid>
+
+
+                                                </Grid>
+
+
+                                            </Paper>
+                                        </Box>
+                                    </Grid>
+
+                                    <Grid item xs={2} />
+                                    <Grid maxWidth='sm' item xs={5}>
+                                        <CssBaseline />
+
+                                        <Box
+                                            sx={{
+                                                marginTop: -1,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'left',
+                                                marginBottom: -1
+                                            }}
+                                        >
+                                            <Paper sx={{
+                                                p: 4,
+                                                backgroundColor: 'white'
+                                            }} elevation={4} >
+
+
+                                                <Grid container spacing={2} alignItems="center">
+                                                    <Grid item xs={4} sm={4} md={4}>
+                                                        {/* <img
+                                        src={miru}
+                                        alt='logo'
+                                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                    /> */}
+                                                        <img
+                                                            src={`${'http://localhost:5000'}/${profile1.image}`}
+                                                            alt={profile1.first_name}
+                                                            style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={8}>
+                                                        <Link to={`/stories/${story[1].ERP}/${story[1]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="h6" align="left" sx={{ fontWeight: 'bold', marginBottom: 1, mt: -10, color: 'black', mb: -8 }}>
+                                                                Title: {story[1].title}
+                                                            </Typography>
+
+                                                        </Link>
+                                                        <br />
+
+                                                        <br />
+
+                                                        <br />
+
+
+                                                        <Link to={`/stories/${story[1].ERP}/${story[1]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body2" align="left" sx={{ fontStyle: 'italic', color: 'black', }}>
+                                                                Date Created: {new Date(story[1].date).toLocaleDateString()}
+                                                            </Typography>
+
+                                                        </Link>
+
+                                                        <Link to={`/stories/${story[1].ERP}/${story[1]._id}`} style={{ textDecoration: 'none' }} >
+
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                By: {story[1].Name} {story[1].ERP}
+                                                            </Typography>
+                                                            <Typography variant="body1" align="left" sx={{ fontStyle: 'italic', color: 'black' }}>
+                                                                Likes: {story[1].popularity}
+                                                            </Typography>
+
+                                                        </Link>
+                                                    </Grid>
+
+
+                                                </Grid>
+
+
+                                            </Paper>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+
+                            </>
+                                :
+                                <Box display="flex" justifyContent="center">
+                                    <CircularProgress sx={{ mt: 10, mb: 10 }} />
+                                </Box>
+                            }
+
+                            <Button variant='contained' color='inherit' size='large' component={Link} to="/stories" sx={{ mt: 4 }}>
                                 View All Stories
                             </Button>
                         </Grid>
@@ -221,7 +704,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div style={{ position: 'relative', marginTop: -4 }}>
+            <div style={{ position: 'relative', marginTop: -4, marginBottom: -4 }}>
                 <img
                     src={grad}
                     alt="bg"
@@ -262,7 +745,7 @@ const Home = () => {
                                     textDecoration: 'none',
                                     fontSize: { xs: '2vw', sm: '1.8vw', md: '1.5vw' }
                                 }}>
-                                {`AlumNet is an alumni management system designed to help educational institutions
+                                {`AlumNet is an alumni tracking system designed to help educational institutions
                                  stay connected with their former students.
                                  By providing a platform for alumni to connect with each other and their alma mater,
                                   AlumNet fosters a sense of community and belonging that lasts long after graduation.

@@ -29,10 +29,11 @@ const UpdateAlumnusProfile = ({ props }) => {
         sex: props.sex,
         degree: props.degree,
         major: props.major,
-        graduation: props.graduation
+        graduation: props.graduation,
+        image: props.image
     })
 
-    const { first_name, last_name, id, sex, degree, major, graduation } = profile;
+    const { image, first_name, last_name, id, sex, degree, major, graduation } = profile;
 
     const onChange = e => {
         setProfile((prevState) => ({
@@ -110,6 +111,20 @@ const UpdateAlumnusProfile = ({ props }) => {
                         </Typography>
                         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
+                                <Grid item xs={12} sm={4} md={2}>
+                                    {/* <img
+                                    src={miru}
+                                    alt='logo'
+                                    style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                /> */}
+                                    <img
+                                        src={`${'http://localhost:5000'}/${profile.image}`}
+                                        alt={`${profile.image}`}
+                                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                    />
+                                    {console.log(profile.image)}
+                                </Grid>
+                                <Grid item xs={0} sm={10}/>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         name="first_name"

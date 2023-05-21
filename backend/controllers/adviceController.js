@@ -253,6 +253,19 @@ const deleteAdvices = async (req, res, next) => {
 
 }
 
+//DELETE
+const deleteAllAdvices = async (req, res) => {
+
+    const erp = req.params.erp
+
+    try {
+        const deletedAdvice = await Advice.deleteMany({ ERP: erp });
+        return res.json(deletedAdvice);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 module.exports = {
     getAllAdvices,
     getAdvices,
@@ -261,5 +274,6 @@ module.exports = {
     likeAdvice,
     createAdvices,
     updateAdvices,
-    deleteAdvices
+    deleteAdvices,
+    deleteAllAdvices
 }

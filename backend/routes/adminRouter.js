@@ -3,6 +3,8 @@ const express = require('express')
 const { approveProfile, promoteStudent, declineProfile, getPendingProfiles, deleteAlumnusProfile, deleteStudentProfile, getApprovedProfiles } = require('../controllers/adminController')
 const checkAuth = require('../middleware/check-auth')
 const { authPermission } = require("../middleware/check-permission");
+const { deleteAllStories } = require('../controllers/storiesController');
+const { deleteAllAdvices } = require('../controllers/adviceController');
 
 const router = express.Router()
 
@@ -15,5 +17,7 @@ router.patch("/approve/:id", authPermission("approveProfile"), approveProfile)
 router.delete("/decline/:id", authPermission("declineProfile"), declineProfile)
 router.delete("/delete/alumnus/:id",authPermission("declineProfile"), deleteAlumnusProfile)
 router.delete("/delete/student/:id",authPermission("declineProfile"), deleteStudentProfile)
+router.delete("/delete/stories/:erp", authPermission("declineProfile"), deleteAllStories)
+router.delete("/delete/advices/:erp", authPermission("declineProfile"), deleteAllAdvices)
 
 module.exports = router

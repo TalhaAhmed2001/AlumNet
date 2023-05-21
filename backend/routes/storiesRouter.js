@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createStories, getStoryById, updateStories, getAllStories, getStories, deleteStories, likeStory, getLikedStories } = require('../controllers/storiesController');
+const { createStories, getStoryById, updateStories, getAllStories, getStories, deleteStories, likeStory, getLikedStories, deleteAllStories } = require('../controllers/storiesController');
 const checkAuth = require("../middleware/check-auth");
 const { authPermission } = require("../middleware/check-permission");
 const { validateStories } = require("../middleware/validation");
@@ -11,7 +11,7 @@ const router = express.Router();
 router.use(checkAuth);
 
 router.get("/", authPermission("getStories"), getAllStories)
-//router.get("/:sid", authPermission("getStories"), getStoryById)
+router.get("/alumnus/:sid", authPermission("getStories"), getStoryById)
 
 router.get("/alumni", authPermission("getStories"), getStories)
 router.get("/alumni/:ERP", authPermission("getStories"), getStories)
