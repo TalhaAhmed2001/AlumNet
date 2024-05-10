@@ -27,52 +27,57 @@ const Navbar = () => {
           </Link>
 
           <>
+            
             <Grid container alignItems='center'>
 
               <Grid item md={0.5} />
 
               <Grid item xs={4} sx={{ display: { xs: 'flex', md: 'none' } }}>
-                {/* <Typography variant="h6" component="div" sx={{ display: { sm: 'flex', md: 'none' }, flexGrow: 0.1 }}>
-
-                            </Typography> */}
+                
               </Grid>
               <Grid item lg={1.5}>
-
-              </Grid>
-
-              <Grid item lg={1.5}>
-
+                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                  
+                </Typography>
               </Grid>
 
               <Grid item lg={1.5}>
-
+                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                  
+                </Typography>
               </Grid>
 
               <Grid item lg={1.5}>
+                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                  
+                </Typography>
+              </Grid>
 
+              <Grid item lg={1.5}>
+                <Typography variant="h6" component="div" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0.1 }}>
+                  
+                </Typography>
               </Grid>
 
               <Grid item sm={4} />
 
-              <Grid item md={0.75}>
+              <Grid item md={0.8}>
 
                 <Button color='inherit' component={Link} to='/login'>
                   Login
                 </Button>
 
               </Grid>
-              <Grid item md={0.5} sx={{ display: { xs: 'none', md: 'flex' } }} >
+              <Grid item md={0.5}>
 
-                <Button color="inherit" component={Link} to='/register'>
+              <Button color="inherit" component={Link} to='/register'>
                   Register
                 </Button>
 
               </Grid>
             </Grid>
 
-
           </>
-
 
         </Toolbar>
       </AppBar>
