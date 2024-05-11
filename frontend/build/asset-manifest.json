@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e6c13ad2.css",
+    "main.js": "/static/js/main.3a2bc5c3.js",
+    "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
+    "static/media/home_0.jpg": "/static/media/home_0.c223f8ff49b42da01309.jpg",
+    "static/media/alumnus_1.jpg": "/static/media/alumnus_1.d0f629672a5a4b3a002b.jpg",
+    "static/media/advice_1.jpg": "/static/media/advice_1.2996d5ff9a09c62519eb.jpg",
+    "static/media/story_1.jpg": "/static/media/story_1.754b82843c46149e9451.jpg",
+    "static/media/home_3.jpg": "/static/media/home_3.225ab0dc304ab6d5492b.jpg",
+    "static/media/login.jpg": "/static/media/login.f91c5d79deef652d86c0.jpg",
+    "static/media/miru.jpg": "/static/media/miru.a56e2c62eb9ee8c9d22f.jpg",
+    "static/media/AlumNet2_1.png": "/static/media/AlumNet2_1.c27294d1e9cf88ce8e79.png",
+    "static/media/AlumNet_home_1_1.png": "/static/media/AlumNet_home_1_1.a2ba93d072cd32b8c2d6.png",
+    "static/media/AlumNet_home_1.png": "/static/media/AlumNet_home_1.ab0996279308282f7e5f.png",
+    "index.html": "/index.html",
+    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
+    "main.3a2bc5c3.js.map": "/static/js/main.3a2bc5c3.js.map",
+    "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.3a2bc5c3.js"
+  ]
+}
